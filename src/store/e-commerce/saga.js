@@ -116,6 +116,7 @@ function* fetchProducts({ store_id }) {
 function* onDeleteProduct({ payload: product }) {
   try {
     const response = yield call(deleteProduct, product)
+   
     yield put(deleteProductSuccess(response))
   } catch (error) {
     yield put(deleteProductFail(error))

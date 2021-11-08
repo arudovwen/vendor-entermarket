@@ -49,6 +49,7 @@ const INIT_STATE = {
   shops: [],
   error: {},
   productComments: [],
+  status:null
 }
 
 const Ecommerce = (state = INIT_STATE, action) => {
@@ -80,6 +81,7 @@ const Ecommerce = (state = INIT_STATE, action) => {
       return {
         ...state,
         products: [...state.products, action.payload],
+        status:action.type
       }
 
     case ADD_PRODUCT_FAIL:
@@ -108,8 +110,10 @@ const Ecommerce = (state = INIT_STATE, action) => {
       return {
         ...state,
         products: state.products.filter(
+          
           product => product.id.toString() !== action.payload.id.toString()
         ),
+       
       }
 
     case DELETE_PRODUCT_FAIL:

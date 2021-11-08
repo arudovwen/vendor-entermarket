@@ -19,6 +19,8 @@ import {
   ADD_PRODUCT_FAIL,
   ADD_PRODUCT_SUCCESS,
   DELETE_PRODUCT,
+  DELETE_PRODUCT_FAIL,
+  DELETE_PRODUCT_SUCCESS,
   UPDATE_PRODUCT,
   UPDATE_PRODUCT_FAIL,
   UPDATE_PRODUCT_SUCCESS,
@@ -93,9 +95,10 @@ export const getProductsFail = error => ({
   payload: error,
 })
 
-export const addProductSuccess = product => ({
+export const addProductSuccess = (product, status) => ({
   type: ADD_PRODUCT_SUCCESS,
   payload: product,
+  status
 })
 
 export const addProductFail = error => ({

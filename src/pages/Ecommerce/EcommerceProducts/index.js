@@ -48,11 +48,21 @@ import EcommerceProductsModal from "./EcommerceProductsModal"
 
 const EcommerceProducts = props => {
   const dispatch = useDispatch()
-
+  const store = JSON.parse(localStorage.getItem('authUser'))
   const { products } = useSelector(state => ({
     products: state.ecommerce.products,
   }))
-
+  const { status } = useSelector(state => ({
+    status: state.ecommerce.status,
+  }))
+ 
+  useEffect(()=>{
+   
+    if(status==='ADD_PRODUCT_SUCCESS' ){
+     
+      setModal(false)
+    }
+  },[status])
   const { categories } = useSelector(state => ({
     categories: state.ecommerce.categories,
   }))
@@ -317,7 +327,7 @@ const EcommerceProducts = props => {
 
   useEffect(() => {
     if (categories && !categories.length) {
-      dispatch(onGetCategories(1))
+      dispatch(onGetCategories(store.id))
     }
   }, [dispatch, categories])
 
@@ -327,7 +337,7 @@ const EcommerceProducts = props => {
 
   useEffect(() => {
     if (products && !products.length) {
-      dispatch(onGetProducts(1))
+      dispatch(onGetProducts(store.id))
     }
   }, [dispatch, products])
 
