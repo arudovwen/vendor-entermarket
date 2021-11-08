@@ -48,7 +48,7 @@ import TwostepVerification from "../pages/AuthenticationInner/auth-two-step-veri
 import TwostepVerification2 from "../pages/AuthenticationInner/auth-two-step-verification-2"
 
 // Dashboard
-import Dashboard from "../pages/Dashboard-saas/index"
+import Dashboard from "../pages/Dashboard/index"
 
 // Charts
 import ChartApex from "../pages/Charts/Apexcharts"

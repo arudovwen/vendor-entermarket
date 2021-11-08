@@ -92,7 +92,7 @@ import {
   onLikeReply as onLikeReplyApi,
   onAddReply as onAddReplyApi,
   onAddComment as onAddCommentApi,
-} from "helpers/fakebackend_helper"
+} from "helpers/backend_helper"
 
 function* fetchCategories({ store_id }) {
   try {

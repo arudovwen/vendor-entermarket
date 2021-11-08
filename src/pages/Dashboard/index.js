@@ -51,7 +51,7 @@ const DashboardSaas = props => {
         </MetaTags>
         <Container fluid>
           {/* Render Breadcrumb */}
-          <Breadcrumbs title="Dashboards" breadcrumbItem="Saas" />
+          <Breadcrumbs title="Dashboards" breadcrumbItem="" />
 
           <Row>
             {/* welcome card */}

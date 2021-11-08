@@ -23,17 +23,9 @@ const ProfileMenu = props => {
   const [username, setusername] = useState("Admin")
 
   useEffect(() => {
-    if (localStorage.getItem("authUser")) {
-      if (process.env.REACT_APP_DEFAULTAUTH === "firebase") {
+    if (localStorage.getItem("authUser")) {    
         const obj = JSON.parse(localStorage.getItem("authUser"))
-        setusername(obj.displayName)
-      } else if (
-        process.env.REACT_APP_DEFAULTAUTH === "fake" ||
-        process.env.REACT_APP_DEFAULTAUTH === "jwt"
-      ) {
-        const obj = JSON.parse(localStorage.getItem("authUser"))
-        setusername(obj.username)
-      }
+        setusername(obj.name)     
     }
   }, [props.success])
 
@@ -49,11 +41,11 @@ const ProfileMenu = props => {
           id="page-header-user-dropdown"
           tag="button"
         >
-          <img
+          {/* <img
             className="rounded-circle header-profile-user"
             src={user1}
             alt="Header Avatar"
-          />
+          /> */}
           <span className="d-none d-xl-inline-block ms-2 me-1">{username}</span>
           <i className="mdi mdi-chevron-down d-none d-xl-inline-block"/>
         </DropdownToggle>

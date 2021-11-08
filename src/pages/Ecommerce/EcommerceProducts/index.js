@@ -85,7 +85,7 @@ const EcommerceProducts = props => {
     dispatch(onUpdateProduct(product))
   }
 
-  const handleTableUpdate = (id, value, column) => {
+  const handleTableUpdate = (id, value, column) => {112
     var data = { id }
 
     switch (column) {

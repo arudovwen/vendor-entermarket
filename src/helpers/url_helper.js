@@ -1,11 +1,11 @@
 //REGISTER
-export const POST_FAKE_REGISTER = "/post-fake-register"
+export const POST_REGISTER = "/stores"
 
 //LOGIN
-export const POST_FAKE_LOGIN = "/post-fake-login"
-export const POST_FAKE_JWT_LOGIN = "/post-jwt-login"
-export const POST_FAKE_PASSWORD_FORGET = "/fake-forget-pwd"
-export const POST_FAKE_JWT_PASSWORD_FORGET = "/jwt-forget-pwd"
+export const POST_LOGIN = "/store/login"
+export const POST_JWT_LOGIN = "/post-jwt-login"
+export const POST_PASSWORD_FORGET = "/fake-forget-pwd"
+export const POST_JWT_PASSWORD_FORGET = "/jwt-forget-pwd"
 export const SOCIAL_LOGIN = "/social-login"
 
 //PROFILE
@@ -19,7 +19,7 @@ export const UPDATE_CATEGORIES = "/categories"
 export const DELETE_CATEGORIES = "/categories"
 //PRODUCTS
 export const GET_PRODUCTS = "/store/products/all"
-export const ADD_NEW_PRODUCT = "/products"
+export const ADD_NEW_PRODUCT = "/product/add"
 export const DELETE_PRODUCT = "/products"
 export const UPDATE_PRODUCT = "/products"
 export const GET_PRODUCTS_DETAIL = "/products"

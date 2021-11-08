@@ -2,9 +2,13 @@ import axios from "axios"
 import { del, get, post, put } from "./api_helper"
 import * as url from "./url_helper"
 
+const token = localStorage.getItem('user-token')
+const config = {headers:{
+  Authorization: `Bearer ${token}`
+}}
 // Gets the logged in user data from local session
 const getLoggedInUser = () => {
-  const user = localStorage.getItem("user")
+  const user = localStorage.getItem("authUser")
   if (user) return JSON.parse(user)
   return null
 }
@@ -15,16 +19,17 @@ const isUserAuthenticated = () => {
 }
 
 // Register Method
-const postFakeRegister = data => {
-  return axios
-    .post(url.POST_FAKE_REGISTER, data)
-    .then(response => {
+const postRegister = data => {
+
+  return axios.post('http://localhost:8000/api/stores', data).then(response => {
       if (response.status >= 200 || response.status <= 299) return response.data
       throw response.data
     })
     .catch(err => {
+     
       let message
       if (err.response && err.response.status) {
+       
         switch (err.response.status) {
           case 404:
             message = "Sorry! the page you are looking for could not be found"
@@ -37,7 +42,7 @@ const postFakeRegister = data => {
             message = "Invalid credentials"
             break
           default:
-            message = err[1]
+            message = err.response.data
             break
         }
       }
@@ -46,15 +51,15 @@ const postFakeRegister = data => {
 }
 
 // Login Method
-const postFakeLogin = data => post(url.POST_FAKE_LOGIN, data)
+const postLogin = data => post(url.POST_LOGIN, data)
 
 // postForgetPwd
-const postFakeForgetPwd = data => post(url.POST_FAKE_PASSWORD_FORGET, data)
+const postForgetPwd = data => post(url.POST_PASSWORD_FORGET, data)
 
 // Edit profile
 const postJwtProfile = data => post(url.POST_EDIT_JWT_PROFILE, data)
 
-const postFakeProfile = data => post(url.POST_EDIT_PROFILE, data)
+const postProfile = data => post(url.POST_EDIT_PROFILE, data)
 
 // Register Method
 const postJwtRegister = (url, data) => {
@@ -88,10 +93,10 @@ const postJwtRegister = (url, data) => {
 }
 
 // Login Method
-const postJwtLogin = data => post(url.POST_FAKE_JWT_LOGIN, data)
+const postJwtLogin = data => post(url.POST_JWT_LOGIN, data)
 
 // postForgetPwd
-const postJwtForgetPwd = data => post(url.POST_FAKE_JWT_PASSWORD_FORGET, data)
+const postJwtForgetPwd = data => post(url.POST_JWT_PASSWORD_FORGET, data)
 
 // postSocialLogin
 export const postSocialLogin = data => post(url.SOCIAL_LOGIN, data)
@@ -104,7 +109,7 @@ export const getCategories = store_id =>
 export const getProducts = data => post(url.GET_PRODUCTS, data)
 
 // add product
-export const addNewProduct = data => post(url.ADD_NEW_PRODUCT, data)
+export const addNewProduct = data => post(url.ADD_NEW_PRODUCT, data, config)
 
 // update Product
 export const updateProduct = data =>
@@ -291,10 +296,10 @@ const onAddComment = (productId, commentText) => {
 export {
   getLoggedInUser,
   isUserAuthenticated,
-  postFakeRegister,
-  postFakeLogin,
-  postFakeProfile,
-  postFakeForgetPwd,
+  postRegister,
+  postLogin,
+  postProfile,
+  postForgetPwd,
   postJwtRegister,
   postJwtLogin,
   postJwtForgetPwd,

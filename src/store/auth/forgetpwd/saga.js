@@ -7,9 +7,9 @@ import { userForgetPasswordSuccess, userForgetPasswordError } from "./actions"
 //Include Both Helper File with needed methods
 import { getFirebaseBackend } from "../../../helpers/firebase_helper"
 import {
-  postFakeForgetPwd,
+  postForgetPwd,
   postJwtForgetPwd,
-} from "../../../helpers/fakebackend_helper"
+} from "../../../helpers/backend_helper"
 
 const fireBaseBackend = getFirebaseBackend()
 
@@ -37,7 +37,7 @@ function* forgetUser({ payload: { user, history } }) {
         )
       }
     } else {
-      const response = yield call(postFakeForgetPwd, "/fake-forget-pwd", {
+      const response = yield call(postForgetPwd, "/-forget-pwd", {
         email: user.email,
       })
       if (response) {

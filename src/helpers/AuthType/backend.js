@@ -53,11 +53,11 @@ let users = [
   },
 ]
 
-const fakeBackend = () => {
+const Backend = () => {
   // This sets the mock adapter on the default instance
   const mock = new MockAdapter(axios, { onNoMatch: "passthrough" });
 
-  mock.onPost(url.POST_FAKE_REGISTER).reply(config => {
+  mock.onPost(url.POST_REGISTER).reply(config => {
     const user = JSON.parse(config["data"])
     users.push(user)
     return new Promise((resolve, reject) => {
@@ -67,7 +67,7 @@ const fakeBackend = () => {
     })
   })
 
-  mock.onPost("/post-fake-login").reply(config => {
+  mock.onPost("/post-login").reply(config => {
     const user = JSON.parse(config["data"])
     const validUser = users.filter(
       usr => usr.email === user.email && usr.password === user.password
@@ -86,7 +86,7 @@ const fakeBackend = () => {
     })
   })
 
-  mock.onPost("/fake-forget-pwd").reply(config => {
+  mock.onPost("/forget-pwd").reply(config => {
     // User needs to check that user is eXist or not and send mail for Reset New password
 
     return new Promise((resolve, reject) => {
@@ -116,7 +116,7 @@ const fakeBackend = () => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (validUser["length"] === 1) {
-          // You have to generate AccessToken by jwt. but this is fakeBackend so, right now its dummy
+          // You have to generate AccessToken by jwt. but this is Backend so, right now its dummy
           const token = accessToken
 
           // JWT AccessToken
@@ -171,7 +171,7 @@ const fakeBackend = () => {
     })
   })
 
-  mock.onPost("/post-fake-profile").reply(config => {
+  mock.onPost("/post--profile").reply(config => {
     const user = JSON.parse(config["data"])
     console.log("validUser",user)
 
@@ -216,7 +216,7 @@ const fakeBackend = () => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (user && user.token) {
-          // You have to generate AccessToken by jwt. but this is fakeBackend so, right now its dummy
+          // You have to generate AccessToken by jwt. but this is Backend so, right now its dummy
           const token = accessToken
 
           // JWT AccessToken
@@ -238,7 +238,7 @@ const fakeBackend = () => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (productsData) {
-          // Passing fake JSON data as response
+          // Passing  JSON data as response
           resolve([200, productsData])
         } else {
           reject([400, "Cannot get products"])
@@ -251,7 +251,7 @@ const fakeBackend = () => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (productsData) {
-          // Passing fake JSON data as response
+          // Passing  JSON data as response
           const { params } = config
           const product = productsData.find(
             product => product.id.toString() === params.id.toString()
@@ -268,7 +268,7 @@ const fakeBackend = () => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (events) {
-          // Passing fake JSON data as response
+          // Passing  JSON data as response
           resolve([200, events])
         } else {
           reject([400, "Cannot get events"])
@@ -281,7 +281,7 @@ const fakeBackend = () => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (inboxmails) {
-          // Passing fake JSON data as response
+          // Passing  JSON data as response
           resolve([200, inboxmails])
         } else {
           reject([400, "Cannot get inboxmails"])
@@ -294,7 +294,7 @@ const fakeBackend = () => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (inboxmail && inboxmail.data) {
-          // Passing fake JSON data as response
+          // Passing  JSON data as response
           resolve([200, inboxmail.data])
         } else {
           reject([400, "Cannot add project"])
@@ -307,7 +307,7 @@ const fakeBackend = () => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (config && config.headers) {
-          // Passing fake JSON data as response
+          // Passing  JSON data as response
           resolve([200, config.headers.inboxmail])
         } else {
           reject([400, "Cannot delete inboxmail"])
@@ -320,7 +320,7 @@ const fakeBackend = () => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (starredmails) {
-          // Passing fake JSON data as response
+          // Passing  JSON data as response
           resolve([200, starredmails])
         } else {
           reject([400, "Cannot get starredmails"])
@@ -333,7 +333,7 @@ const fakeBackend = () => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (importantmails) {
-          // Passing fake JSON data as response
+          // Passing  JSON data as response
           resolve([200, importantmails])
         } else {
           reject([400, "Cannot get importantmails"])
@@ -345,7 +345,7 @@ const fakeBackend = () => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (trashmails) {
-          // Passing fake JSON data as response
+          // Passing  JSON data as response
           resolve([200, trashmails])
         } else {
           reject([400, "Cannot get trashmails"])
@@ -357,7 +357,7 @@ const fakeBackend = () => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (draftmails) {
-          // Passing fake JSON data as response
+          // Passing  JSON data as response
           resolve([200, draftmails])
         } else {
           reject([400, "Cannot get draftmails"])
@@ -369,7 +369,7 @@ const fakeBackend = () => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (sentmails) {
-          // Passing fake JSON data as response
+          // Passing  JSON data as response
           resolve([200, sentmails])
         } else {
           reject([400, "Cannot get sentmails"])
@@ -382,7 +382,7 @@ const fakeBackend = () => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (user && user.data) {
-          // Passing fake JSON data as response
+          // Passing  JSON data as response
           resolve([200, user.data])
         } else {
           reject([400, "Cannot add user"])
@@ -395,7 +395,7 @@ const fakeBackend = () => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (user && user.data) {
-          // Passing fake JSON data as response
+          // Passing  JSON data as response
           resolve([200, user.data])
         } else {
           reject([400, "Cannot update user"])
@@ -408,7 +408,7 @@ const fakeBackend = () => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (config && config.headers) {
-          // Passing fake JSON data as response
+          // Passing  JSON data as response
           resolve([200, config.headers.user])
         } else {
           reject([400, "Cannot delete user"])
@@ -421,7 +421,7 @@ const fakeBackend = () => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (project && project.data) {
-          // Passing fake JSON data as response
+          // Passing  JSON data as response
           resolve([200, project.data])
         } else {
           reject([400, "Cannot add project"])
@@ -434,7 +434,7 @@ const fakeBackend = () => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (project && project.data) {
-          // Passing fake JSON data as response
+          // Passing  JSON data as response
           resolve([200, project.data])
         } else {
           reject([400, "Cannot update project"])
@@ -447,7 +447,7 @@ const fakeBackend = () => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (config && config.headers) {
-          // Passing fake JSON data as response
+          // Passing  JSON data as response
           resolve([200, config.headers.project])
         } else {
           reject([400, "Cannot delete project"])
@@ -460,7 +460,7 @@ const fakeBackend = () => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (event && event.data) {
-          // Passing fake JSON data as response
+          // Passing  JSON data as response
           resolve([200, event.data])
         } else {
           reject([400, "Cannot add event"])
@@ -473,7 +473,7 @@ const fakeBackend = () => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (event && event.data) {
-          // Passing fake JSON data as response
+          // Passing  JSON data as response
           resolve([200, event.data])
         } else {
           reject([400, "Cannot update event"])
@@ -486,7 +486,7 @@ const fakeBackend = () => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (config && config.headers) {
-          // Passing fake JSON data as response
+          // Passing  JSON data as response
           resolve([200, config.headers.event])
         } else {
           reject([400, "Cannot delete event"])
@@ -499,7 +499,7 @@ const fakeBackend = () => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (calenderDefaultCategories) {
-          // Passing fake JSON data as response
+          // Passing  JSON data as response
           resolve([200, calenderDefaultCategories])
         } else {
           reject([400, "Cannot get categories"])
@@ -512,7 +512,7 @@ const fakeBackend = () => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (chats) {
-          // Passing fake JSON data as response
+          // Passing  JSON data as response
           resolve([200, chats])
         } else {
           reject([400, "Cannot get chats"])
@@ -525,7 +525,7 @@ const fakeBackend = () => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (groups) {
-          // Passing fake JSON data as response
+          // Passing  JSON data as response
           resolve([200, groups])
         } else {
           reject([400, "Cannot get groups"])
@@ -538,7 +538,7 @@ const fakeBackend = () => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (contacts) {
-          // Passing fake JSON data as response
+          // Passing  JSON data as response
           resolve([200, contacts])
         } else {
           reject([400, "Cannot get contacts"])
@@ -551,7 +551,7 @@ const fakeBackend = () => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (messages) {
-          // Passing fake JSON data as response
+          // Passing  JSON data as response
           const { params } = config
           const filteredMessages = messages.filter(
             msg => msg.roomId === params.roomId
@@ -568,7 +568,7 @@ const fakeBackend = () => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (config.data) {
-          // Passing fake JSON data as response
+          // Passing  JSON data as response
           resolve([200, config.data])
         } else {
           reject([400, "Cannot add message"])
@@ -581,7 +581,7 @@ const fakeBackend = () => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (orders) {
-          // Passing fake JSON data as response
+          // Passing  JSON data as response
           resolve([200, orders])
         } else {
           reject([400, "Cannot get orders"])
@@ -594,7 +594,7 @@ const fakeBackend = () => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (order && order.data) {
-          // Passing fake JSON data as response
+          // Passing  JSON data as response
           resolve([200, order.data])
         } else {
           reject([400, "Cannot add order"])
@@ -607,7 +607,7 @@ const fakeBackend = () => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (order && order.data) {
-          // Passing fake JSON data as response
+          // Passing  JSON data as response
           resolve([200, order.data])
         } else {
           reject([400, "Cannot update order"])
@@ -620,7 +620,7 @@ const fakeBackend = () => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (config && config.headers) {
-          // Passing fake JSON data as response
+          // Passing  JSON data as response
           resolve([200, config.headers.order])
         } else {
           reject([400, "Cannot delete order"])
@@ -633,7 +633,7 @@ const fakeBackend = () => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (cartData) {
-          // Passing fake JSON data as response
+          // Passing  JSON data as response
           resolve([200, cartData])
         } else {
           reject([400, "Cannot get cart data"])
@@ -646,7 +646,7 @@ const fakeBackend = () => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (customerData) {
-          // Passing fake JSON data as response
+          // Passing  JSON data as response
           resolve([200, customerData])
         } else {
           reject([400, "Cannot get customers data"])
@@ -659,7 +659,7 @@ const fakeBackend = () => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (customer && customer.data) {
-          // Passing fake JSON data as response
+          // Passing  JSON data as response
           resolve([200, customer.data])
         } else {
           reject([400, "Cannot add customer"])
@@ -672,7 +672,7 @@ const fakeBackend = () => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (customer && customer.data) {
-          // Passing fake JSON data as response
+          // Passing  JSON data as response
           resolve([200, customer.data])
         } else {
           reject([400, "Cannot update customer"])
@@ -685,7 +685,7 @@ const fakeBackend = () => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (config && config.headers) {
-          // Passing fake JSON data as response
+          // Passing  JSON data as response
           resolve([200, config.headers.customer])
         } else {
           reject([400, "Cannot delete customer"])
@@ -698,7 +698,7 @@ const fakeBackend = () => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (shops) {
-          // Passing fake JSON data as response
+          // Passing  JSON data as response
           resolve([200, shops])
         } else {
           reject([400, "Cannot get shops data"])
@@ -711,7 +711,7 @@ const fakeBackend = () => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (wallet) {
-          // Passing fake JSON data as response
+          // Passing  JSON data as response
           resolve([200, wallet])
         } else {
           reject([400, "Cannot get wallet data"])
@@ -724,7 +724,7 @@ const fakeBackend = () => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (cryptoOrders) {
-          // Passing fake JSON data as response
+          // Passing  JSON data as response
           resolve([200, cryptoOrders])
         } else {
           reject([400, "Cannot get orders"])
@@ -737,7 +737,7 @@ const fakeBackend = () => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (invoiceList) {
-          // Passing fake JSON data as response
+          // Passing  JSON data as response
           resolve([200, invoiceList])
         } else {
           reject([400, "Cannot get invoices"])
@@ -750,7 +750,7 @@ const fakeBackend = () => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (invoiceList) {
-          // Passing fake JSON data as response
+          // Passing  JSON data as response
           const { params } = config
           const invoice = invoiceList.find(
             invoice => invoice.id.toString() === params.id.toString()
@@ -767,7 +767,7 @@ const fakeBackend = () => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (projects) {
-          // Passing fake JSON data as response
+          // Passing  JSON data as response
           resolve([200, projects])
         } else {
           reject([400, "Cannot get projects"])
@@ -780,7 +780,7 @@ const fakeBackend = () => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (projects) {
-          // Passing fake JSON data as response
+          // Passing  JSON data as response
           const { params } = config
           const project = projects.find(
             project => project.id.toString() === params.id.toString()
@@ -797,7 +797,7 @@ const fakeBackend = () => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (tasks) {
-          // Passing fake JSON data as response
+          // Passing  JSON data as response
           resolve([200, tasks])
         } else {
           reject([400, "Cannot get tasks"])
@@ -810,7 +810,7 @@ const fakeBackend = () => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (members) {
-          // Passing fake JSON data as response
+          // Passing  JSON data as response
           resolve([200, members])
         } else {
           reject([400, "Cannot get users"])
@@ -823,7 +823,7 @@ const fakeBackend = () => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (userProfile) {
-          // Passing fake JSON data as response
+          // Passing  JSON data as response
           resolve([200, userProfile])
         } else {
           reject([400, "Cannot get user profile"])
@@ -836,7 +836,7 @@ const fakeBackend = () => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (weekData) {
-          // Passing fake JSON data as response
+          // Passing  JSON data as response
           resolve([200, weekData])
         } else {
           reject([400, "Cannot get wallet data"])
@@ -849,7 +849,7 @@ const fakeBackend = () => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (yearData) {
-          // Passing fake JSON data as response
+          // Passing  JSON data as response
           resolve([200, yearData])
         } else {
           reject([400, "Cannot get wallet data"])
@@ -862,7 +862,7 @@ const fakeBackend = () => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (monthData) {
-          // Passing fake JSON data as response
+          // Passing  JSON data as response
           resolve([200, monthData])
         } else {
           reject([400, "Cannot get wallet data"])
@@ -876,7 +876,7 @@ const fakeBackend = () => {
       const { params } = config
       setTimeout(() => {
         if (params && params.month) {
-          // Passing fake JSON data as response
+          // Passing  JSON data as response
 
           var data = []
           if (params.month === "jan") {
@@ -901,7 +901,7 @@ const fakeBackend = () => {
       const { params } = config
       setTimeout(() => {
         if (params && params.month) {
-          // Passing fake JSON data as response
+          // Passing  JSON data as response
           const { params } = config
           var data = []
           if (params.month === "jan") {
@@ -925,7 +925,7 @@ const fakeBackend = () => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (productComments) {
-          // Passing fake JSON data as response
+          // Passing  JSON data as response
           resolve([200, productComments])
         } else {
           reject([400, "Cannot get comment data"])
@@ -981,7 +981,7 @@ const fakeBackend = () => {
             }
           }
 
-          // Passing fake JSON data as response
+          // Passing  JSON data as response
           resolve([200, modifiedProductComments])
         } else {
           reject([400, "Cannot add comment"])
@@ -1042,7 +1042,7 @@ const fakeBackend = () => {
             }
           }
 
-          // Passing fake JSON data as response
+          // Passing  JSON data as response
           resolve([200, modifiedComments])
         } else {
           reject([400, "Cannot add comment"])
@@ -1075,7 +1075,7 @@ const fakeBackend = () => {
           modifiedComments.push({ ...commentObj })
           productComments.push({ ...commentObj })
 
-          // Passing fake JSON data as response
+          // Passing  JSON data as response
           resolve([200, modifiedComments])
         } else {
           reject([400, "Cannot add comment"])
@@ -1085,4 +1085,4 @@ const fakeBackend = () => {
   })
 }
 
-export default fakeBackend
+export default Backend

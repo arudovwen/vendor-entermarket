@@ -13,13 +13,22 @@ import { withRouter, Link } from "react-router-dom"
 import { AvForm, AvField } from "availity-reactstrap-validation"
 
 // actions
-import { loginUser, apiError, socialLogin } from "../../store/actions"
+import { loginUser, apiError } from "../../store/actions"
 
 // import images
 import profile from "assets/images/profile-img.png"
-
+import logo from "assets/images/logo.png"
 const Login = props => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const token = localStorage.getItem('user-token')
+
+  React.useEffect(() => {
+    if(token){
+      props.history.push('/dashboard')
+    }
+   
+  }, [token])
+
 
   const { error } = useSelector(state => ({
     error: state.Login.error,
@@ -30,38 +39,6 @@ const Login = props => {
     dispatch(loginUser(values, props.history))
   }
 
-  const signIn = (res, type) => {
-    if (type === "google" && res) {
-      const postData = {
-        name: res.profileObj.name,
-        email: res.profileObj.email,
-        token: res.tokenObj.access_token,
-        idToken: res.tokenId,
-      }
-      dispatch(socialLogin(postData, props.history, type))
-    } else if (type === "facebook" && res) {
-      const postData = {
-        name: res.name,
-        email: res.email,
-        token: res.accessToken,
-        idToken: res.tokenId,
-      }
-      dispatch(socialLogin(postData, props.history, type))
-    }
-  }
-
-  //handleGoogleLoginResponse
-  const googleResponse = response => {
-    signIn(response, "google")
-  }
-
-  //handleTwitterLoginResponse
-  // const twitterResponse = e => {}
-
-  //handleFacebookLoginResponse
-  const facebookResponse = response => {
-    signIn(response, "facebook")
-  }
 
   return (
     <React.Fragment>
@@ -82,7 +59,7 @@ const Login = props => {
                   <Row>
                     <Col xs={7}>
                       <div className="text-primary p-4">
-                        <h5 className="text-primary">Welcome Back !</h5>
+                        <img className="text-primary mb-2" src={logo} height="40"  />
                         <p>Sign in to your Dashboard.</p>
                       </div>
                     </Col>
