@@ -34,6 +34,7 @@ export const GET_STARRED_MAILS = "/starredmails"
 
 //important mails
 export const GET_IMPORTANT_MAILS = "/importantmails"
+// import { GET_TOP_EARNERS } from './../store/dashboard/actionType';
 
 //Draft mail
 export const GET_DRAFT_MAILS = "/draftmails"
@@ -58,7 +59,7 @@ export const GET_MESSAGES = "/messages"
 export const ADD_MESSAGE = "/add/messages"
 
 //ORDERS
-export const GET_ORDERS = "/orders"
+export const GET_ORDERS = "/storeorders"
 export const ADD_NEW_ORDER = "/add/order"
 export const UPDATE_ORDER = "/update/order"
 export const DELETE_ORDER = "/delete/order"
@@ -116,3 +117,7 @@ export const ON_LIKNE_COMMENT = "/comments-product-action"
 export const ON_ADD_REPLY = "/comments-product-add-reply"
 
 export const ON_ADD_COMMENT = "/comments-product-add-comment"
+
+export const GET_STORE_REPORT = '/store/report'
+export const GET_STORE_EARNINGS = '/store/earnings'
+export const GET_TOP_EARNERS = 'top/earnings'

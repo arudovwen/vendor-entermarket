@@ -152,7 +152,7 @@ export const getMessages = (roomId = "") =>
 export const addMessage = message => post(url.ADD_MESSAGE, message)
 
 // get orders
-export const getOrders = () => get(url.GET_ORDERS)
+export const getOrders = () => get(url.GET_ORDERS, config)
 
 // add order
 export const addNewOrder = order => post(url.ADD_NEW_ORDER, order)
@@ -293,6 +293,18 @@ const onAddComment = (productId, commentText) => {
   })
 }
 
+const storeReport = () => {
+  return get(url.GET_STORE_REPORT, config)
+}
+
+const topEarner = () => {
+  return get(url.GET_TOP_EARNERS, config)
+}
+
+const storeEarnings = () => {
+  return get(url.GET_STORE_EARNINGS, config)
+}
+
 export {
   getLoggedInUser,
   isUserAuthenticated,
@@ -309,4 +321,7 @@ export {
   onLikeReply,
   onAddReply,
   onAddComment,
+  storeReport,
+  storeEarnings,
+  topEarner
 }

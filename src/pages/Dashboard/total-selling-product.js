@@ -6,7 +6,8 @@ import ReactApexChart from "react-apexcharts";
 import { useSelector, useDispatch } from "react-redux";
 
 //actions
-import { getTopSellingProduct } from "../../store/actions";
+import { getTopEarners } from "../../store/actions";
+import * as moment from "moment";
 
 const getChartOptions = index => {
   var options = {
@@ -40,17 +41,24 @@ const getChartOptions = index => {
 
 const TotalSellngProduct = props => {
   const dispatch = useDispatch();
-
+  const [topSellingData, settopSellingData] = useState(null)
+ 
   const { sellingData } = useSelector(state => ({
-    sellingData: state.DashboardSaas.sellingData,
+    sellingData: state.dashboard.topearners,
   }));
 
+
   useEffect(() => {
-    dispatch(getTopSellingProduct("jan"));
+    dispatch(getTopEarners());
   }, [dispatch]);
 
-  const [seletedMonth, setSeletedMonth] = useState("jan");
-
+  useEffect(()=>{
+    settopSellingData(sellingData.shift() )
+    
+  },[sellingData])
+ 
+  const [seletedMonth, setSeletedMonth] = useState("");
+  const currentdate = moment(new Date()).format("MMM Y")
   const onChangeMonth = value => {
     setSeletedMonth(value);
     dispatch(getTopSellingProduct(value));
@@ -64,27 +72,16 @@ const TotalSellngProduct = props => {
             <div className="clearfix">
               <div className="float-end">
                 <div className="input-group input-group-sm">
-                  <select
-                    className="form-select form-select-sm"
-                    value={seletedMonth}
-                    onChange={e => {
-                      onChangeMonth(e.target.value);
-                    }}
-                  >
-                    <option value="jan">Jan</option>
-                    <option value="dec">Dec</option>
-                    <option value="nov">Nov</option>
-                    <option value="oct">Oct</option>
-                  </select>
-                  <label className="input-group-text">Month</label>
+                 
+                  <label className="input-group-text">{currentdate}</label>
                 </div>
               </div>
-              <h4 className="card-title mb-4">Top Selling product</h4>
+              <h4 className="card-title mb-4">Top 5 Sales</h4>
             </div>
 
             <div className="text-muted text-center">
-              <p className="mb-2">Product A</p>
-              <h4>$ 6385</h4>
+              <p className="mb-2">{topSellingData?topSellingData.product.product_name:0}</p>
+              <h4>{topSellingData?topSellingData.subtotal:0}</h4>
               <p className="mt-4 mb-0">
                 <span className="badge badge-soft-success font-size-11 me-2">
                   {" "}
@@ -102,15 +99,15 @@ const TotalSellngProduct = props => {
                     return (
                       <tr key={key}>
                         <td>
-                          <h5 className="font-size-14 mb-1">{data.name}</h5>
-                          <p className="text-muted mb-0">{data.desc}</p>
+                          <h5 className="font-size-14 mb-1">{data.product.product_name}</h5>
+                          <p className="text-muted mb-0">{data.product.product_desc}</p>
                         </td>
 
                         <td>
                           <div id="radialchart-1">
                             <ReactApexChart
                               options={options}
-                              series={[data.value]}
+                              series={[data.subtotal]}
                               type="radialBar"
                               height={60}
                               width={60}
@@ -120,7 +117,7 @@ const TotalSellngProduct = props => {
                         </td>
                         <td>
                           <p className="text-muted mb-1">Sales</p>
-                          <h5 className="mb-0">{data.value} %</h5>
+                          <h5 className="mb-0">{data.subtotal}</h5>
                         </td>
                       </tr>
                     );

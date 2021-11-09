@@ -19,7 +19,7 @@ import invoices from "./invoices/reducer"
 import tasks from "./tasks/reducer"
 
 //Dasboard saas
-import DashboardSaas from "./dashboard-saas/reducer"
+import dashboard from "./dashboard/reducer"
 
 const rootReducer = combineReducers({
   // public
@@ -31,7 +31,7 @@ const rootReducer = combineReducers({
   ecommerce,
   invoices,
   tasks,
-  DashboardSaas,
+  dashboard,
 })
 
 export default rootReducer

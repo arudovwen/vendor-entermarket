@@ -153,6 +153,7 @@ function* fetchProductDetail({ productId }) {
 function* fetchOrders() {
   try {
     const response = yield call(getOrders)
+    console.log("🚀 ~ file: saga.js ~ line 156 ~ function*fetchOrders ~ response", response)
     yield put(getOrdersSuccess(response))
   } catch (error) {
     yield put(getOrdersFail(error))

@@ -16,4 +16,4 @@ export * from "./invoices/actions"
 export * from "./tasks/actions"
 
 //dashboard-saas
-export * from "./dashboard-saas/actions"
+export * from "./dashboard/actions"

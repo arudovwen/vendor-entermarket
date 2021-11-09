@@ -2,46 +2,33 @@ import React, { useEffect } from "react"
 import { Container, Row, Col } from "reactstrap"
 import MetaTags from "react-meta-tags"
 
+
+
 //Import Breadcrumb
 import Breadcrumbs from "../../components/Common/Breadcrumb"
 
 //Import Components
-import CardUser from "./card-user"
-import CardWelcome from "./card-welcome"
 import MiniWidget from "./mini-widget"
 import Earning from "./earning"
-import SalesAnalytics from "./sales-analytics"
 import TotalSellingProduct from "./total-selling-product"
-import Tasks from "./tasks"
-import ChatBox from "./chat-box"
+import { useDispatch, useSelector } from 'react-redux';
+import { getStoreReport as onGetReports } from './../../store/dashboard/actions';
 
-const DashboardSaas = props => {
-  const reports = [
-    {
-      icon: "bx bx-copy-alt",
-      title: "Orders",
-      value: "1,452",
-      badgeValue: "+ 0.2%",
-      color: "success",
-      desc: "From previous period",
-    },
-    {
-      icon: "bx bx-archive-in",
-      title: "Revenue",
-      value: "$ 28,452",
-      badgeValue: "+ 0.2%",
-      color: "success",
-      desc: "From previous period",
-    },
-    {
-      icon: "bx bx-purchase-tag-alt",
-      title: "Average Price",
-      value: "$ 16.2",
-      badgeValue: "0%",
-      color: "warning",
-      desc: "From previous period",
-    },
-  ]
+
+const Dashboard = props => {
+  const dispatch = useDispatch();
+  const {reports} = useSelector(state=>({
+    reports:state.dashboard.reports
+  }))
+
+  useEffect(() => {
+ 
+    if (reports && !reports.length) {
+   
+      dispatch(onGetReports())
+    }
+ 
+  }, [dispatch, reports])
 
   return (
     <React.Fragment>
@@ -54,10 +41,10 @@ const DashboardSaas = props => {
           <Breadcrumbs title="Dashboards" breadcrumbItem="" />
 
           <Row>
-            {/* welcome card */}
-            <CardWelcome />
+            {/* welcome card
+            <CardWelcome /> */}
 
-            <Col xl="8">
+            <Col>
               <Row>
                 {/*mimi widgets */}
                 <MiniWidget reports={reports} />
@@ -69,24 +56,14 @@ const DashboardSaas = props => {
             {/* earning */}
             <Earning />
 
-            {/* sales anytics */}
-            <SalesAnalytics />
+               {/* total selling product */}
+               <TotalSellingProduct />
           </Row>
 
-          <Row>
-            {/* total selling product */}
-            <TotalSellingProduct />
-
-            {/* tasks */}
-            <Tasks />
-
-            {/* chat box */}
-            <ChatBox />
-          </Row>
         </Container>
       </div>
     </React.Fragment>
   )
 }
 
-export default DashboardSaas
+export default Dashboard

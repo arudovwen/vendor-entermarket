@@ -65,129 +65,57 @@ const EcommerceOrders = props => {
   }
   const { SearchBar } = Search
 
-  // const toggleModal = () => {
-  //   setModal1(!modal1)
-  // }
   const toggleViewModal = () => setModal1(!modal1)
 
   const EcommerceOrderColumns = toggleModal => [
     {
-      dataField: "orderId",
-      text: "Order ID",
+      dataField: "order_no",
+      text: "Order No",
       sort: true,
       // eslint-disable-next-line react/display-name
       formatter: (cellContent, row) => (
         <Link to="#" className="text-body fw-bold">
-          {row.orderId}
+          {row.order_no}
         </Link>
       ),
     },
     {
-      dataField: "billingName",
-      text: "Billing Name",
+      dataField: "product.product_name",
+      text: "Product Name",
       sort: true,
     },
     {
-      dataField: "orderdate",
-      text: "Date",
-      sort: true,
-      // eslint-disable-next-line react/display-name
-      formatter: (cellContent, row) => handleValidDate(row.orderdate),
-    },
-    {
-      dataField: "total",
-      text: "Total",
-      sort: true,
-    },
-    {
-      dataField: "paymentStatus",
-      text: "Payment Status",
+      dataField: "created_at",
+      text: "Creation",
       sort: true,
       // eslint-disable-next-line react/display-name
-      formatter: (cellContent, row) => (
-        <Badge
-          className={"font-size-12 badge-soft-" + row.badgeclass}
-          color={row.badgeClass}
-          pill
-        >
-          {row.paymentStatus}
-        </Badge>
-      ),
+      formatter: (cellContent, row) => handleValidDate(row.created_at),
     },
     {
-      dataField: "paymentMethod",
-      isDummyField: true,
-      text: "Payment Method",
+      dataField: "quantity",
+      text: "Quantity",
       sort: true,
-      // eslint-disable-next-line react/display-name
-      formatter: (cellContent, row) => (
-        <>
-          <i
-            className={
-              row.paymentMethod !== "COD"
-                ? "fab fa-cc-" + toLowerCase1(row.paymentMethod) + " me-1"
-                : "fab fas fa-money-bill-alt me-1"
-            }
-          />{" "}
-          {row.paymentMethod}
-        </>
-      ),
     },
     {
-      dataField: "view",
-      isDummyField: true,
-      text: "View Details",
+      dataField: "price",
+      text: "Price",
       sort: true,
-      // eslint-disable-next-line react/display-name
-      formatter: () => (
-        <Button
-          type="button"
-          color="primary"
-          className="btn-sm btn-rounded"
-          onClick={toggleViewModal}
-        >
-          View Details
-        </Button>
-      ),
     },
     {
-      dataField: "action",
-      isDummyField: true,
-      text: "Action",
-      // eslint-disable-next-line react/display-name
-      formatter: (cellContent, order) => (
-        <>
-          <div className="d-flex gap-3">
-            <Link
-              to="#"
-              className="text-success"
-              onClick={() => handleOrderClick(order)}
-            >
-              <i className="mdi mdi-pencil font-size-18" id="edittooltip" />
-              <UncontrolledTooltip placement="top" target="edittooltip">
-                Edit
-              </UncontrolledTooltip>
-            </Link>
-            <Link
-              to="#"
-              className="text-danger"
-              onClick={() => handleDeleteOrder(order)}
-            >
-              <i className="mdi mdi-delete font-size-18" id="deletetooltip" />
-              <UncontrolledTooltip placement="top" target="deletetooltip">
-                Delete
-              </UncontrolledTooltip>
-            </Link>
-          </div>
-        </>
-      ),
+      dataField: "subtotal",
+      text: "Subtotal",
+      sort: true,
     },
+    
+  
   ]
 
   useEffect(() => {
     if (orders && !orders.length) {
+     
       dispatch(onGetOrders())
     }
+ 
   }, [dispatch, orders])
 
   useEffect(() => {
@@ -336,19 +264,7 @@ const EcommerceOrders = props => {
                                   </div>
                                 </div>
                               </Col>
-                              <Col sm="8">
-                                <div className="text-sm-end">
-                                  <Button
-                                    type="button"
-                                    color="success"
-                                    className="btn-rounded  mb-2 me-2"
-                                    onClick={handleOrderClicks}
-                                  >
-                                    <i className="mdi mdi-plus me-1" />
-                                    Add New Order
-                                  </Button>
-                                </div>
-                              </Col>
+                            
                             </Row>
                             <Row>
                               <Col xl="12">

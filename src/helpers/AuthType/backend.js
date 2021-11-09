@@ -14,7 +14,7 @@ import {
   groups,
   invoiceList,
   messages,
-  orders,
+  // orders,
   productsData,
   projects,
   inboxmails,
@@ -577,18 +577,18 @@ const Backend = () => {
     })
   })
 
-  mock.onGet(url.GET_ORDERS).reply(() => {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        if (orders) {
-          // Passing  JSON data as response
-          resolve([200, orders])
-        } else {
-          reject([400, "Cannot get orders"])
-        }
-      })
-    })
-  })
+  // mock.onGet(url.GET_ORDERS).reply(() => {
+  //   return new Promise((resolve, reject) => {
+  //     setTimeout(() => {
+  //       if (orders) {
+  //         // Passing  JSON data as response
+  //         resolve([200, orders])
+  //       } else {
+  //         reject([400, "Cannot get orders"])
+  //       }
+  //     })
+  //   })
+  // })
 
   mock.onPost(url.ADD_NEW_ORDER).reply(order => {
     return new Promise((resolve, reject) => {
