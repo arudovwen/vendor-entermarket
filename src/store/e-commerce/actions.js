@@ -1,4 +1,6 @@
+
 import {
+
   GET_CART_DATA,
   GET_CART_DATA_FAIL,
   GET_CART_DATA_SUCCESS,
@@ -62,8 +64,85 @@ import {
   GET_CATEGORIES,
   GET_CATEGORIES_SUCCESS,
   GET_CATEGORIES_FAIL,
+  ON_ADD_CATEGORY,
+  ON_ADD_CATEGORY_SUCCESS,
+  ON_ADD_CATEGORY_FAIL,
+  ON_UPDATE_CATEGORY,
+  ON_UPDATE_CATEGORY_SUCCESS,
+  ON_UPDATE_CATEGORY_FAIL,
+  ON_DELETE_CATEGORY,
+  ON_DELETE_CATEGORY_SUCCESS,
+  ON_DELETE_CATEGORY_FAIL,
+  GET_BRANDS,
+  GET_BRANDS_SUCCESS,
+  GET_BRANDS_FAIL,
+  ON_ADD_BRAND,
+  ON_ADD_BRAND_SUCCESS,
+  ON_ADD_BRAND_FAIL,
+  ON_UPDATE_BRAND,
+  ON_UPDATE_BRAND_FAIL,
+  ON_UPDATE_BRAND_SUCCESS,
+  ON_DELETE_BRAND,
+  ON_DELETE_BRAND_FAIL,
+  ON_DELETE_BRAND_SUCCESS
 } from "./actionTypes"
 
+export const getBrands = store_id => ({
+  type: GET_BRANDS,
+  store_id,
+})
+export const getBrandsSuccess = brands => ({
+  type: GET_BRANDS_SUCCESS,
+  payload: brands,
+})
+export const getBrandsFail = error => ({
+  type: GET_BRANDS_FAIL,
+  payload: error,
+})
+export const addNewBrand = brand => ({
+  type: ON_ADD_BRAND,
+  payload: brand,
+})
+export const addBrandSuccess = (brand, status) => ({
+  type: ON_ADD_BRAND_SUCCESS,
+  payload: brand,
+  status
+})
+
+export const addBrandFail = error => ({
+  type: ON_ADD_BRAND_FAIL,
+  payload: error,
+})
+
+export const updateBrand = brand => ({
+  type: ON_UPDATE_BRAND,
+  payload: brand,
+})
+
+export const updateBrandSuccess = brand => ({
+  type: ON_UPDATE_BRAND_SUCCESS,
+  payload: brand,
+})
+
+export const updateBrandFail = error => ({
+  type: ON_UPDATE_BRAND_FAIL,
+  payload: error,
+})
+
+export const deleteBrand = brand => ({
+  type: ON_DELETE_BRAND,
+  payload: brand,
+})
+
+export const deleteBrandSuccess = brand => ({
+  type: ON_DELETE_BRAND_SUCCESS,
+  payload: brand,
+})
+
+export const deleteBrandFail = error => ({
+  type: ON_DELETE_BRAND_FAIL,
+  payload: error,
+})
 export const getCategories = store_id => ({
   type: GET_CATEGORIES,
   store_id,
@@ -76,7 +155,50 @@ export const getCategoriesFail = error => ({
   type: GET_CATEGORIES_FAIL,
   payload: error,
 })
+export const addNewCategory = category => ({
+  type: ON_ADD_CATEGORY,
+  payload: category,
+})
+export const addCategorySuccess = (category, status) => ({
+  type: ON_ADD_CATEGORY_SUCCESS,
+  payload: category,
+  status
+})
 
+export const addCategoryFail = error => ({
+  type: ON_ADD_CATEGORY_FAIL,
+  payload: error,
+})
+
+export const updateCategory = category => ({
+  type: ON_UPDATE_CATEGORY,
+  payload: category,
+})
+
+export const updateCategorySuccess = category => ({
+  type: ON_UPDATE_CATEGORY_SUCCESS,
+  payload: category,
+})
+
+export const updateCategoryFail = error => ({
+  type: ON_UPDATE_CATEGORY_FAIL,
+  payload: error,
+})
+
+export const deleteCategory = category => ({
+  type: ON_DELETE_CATEGORY,
+  payload: category,
+})
+
+export const deleteCategorySuccess = category => ({
+  type: ON_DELETE_CATEGORY_SUCCESS,
+  payload: category,
+})
+
+export const deleteCategoryFail = error => ({
+  type: ON_DELETE_CATEGORY_FAIL,
+  payload: error,
+})
 export const getProducts = store_id => ({
   type: GET_PRODUCTS,
   store_id,

@@ -101,9 +101,36 @@ const postJwtForgetPwd = data => post(url.POST_JWT_PASSWORD_FORGET, data)
 // postSocialLogin
 export const postSocialLogin = data => post(url.SOCIAL_LOGIN, data)
 
-// get Categories
+// get BRANDS
+export const getBrands = store_id =>
+  get(`${url.FETCH_BRANDS}/${store_id}`)
+
+  // add brand
+export const addNewBrand = data => post(url.ADD_NEW_BRAND, data, config)
+
+// update brand
+export const updateBrand = data =>
+  put(`${url.UPDATE_BRAND}/${data.id}`, data)
+
+// delete brand
+export const deleteBrand = data => del(`${url.DELETE_BRAND}/${data.id}`)
+
+
+
+  // get Categories
 export const getCategories = store_id =>
-  get(`${url.GET_CATEGORIES}/${store_id}`)
+get(`${url.GET_CATEGORIES}/${store_id}`)
+  // add category
+  export const addNewCategory = data => post(url.ADD_NEW_CATEGORY, data, config)
+
+  // update category
+  export const updateCategory = data =>
+    put(`${url.UPDATE_CATEGORY}/${data.id}`, data)
+  
+  // delete category
+  export const deleteCategory = data => del(`${url.DELETE_CATEGORY}/${data.id}`)
+  
+
 
 // get Products
 export const getProducts = data => post(url.GET_PRODUCTS, data)
@@ -246,7 +273,8 @@ export const deleteInboxMail = inboxmail =>
 export const getStarredMails = () => get(url.GET_STARRED_MAILS)
 
 // get importantmail
-export const getImportantMails = () => get(url.GET_IMPORTANT_MAILS)
+
+const getImportantMails = () => get(url.GET_IMPORTANT_MAILS)
 
 // get sent mail
 export const getSentMails = () => get(url.GET_SENT_MAILS)

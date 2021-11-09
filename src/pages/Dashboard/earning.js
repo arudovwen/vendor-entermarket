@@ -8,6 +8,7 @@ import { getEarningChartsData, getStoreEarnings } from "../../store/actions";
 
 //redux
 import { useSelector, useDispatch } from "react-redux";
+import { currency } from './../../helpers/currency';
 
 function Earning(props) {
   const dispatch = useDispatch();
@@ -82,11 +83,11 @@ function Earning(props) {
                 <div className="text-muted">
                   <div className="mb-4">
                     <p  className="mb-3">This month</p>
-                    <h4>{earningChartData.earningthismonth}</h4>
+                    <h4>{currency.format(earningChartData.earningthismonth|0)}</h4>
                     <div>
                       <span className="badge badge-soft-success font-size-12 me-1">
                         {" "}
-                        {earningChartData.earning}{" "}
+                        {currency.format(earningChartData.earning |0)}{" "}
                       </span>{" "}
                       Total Earnings
                     </div>
@@ -101,7 +102,7 @@ function Earning(props) {
 
                   <div className="mt-4">
                     <p className="mb-2">Last month</p>
-                    <h5>{earningChartData.earninglastmonth}</h5>
+                    <h5>{currency.format(earningChartData.earninglastmonth |0)}</h5>
                   </div>
                 </div>
               </Col>

@@ -12,11 +12,17 @@ export const SOCIAL_LOGIN = "/social-login"
 export const POST_EDIT_JWT_PROFILE = "/post-jwt-profile"
 export const POST_EDIT_PROFILE = "/post-fake-profile"
 
+//BRANDS
+export const FETCH_BRANDS = "/brands"
+export const ADD_NEW_BRAND = "/brands"
+export const UPDATE_BRAND = "/brands"
+export const DELETE_BRAND = "/brands"
+
 //CATEGORIES
 export const GET_CATEGORIES = "/categories"
-export const ADD_NEW_CATEGORIES = "/categories"
-export const UPDATE_CATEGORIES = "/categories"
-export const DELETE_CATEGORIES = "/categories"
+export const ADD_NEW_CATEGORY = "/categories"
+export const UPDATE_CATEGORY = "/categories"
+export const DELETE_CATEGORY = "/categories"
 //PRODUCTS
 export const GET_PRODUCTS = "/store/products/all"
 export const ADD_NEW_PRODUCT = "/product/add"
@@ -35,6 +41,7 @@ export const GET_STARRED_MAILS = "/starredmails"
 //important mails
 export const GET_IMPORTANT_MAILS = "/importantmails"
 // import { GET_TOP_EARNERS } from './../store/dashboard/actionType';
+import { GET_BRANDS } from './../store/e-commerce/actionTypes';
 
 //Draft mail
 export const GET_DRAFT_MAILS = "/draftmails"

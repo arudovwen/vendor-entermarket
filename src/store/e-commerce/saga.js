@@ -4,6 +4,13 @@ import { call, put, takeEvery } from "redux-saga/effects"
 import {
   GET_CART_DATA,
   GET_CATEGORIES,
+  ON_ADD_CATEGORY,
+  ON_UPDATE_CATEGORY,
+  ON_DELETE_CATEGORY,
+  GET_BRANDS,
+  ON_ADD_BRAND,
+  ON_UPDATE_BRAND,
+  ON_DELETE_BRAND,
   GET_CUSTOMERS,
   GET_ORDERS,
   GET_PRODUCT_DETAIL,
@@ -31,6 +38,8 @@ import {
   getCustomersSuccess,
   getCategoriesFail,
   getCategoriesSuccess,
+  getBrandsSuccess,
+  getBrandsFail,
   getOrdersFail,
   getOrdersSuccess,
   getProductDetailFail,
@@ -67,6 +76,19 @@ import {
   onAddReplyFail,
   onAddCommentSuccess,
   onAddCommentFail,
+  addBrandFail,
+  addBrandSuccess,
+  updateBrandFail,
+  updateBrandSuccess,
+  deleteBrandFail,
+  deleteBrandSuccess,
+  addCategoryFail,
+  addCategorySuccess,
+  updateCategoryFail,
+  updateCategorySuccess,
+  deleteCategoryFail,
+  deleteCategorySuccess
+
 } from "./actions"
 
 //Include Both Helper File with needed methods
@@ -88,11 +110,54 @@ import {
   updateCustomer,
   deleteCustomer,
   getProductComents as getProductComentsApi,
+  getBrands as getBrandsApi,
   onLikeComment as onLikeCommentApi,
   onLikeReply as onLikeReplyApi,
   onAddReply as onAddReplyApi,
   onAddComment as onAddCommentApi,
+  addNewBrand as onAddNewBrandApi,
+  updateBrand as onUpdateBrandApi,
+  deleteBrand as onDeleteBrandApi,
+  addNewCategory as OnAddNewCategoryApi,
+  updateCategory as onUpdateCategoryApi,
+  deleteCategory as onDeleteCategoryApi
 } from "helpers/backend_helper"
+
+function* fetchBrands({ store_id }) {
+  try {
+    const response = yield call(getBrandsApi, store_id)
+
+    yield put(getBrandsSuccess(response))
+  } catch (error) {
+    yield put(getBrandsFail(error))
+  }
+}
+function* onDeleteBrand({ payload: brand }) {
+  try {
+    const response = yield call(onDeleteBrandApi, brand)
+   
+    yield put(deleteBrandSuccess(response))
+  } catch (error) {
+    yield put(deleteBrandFail(error))
+  }
+}
+
+function* onAddNewBrand({ payload: brand }) {
+  try {
+    const response = yield call(onAddNewBrandApi, brand)
+    yield put(addBrandSuccess(response))
+  } catch (error) {
+    yield put(addBrandSuccess(error))
+  }
+}
+function* onUpdateBrand({ payload }) {
+  try {
+    const response = yield call(onUpdateBrandApi, payload)
+    yield put(updateBrandSuccess(response))
+  } catch (error) {
+    yield put(updateBrandSuccess(error))
+  }
+}
 
 function* fetchCategories({ store_id }) {
   try {
@@ -103,7 +168,32 @@ function* fetchCategories({ store_id }) {
     yield put(getCategoriesFail(error))
   }
 }
+function* onDeleteCategory({ payload: category }) {
+  try {
+    const response = yield call(onDeleteCategoryApi, category)
+   
+    yield put(deleteCategorySuccess(response))
+  } catch (error) {
+    yield put(deleteCategoryFail(error))
+  }
+}
 
+function* onAddNewCategory({ payload: category }) {
+  try {
+    const response = yield call(onAddNewCategoryApi, category)
+    yield put(addCategorySuccess(response))
+  } catch (error) {
+    yield put(addCategorySuccess(error))
+  }
+}
+function* onUpdateCategory({ payload }) {
+  try {
+    const response = yield call(onUpdateCategoryApi, payload)
+    yield put(updateCategorySuccess(response))
+  } catch (error) {
+    yield put(updateCategorySuccess(error))
+  }
+}
 function* fetchProducts({ store_id }) {
   try {
     const response = yield call(getProducts, { store_id })
@@ -292,6 +382,13 @@ function* onAddComment({ payload: { productId, commentText } }) {
 
 function* ecommerceSaga() {
   yield takeEvery(GET_CATEGORIES, fetchCategories)
+  yield takeEvery(ON_ADD_CATEGORY, onAddNewCategory)
+  yield takeEvery(ON_DELETE_CATEGORY, onDeleteCategory)
+  yield takeEvery(ON_UPDATE_CATEGORY, onUpdateCategory)
+  yield takeEvery(GET_BRANDS, fetchBrands)
+  yield takeEvery(ON_ADD_BRAND, onAddNewBrand)
+  yield takeEvery(ON_DELETE_BRAND, onDeleteBrand)
+  yield takeEvery(ON_UPDATE_BRAND, onUpdateBrand)
   yield takeEvery(GET_PRODUCTS, fetchProducts)
   yield takeEvery(ADD_NEW_PRODUCT, onAddNewProduct)
   yield takeEvery(DELETE_PRODUCT, onDeleteProduct)

@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from "react-redux";
 //actions
 import { getTopEarners } from "../../store/actions";
 import * as moment from "moment";
+import { currency } from './../../helpers/currency';
 
 const getChartOptions = index => {
   var options = {
@@ -81,7 +82,7 @@ const TotalSellngProduct = props => {
 
             <div className="text-muted text-center">
               <p className="mb-2">{topSellingData?topSellingData.product.product_name:0}</p>
-              <h4>{topSellingData?topSellingData.subtotal:0}</h4>
+              <h4>{topSellingData? currency.format(topSellingData.subtotal):currency.format(0)}</h4>
               <p className="mt-4 mb-0">
                 <span className="badge badge-soft-success font-size-11 me-2">
                   {" "}
@@ -100,7 +101,7 @@ const TotalSellngProduct = props => {
                       <tr key={key}>
                         <td>
                           <h5 className="font-size-14 mb-1">{data.product.product_name}</h5>
-                          <p className="text-muted mb-0">{data.product.product_desc}</p>
+                          <p className="text-muted mb-0" style={{fontSize:.6+'rem'}}>{data.product.product_desc}</p>
                         </td>
 
                         <td>
@@ -117,7 +118,7 @@ const TotalSellngProduct = props => {
                         </td>
                         <td>
                           <p className="text-muted mb-1">Sales</p>
-                          <h5 className="mb-0">{data.subtotal}</h5>
+                          <h5 className="mb-0">{currency.format(data.subtotal|0)}</h5>
                         </td>
                       </tr>
                     );

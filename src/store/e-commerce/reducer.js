@@ -37,9 +37,31 @@ import {
   ON_ADD_COMMENT_SUCCESS,
   GET_CATEGORIES_FAIL,
   GET_CATEGORIES_SUCCESS,
+  GET_BRANDS_FAIL,
+  GET_BRANDS_SUCCESS,
+  ON_ADD_CATEGORY,
+  ON_ADD_CATEGORY_SUCCESS,
+  ON_ADD_CATEGORY_FAIL,
+  ON_UPDATE_CATEGORY,
+  ON_UPDATE_CATEGORY_SUCCESS,
+  ON_UPDATE_CATEGORY_FAIL,
+  ON_DELETE_CATEGORY,
+  ON_DELETE_CATEGORY_SUCCESS,
+  ON_DELETE_CATEGORY_FAIL,
+  GET_BRANDS,
+  ON_ADD_BRAND,
+  ON_ADD_BRAND_SUCCESS,
+  ON_ADD_BRAND_FAIL,
+  ON_UPDATE_BRAND,
+  ON_UPDATE_BRAND_FAIL,
+  ON_UPDATE_BRAND_SUCCESS,
+  ON_DELETE_BRAND,
+  ON_DELETE_BRAND_FAIL,
+  ON_DELETE_BRAND_SUCCESS,
 } from "./actionTypes"
 
 const INIT_STATE = {
+  brands: [],
   categories: [],
   products: [],
   product: {},
@@ -49,11 +71,64 @@ const INIT_STATE = {
   shops: [],
   error: {},
   productComments: [],
-  status:null
+  status: null,
 }
 
 const Ecommerce = (state = INIT_STATE, action) => {
   switch (action.type) {
+    case GET_BRANDS_SUCCESS:
+      return {
+        ...state,
+        brands: action.payload,
+      }
+    case GET_BRANDS_FAIL:
+      return {
+        ...state,
+        error: action.payload,
+      }
+
+    case ON_ADD_BRAND_SUCCESS:
+      return {
+        ...state,
+        brands: [...state.brands, action.payload],
+        status: action.type,
+      }
+
+    case ON_ADD_BRAND_FAIL:
+      return {
+        ...state,
+        error: action.payload,
+      }
+
+    case ON_UPDATE_BRAND_SUCCESS:
+      return {
+        ...state,
+        brands: state.brands.map(brand =>
+          brand.id.toString() === action.payload.id.toString()
+            ? { brand, ...action.payload }
+            : brand
+        ),
+      }
+
+    case ON_UPDATE_BRAND_FAIL:
+      return {
+        ...state,
+        error: action.payload,
+      }
+
+    case ON_DELETE_BRAND_SUCCESS:
+      return {
+        ...state,
+        brands: state.brands.filter(
+          brand => brand.id.toString() !== action.payload.id.toString()
+        ),
+      }
+
+    case ON_DELETE_BRAND_FAIL:
+      return {
+        ...state,
+        error: action.payload,
+      }
     case GET_CATEGORIES_SUCCESS:
       return {
         ...state,
@@ -65,6 +140,48 @@ const Ecommerce = (state = INIT_STATE, action) => {
         error: action.payload,
       }
 
+      case ON_ADD_CATEGORY_SUCCESS:
+        return {
+          ...state,
+          categories: [...state.categories, action.payload],
+          status: action.type,
+        }
+  
+      case ON_ADD_CATEGORY_FAIL:
+        return {
+          ...state,
+          error: action.payload,
+        }
+  
+      case ON_UPDATE_CATEGORY_SUCCESS:
+        return {
+          ...state,
+          categories: state.categories.map(category =>
+            category.id.toString() === action.payload.id.toString()
+              ? { category, ...action.payload }
+              : category
+          ),
+        }
+  
+      case ON_UPDATE_CATEGORY_FAIL:
+        return {
+          ...state,
+          error: action.payload,
+        }
+  
+      case ON_DELETE_CATEGORY_SUCCESS:
+        return {
+          ...state,
+          categories: state.categories.filter(
+            category => category.id.toString() !== action.payload.id.toString()
+          ),
+        }
+  
+      case ON_DELETE_CATEGORY_FAIL:
+        return {
+          ...state,
+          error: action.payload,
+        }
     case GET_PRODUCTS_SUCCESS:
       return {
         ...state,
@@ -81,7 +198,7 @@ const Ecommerce = (state = INIT_STATE, action) => {
       return {
         ...state,
         products: [...state.products, action.payload],
-        status:action.type
+        status: action.type,
       }
 
     case ADD_PRODUCT_FAIL:
@@ -110,10 +227,8 @@ const Ecommerce = (state = INIT_STATE, action) => {
       return {
         ...state,
         products: state.products.filter(
-          
           product => product.id.toString() !== action.payload.id.toString()
         ),
-       
       }
 
     case DELETE_PRODUCT_FAIL:

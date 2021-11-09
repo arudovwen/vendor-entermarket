@@ -18,6 +18,7 @@ import EcommerceCart from "../pages/Ecommerce/EcommerceCart"
 import EcommerceCheckout from "../pages/Ecommerce/EcommerceCheckout"
 import EcommerceShops from "../pages/Ecommerce/EcommerceShops/index"
 import EcommerceAddProduct from "../pages/Ecommerce/EcommerceAddProduct"
+import EcommerceOthers from "../pages/Ecommerce/Others/catgories"
 
 //Invoices
 import InvoicesList from "../pages/Invoices/invoices-list"
@@ -135,6 +136,7 @@ const authProtectedRoutes = [
   { path: "/ecommerce-checkout", component: EcommerceCheckout },
   { path: "/ecommerce-shops", component: EcommerceShops },
   { path: "/ecommerce-add-product", component: EcommerceAddProduct },
+  {path:"/ecommerce-others", component:EcommerceOthers},
 
   //Invoices
   { path: "/invoices-list", component: InvoicesList },
