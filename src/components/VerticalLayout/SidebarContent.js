@@ -115,25 +115,25 @@ const SidebarContent = props => {
                 <span>{props.t("Orders")}</span>
               </Link>
             </li>
-            <li>
+            {/* <li>
               <Link to="/ecommerce-customers">
                 <i className=" bx bx-group"></i>
                 <span>{props.t("Customers")}</span>
               </Link>
-            </li>
+            </li> */}
 
             <li>
-              <Link to="/ecommerce-shops">
+              <Link to="/ecommerce-others">
                 <i className="bx bx-store"></i>
-                <span>{props.t("Shops")}</span>
+                <span>{props.t("Others")}</span>
               </Link>
             </li>
-            <li>
+            {/* <li>
               <Link to="/ecommerce-add-product">
                 <i className="bx bx-plus-circle"></i>
                 <span>{props.t("Add Product")}</span>
               </Link>
-            </li>
+            </li> */}
 
             {/* <li className="menu-title">{props.t("Apps")}</li> */}
             {/*

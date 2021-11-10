@@ -2,10 +2,12 @@ import axios from "axios"
 import { del, get, post, put } from "./api_helper"
 import * as url from "./url_helper"
 
-const token = localStorage.getItem('user-token')
-const config = {headers:{
-  Authorization: `Bearer ${token}`
-}}
+const token = localStorage.getItem("user-token")
+const config = {
+  headers: {
+    Authorization: `Bearer ${token}`,
+  },
+}
 // Gets the logged in user data from local session
 const getLoggedInUser = () => {
   const user = localStorage.getItem("authUser")
@@ -20,16 +22,15 @@ const isUserAuthenticated = () => {
 
 // Register Method
 const postRegister = data => {
-
-  return axios.post('http://localhost:8000/api/stores', data).then(response => {
+  return axios
+    .post("http://localhost:8000/api/stores", data)
+    .then(response => {
       if (response.status >= 200 || response.status <= 299) return response.data
       throw response.data
     })
     .catch(err => {
-     
       let message
       if (err.response && err.response.status) {
-       
         switch (err.response.status) {
           case 404:
             message = "Sorry! the page you are looking for could not be found"
@@ -59,7 +60,7 @@ const postForgetPwd = data => post(url.POST_PASSWORD_FORGET, data)
 // Edit profile
 const postJwtProfile = data => post(url.POST_EDIT_JWT_PROFILE, data)
 
-const postProfile = data => post(url.POST_EDIT_PROFILE, data)
+const postProfile = data => post(url.POST_EDIT_PROFILE, data, config)
 
 // Register Method
 const postJwtRegister = (url, data) => {
@@ -102,35 +103,31 @@ const postJwtForgetPwd = data => post(url.POST_JWT_PASSWORD_FORGET, data)
 export const postSocialLogin = data => post(url.SOCIAL_LOGIN, data)
 
 // get BRANDS
-export const getBrands = store_id =>
-  get(`${url.FETCH_BRANDS}/${store_id}`)
+export const getBrands = store_id => get(`${url.FETCH_BRANDS}/${store_id}`)
 
-  // add brand
+// add brand
 export const addNewBrand = data => post(url.ADD_NEW_BRAND, data, config)
 
 // update brand
-export const updateBrand = data =>
-  put(`${url.UPDATE_BRAND}/${data.id}`, data)
+export const updateBrand = data => put(`${url.UPDATE_BRAND}/${data.id}`, data, config)
 
 // delete brand
-export const deleteBrand = data => del(`${url.DELETE_BRAND}/${data.id}`)
+export const deleteBrand = data => del(`${url.DELETE_BRAND}/${data.id}`, config)
 
-
-
-  // get Categories
+// get Categories
 export const getCategories = store_id =>
-get(`${url.GET_CATEGORIES}/${store_id}`)
-  // add category
-  export const addNewCategory = data => post(url.ADD_NEW_CATEGORY, data, config)
+  get(`${url.GET_CATEGORIES}/${store_id}`)
 
-  // update category
-  export const updateCategory = data =>
-    put(`${url.UPDATE_CATEGORY}/${data.id}`, data)
-  
-  // delete category
-  export const deleteCategory = data => del(`${url.DELETE_CATEGORY}/${data.id}`)
-  
+// add category
+export const addNewCategory = data => post(url.ADD_NEW_CATEGORY, data, config)
 
+// update category
+export const updateCategory = data =>
+  put(`${url.UPDATE_CATEGORY}/${data.id}`, data, config)
+
+// delete category
+export const deleteCategory = data =>
+  del(`${url.DELETE_CATEGORY}/${data.id}`, config)
 
 // get Products
 export const getProducts = data => post(url.GET_PRODUCTS, data)
@@ -351,5 +348,5 @@ export {
   onAddComment,
   storeReport,
   storeEarnings,
-  topEarner
+  topEarner,
 }

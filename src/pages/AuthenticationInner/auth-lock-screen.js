@@ -103,8 +103,7 @@ const LockScreen = () => {
                   </Link>{" "}
                 </p>
                 <p>
-                  © 2021 EnterMarket. Crafted with{" "}
-                  <i className="mdi mdi-heart text-danger" /> by Themesbrand
+                  © 2021 EnterMarket.
                 </p>
               </div>
             </Col>

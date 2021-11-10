@@ -42,6 +42,7 @@ import {
   updateProduct as onUpdateProduct,
   deleteProduct as onDeleteProduct,
   getCategories as onGetCategories,
+  getBrands as onGetBrands
 } from "store/actions"
 
 import EcommerceProductsModal from "./EcommerceProductsModal"
@@ -66,7 +67,9 @@ const EcommerceProducts = props => {
   const { categories } = useSelector(state => ({
     categories: state.ecommerce.categories,
   }))
-
+  const { brands } = useSelector(state => ({
+    brands: state.ecommerce.brands,
+  }))
   const selectRow = {
     mode: "checkbox",
   }
@@ -76,11 +79,13 @@ const EcommerceProducts = props => {
   const [productList, setProductList] = useState([])
   const [isEdit, setIsEdit] = useState(false)
   const [categoriesList, setcategoriesList] = useState([])
+  const [brandList, setbrandList] = useState([])
   const [selectedFiles, setselectedFiles] = useState([])
 
   const handleNewProduct = (e, values) => {
     var detail = {
       category_id: values["category_id"],
+      brand_id: values["brand_id"],
       product_name: values["product_name"],
       product_desc: values["product_desc"],
       price: values["price"],
@@ -139,9 +144,9 @@ const EcommerceProducts = props => {
       text: " ID",
       sort: true,
       // eslint-disable-next-line react/display-name
-      formatter: (cellContent, row) => (
+      formatter: (cellContent, row,index) => (
         <Link to="#" className="text-body fw-bold">
-          {row.id}
+          {index+1}
         </Link>
       ),
     },
@@ -334,6 +339,16 @@ const EcommerceProducts = props => {
   useEffect(() => {
     setcategoriesList(categories)
   }, [categories])
+
+  useEffect(() => {
+    if (brands && !brands.length) {
+      dispatch(onGetBrands(store.id))
+    }
+  }, [dispatch, brands])
+
+  useEffect(() => {
+    setbrandList(brands)
+  }, [brands])
 
   useEffect(() => {
     if (products && !products.length) {
@@ -535,6 +550,19 @@ const EcommerceProducts = props => {
                                     <AvForm onValidSubmit={handleNewProduct}>
                                       <Row form>
                                         <Col className="col-12">
+                                         
+                                          <div className="mb-3">
+                                            <AvField
+                                              name="product_name"
+                                              label="Product Name"
+                                              type="text"
+                                              errorMessage="Invalid product name"
+                                              validate={{
+                                                required: { value: true },
+                                              }}
+                                              value=""
+                                            />
+                                          </div>
                                           <div className="mb-3">
                                             <AvField
                                               name="category_id"
@@ -562,21 +590,34 @@ const EcommerceProducts = props => {
                                           </div>
                                           <div className="mb-3">
                                             <AvField
-                                              name="product_name"
-                                              label="Product Name"
-                                              type="text"
-                                              errorMessage="Invalid product name"
+                                              name="brand_id"
+                                              label="Product brand"
+                                              type="select"
+                                              className="form-select"
+                                              errorMessage="Invalid brand"
                                               validate={{
                                                 required: { value: true },
                                               }}
                                               value=""
-                                            />
+                                            >
+                                              <option value="">
+                                                Select brand
+                                              </option>
+                                              {brandList.map(item => (
+                                                <option
+                                                  key={item.id}
+                                                  value={item.id}
+                                                >
+                                                  {item.name}
+                                                </option>
+                                              ))}
+                                            </AvField>
                                           </div>
                                           <div className="mb-3">
                                             <AvField
                                               name="product_desc"
                                               label="Product Description"
-                                              type="text"
+                                              type="textarea"
                                               errorMessage="Invalid Product Description"
                                               validate={{
                                                 required: { value: true },

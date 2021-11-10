@@ -37,23 +37,19 @@ const UserProfile = props => {
   const [email, setemail] = useState("")
   const [name, setname] = useState("")
   const [idx, setidx] = useState(1)
+  const [image, setimage] = useState('')
+  const [location, setlocation] = useState('')
 
   useEffect(() => {
     if (localStorage.getItem("authUser")) {
       const obj = JSON.parse(localStorage.getItem("authUser"))
-      if (process.env.REACT_APP_DEFAULTAUTH === "firebase") {
-        setname(obj.displayName)
+     
+        setname(obj.name)
+        setidx(obj.id)
         setemail(obj.email)
-        setidx(obj.uid)
-      } else if (
-        process.env.REACT_APP_DEFAULTAUTH === "fake" ||
-        process.env.REACT_APP_DEFAULTAUTH === "jwt"
-      ) {
-        console.log("obj", obj)
-        setname(obj.username)
-        setemail(obj.email)
-        setidx(obj.uid)
-      }
+        setlocation(obj.location)
+        setimage(obj.image)  
+      
       setTimeout(() => {
         dispatch(resetProfileFlag())
       }, 3000)
@@ -69,7 +65,7 @@ const UserProfile = props => {
       <div className="page-content">
         <MetaTags>
           <title>
-            Profile | EnterMarket - React Admin & Dashboard Template
+            {name?name:'Profile'} | EnterMarket 
           </title>
         </MetaTags>
         <Container fluid>
@@ -86,7 +82,7 @@ const UserProfile = props => {
                   <Media>
                     <div className="ms-3">
                       <img
-                        src={avatar}
+                        src={image}
                         alt=""
                         className="avatar-md rounded-circle img-thumbnail"
                       />
@@ -95,6 +91,7 @@ const UserProfile = props => {
                       <div className="text-muted">
                         <h5>{name}</h5>
                         <p className="mb-1">{email}</p>
+                        <p className="mb-1 text-capitalize">{location}</p>
                         <p className="mb-0">Id no: #{idx}</p>
                       </div>
                     </Media>
@@ -104,7 +101,7 @@ const UserProfile = props => {
             </Col>
           </Row>
 
-          <h4 className="card-title mb-4">Change User Name</h4>
+          <h4 className="card-title mb-4">Change Store Name</h4>
 
           <Card>
             <CardBody>
@@ -116,11 +113,11 @@ const UserProfile = props => {
               >
                 <div className="form-group">
                   <AvField
-                    name="username"
-                    label="User Name"
+                    name="name"
+                    label="Store Name"
                     value={name}
                     className="form-control"
-                    placeholder="Enter User Name"
+                    placeholder="Enter new name"
                     type="text"
                     required
                   />
@@ -128,7 +125,7 @@ const UserProfile = props => {
                 </div>
                 <div className="text-center mt-4">
                   <Button type="submit" color="danger">
-                    Update User Name
+                    Update Store Name
                   </Button>
                 </div>
               </AvForm>

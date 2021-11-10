@@ -21,11 +21,18 @@ const ProfileMenu = props => {
   const [menu, setMenu] = useState(false)
 
   const [username, setusername] = useState("Admin")
+  const [image, setimage] = useState('')
+  const [location, setlocation] = useState('')
+  const [email, setemail] = useState('')
 
   useEffect(() => {
     if (localStorage.getItem("authUser")) {    
         const obj = JSON.parse(localStorage.getItem("authUser"))
-        setusername(obj.name)     
+       
+        setusername(obj.name)
+        setemail(obj.email)
+        setlocation(obj.location)
+        setimage(obj.image)     
     }
   }, [props.success])
 
@@ -41,11 +48,11 @@ const ProfileMenu = props => {
           id="page-header-user-dropdown"
           tag="button"
         >
-          {/* <img
+          <img
             className="rounded-circle header-profile-user"
-            src={user1}
+            src={image}
             alt="Header Avatar"
-          /> */}
+          />
           <span className="d-none d-xl-inline-block ms-2 me-1">{username}</span>
           <i className="mdi mdi-chevron-down d-none d-xl-inline-block"/>
         </DropdownToggle>
@@ -55,7 +62,7 @@ const ProfileMenu = props => {
             <i className="bx bx-user font-size-16 align-middle me-1"/>
             {props.t("Profile")}{" "}
           </DropdownItem>
-          <DropdownItem tag="a" href="/crypto-wallet">
+          {/* <DropdownItem tag="a" href="/crypto-wallet">
             <i className="bx bx-wallet font-size-16 align-middle me-1"/>
             {props.t("My Wallet")}
           </DropdownItem>
@@ -63,7 +70,7 @@ const ProfileMenu = props => {
             <span className="badge bg-success float-end">11</span>
             <i className="bx bx-wrench font-size-16 align-middle me-1"/>
             {props.t("Settings")}
-          </DropdownItem>
+          </DropdownItem> */}
           <DropdownItem tag="a" href="auth-lock-screen">
             <i className="bx bx-lock-open font-size-16 align-middle me-1"/>
             {props.t("Lock screen")}

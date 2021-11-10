@@ -91,8 +91,7 @@ const ForgetPasswordPage = () => {
                   </Link>{" "}
                 </p>
                 <p>
-                  © {new Date().getFullYear()} EnterMarket. Crafted with{" "}
-                  <i className="mdi mdi-heart text-danger" /> by Themesbrand
+                  © {new Date().getFullYear()} EnterMarket.
                 </p>
               </div>
             </Col>

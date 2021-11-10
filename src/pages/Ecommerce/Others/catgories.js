@@ -37,7 +37,6 @@ import { useSelector, useDispatch } from "react-redux"
 import Breadcrumbs from "components/Common/Breadcrumb"
 
 import {
-
   getBrands as onGetBrands,
   getCategories as onGetCategories,
   addNewBrand as onAddBrand,
@@ -61,10 +60,28 @@ const EcommerceOthers = props => {
   const [modal, setModal] = useState(false)
   const [brandModal, setBrandModal] = useState(false)
 
+  const { status } = useSelector(state => ({
+    status: state.ecommerce.status,
+  }))
+
+  useEffect(() => {
+    if (status === "ON_ADD_CATEGORY_SUCCESS") {
+      setModal(false)
+    }
+    if (status === "ON_ADD_BRAND_SUCCESS") {
+        setBrandModal(false)
+      }
+  }, [status])
   //pagination customization
   const pageOptions = {
     sizePerPage: 10,
     totalSize: categories.length, // replace later with size(products),
+    custom: true,
+  }
+
+  const pageOptions1 = {
+    sizePerPage: 10,
+    totalSize: brands.length, // replace later with size(products),
     custom: true,
   }
   const { SearchBar } = Search
@@ -80,9 +97,9 @@ const EcommerceOthers = props => {
       text: " ID",
       sort: true,
       // eslint-disable-next-line react/display-name
-      formatter: (cellContent, row) => (
+      formatter: (cellContent, row, index) => (
         <Link to="#" className="text-body fw-bold">
-          {row.id}
+          {index + 1}
         </Link>
       ),
     },
@@ -133,9 +150,9 @@ const EcommerceOthers = props => {
       text: " ID",
       sort: true,
       // eslint-disable-next-line react/display-name
-      formatter: (cellContent, row) => (
+      formatter: (cellContent, row, index) => (
         <Link to="#" className="text-body fw-bold">
-          {row.id}
+          {index + 1}
         </Link>
       ),
     },
@@ -222,11 +239,10 @@ const EcommerceOthers = props => {
   }
 
   const handleNewCategory = (e, values) => {
-  
     var detail = {
       name: values["name"],
     }
-    dispatch(onAddCategory(getInvoiceDetail))
+    dispatch(onAddCategory(detail))
   }
   const handleNewBrand = (e, values) => {
     var detail = {
@@ -244,7 +260,6 @@ const EcommerceOthers = props => {
     }
   }
   const handleTableUpdate = (id, value, column, type) => {
-
     var data = { id }
 
     switch (column) {
@@ -255,9 +270,10 @@ const EcommerceOthers = props => {
       default:
         break
     }
-    // type === "category"
-    //   ? dispatch(onUpdateCategory(data))
-    //   : dispatch(onUpdateBrand(data))
+
+    type === "category"
+      ? dispatch(onUpdateCategory(data))
+      : dispatch(onUpdateBrand(data))
   }
 
   const defaultSorted = [
@@ -357,9 +373,7 @@ const EcommerceOthers = props => {
                                     Add Category
                                   </ModalHeader>
                                   <ModalBody>
-                                    <AvForm
-                                      onValidSubmit={handleNewCategory}
-                                    >
+                                    <AvForm onValidSubmit={handleNewCategory}>
                                       <Row form>
                                         <Col className="col-12">
                                           <div className="mb-3">
@@ -412,7 +426,7 @@ const EcommerceOthers = props => {
               <Card>
                 <CardBody>
                   <PaginationProvider
-                    pagination={paginationFactory(pageOptions)}
+                    pagination={paginationFactory(pageOptions1)}
                     keyField="id"
                     columns={EcommerceBrandsColumns(toggle)}
                     data={brands}

@@ -103,6 +103,7 @@ const Ecommerce = (state = INIT_STATE, action) => {
     case ON_UPDATE_BRAND_SUCCESS:
       return {
         ...state,
+        status: action.type,
         brands: state.brands.map(brand =>
           brand.id.toString() === action.payload.id.toString()
             ? { brand, ...action.payload }
@@ -119,6 +120,7 @@ const Ecommerce = (state = INIT_STATE, action) => {
     case ON_DELETE_BRAND_SUCCESS:
       return {
         ...state,
+        status: action.type,
         brands: state.brands.filter(
           brand => brand.id.toString() !== action.payload.id.toString()
         ),
@@ -156,6 +158,7 @@ const Ecommerce = (state = INIT_STATE, action) => {
       case ON_UPDATE_CATEGORY_SUCCESS:
         return {
           ...state,
+          status: action.type,
           categories: state.categories.map(category =>
             category.id.toString() === action.payload.id.toString()
               ? { category, ...action.payload }
@@ -172,6 +175,7 @@ const Ecommerce = (state = INIT_STATE, action) => {
       case ON_DELETE_CATEGORY_SUCCESS:
         return {
           ...state,
+          status: action.type,
           categories: state.categories.filter(
             category => category.id.toString() !== action.payload.id.toString()
           ),
@@ -185,6 +189,7 @@ const Ecommerce = (state = INIT_STATE, action) => {
     case GET_PRODUCTS_SUCCESS:
       return {
         ...state,
+        
         products: action.payload,
       }
 

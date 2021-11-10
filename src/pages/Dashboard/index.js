@@ -16,6 +16,7 @@ import { getStoreReport as onGetReports } from './../../store/dashboard/actions'
 
 
 const Dashboard = props => {
+  const obj = JSON.parse(localStorage.getItem("authUser"))
   const dispatch = useDispatch();
   const {reports} = useSelector(state=>({
     reports:state.dashboard.reports
@@ -34,7 +35,7 @@ const Dashboard = props => {
     <React.Fragment>
       <div className="page-content">
         <MetaTags>
-          <title>EnterMarket | Vendor</title>
+          <title>{obj.name} | EnterMarket  Vendor</title>
         </MetaTags>
         <Container fluid>
           {/* Render Breadcrumb */}
