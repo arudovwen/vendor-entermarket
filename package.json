@@ -2,6 +2,9 @@
   "name": "entermarket-react-hook",
   "version": "2.0.0",
   "private": true,
+  "engines": {
+    "node": "15.x"
+  },
   "dependencies": {
     "@ckeditor/ckeditor5-build-classic": "^31.0.0",
     "@ckeditor/ckeditor5-react": "^3.0.3",
