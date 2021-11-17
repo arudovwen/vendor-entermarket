@@ -1,5 +1,5 @@
 {
-  "name": "entermarket-react-hook",
+  "name": "entermarket-vendor",
   "version": "2.0.0",
   "private": true,
   "engines": {
@@ -104,44 +104,12 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts --max_old_space_size=8000 build",
+    "build": "react-scripts build",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
     "format": "prettier --write \"**/*.{js,jsx,json,md,html,css,less,scss}\"",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "eslint:recommended",
-      "plugin:react/recommended"
-    ],
-    "parser": "babel-eslint",
-    "parserOptions": {
-      "ecmaVersion": 2020,
-      "sourceType": "module",
-      "ecmaFeatures": {
-        "jsx": true
-      }
-    },
-    "env": {
-      "browser": true,
-      "es6": true
-    },
-    "globals": {
-      "$": true
-    },
-    "settings": {
-      "react": {
-        "version": "^17.0.1"
-      }
-    },
-    "rules": {
-      "semi": [
-        "error",
-        "never"
-      ]
-    }
   },
   "browserslist": {
     "production": [
