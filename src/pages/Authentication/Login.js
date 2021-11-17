@@ -19,16 +19,14 @@ import { loginUser, apiError } from "../../store/actions"
 import profile from "assets/images/profile-img.png"
 import logo from "assets/images/logo.png"
 const Login = props => {
-  const dispatch = useDispatch();
-  const token = localStorage.getItem('user-token')
+  const dispatch = useDispatch()
+  const token = localStorage.getItem("user-token")
 
   React.useEffect(() => {
-    if(token){
-      props.history.push('/dashboard')
+    if (token) {
+      props.history.push("/dashboard")
     }
-   
   }, [token])
-
 
   const { error } = useSelector(state => ({
     error: state.Login.error,
@@ -38,7 +36,6 @@ const Login = props => {
   const handleValidSubmit = (event, values) => {
     dispatch(loginUser(values, props.history))
   }
-
 
   return (
     <React.Fragment>
@@ -59,7 +56,11 @@ const Login = props => {
                   <Row>
                     <Col xs={7}>
                       <div className="text-primary p-4">
-                        <img className="text-primary mb-2" src={logo} height="40"  />
+                        <img
+                          className="text-primary mb-2"
+                          src={logo}
+                          height="40"
+                        />
                         <p>Sign in to your Dashboard.</p>
                       </div>
                     </Col>
