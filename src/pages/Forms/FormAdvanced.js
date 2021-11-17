@@ -15,8 +15,8 @@ import {
 } from "reactstrap"
 
 import { SketchPicker } from "react-color"
-import ColorPicker from "@vtaits/react-color-picker"
-import "@vtaits/react-color-picker/dist/index.css"
+// import ColorPicker from "@vtaits/react-color-picker"
+// import "@vtaits/react-color-picker/dist/index.css"
 import "react-datepicker/dist/react-datepicker.css"
 import Switch from "react-switch"
 import Select from "react-select"
@@ -480,7 +480,7 @@ const FormAdvanced = () => {
             </Col>
           </Row>
 
-          <Row>
+          {/* <Row>
             <Col lg="6">
               <Card>
                 <CardBody>
@@ -762,7 +762,7 @@ const FormAdvanced = () => {
                 </CardBody>
               </Card>
             </Col>
-          </Row>
+          </Row> */}
 
           <Row>
             <Col lg="6">
