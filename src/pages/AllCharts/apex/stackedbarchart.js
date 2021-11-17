@@ -1,10 +1,8 @@
 import React from "react"
 import ReactApexChart from "react-apexcharts"
 
-import React from 'react';
-
-const stackedbarchart = (props) => {
-  const options=  {
+const stackedbarchart = props => {
+  const options = {
     colors: ["#3c4ccf", "#f0f1f4"],
     chart: {
       stacked: true,
@@ -30,21 +28,10 @@ const stackedbarchart = (props) => {
 
     xaxis: {
       categories: [
-        2007,
-        2008,
-        2009,
-        2010,
-        2011,
-        2012,
-        2013,
-        2014,
-        2015,
-        2016,
-        2017,
-        2018,
+        2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
       ],
       labels: {
-        formatter: (val) => {
+        formatter: val => {
           return val
         },
       },
@@ -62,7 +49,7 @@ const stackedbarchart = (props) => {
     },
     tooltip: {
       y: {
-        formatter: (val) => {
+        formatter: val => {
           return val
         },
       },
@@ -77,7 +64,7 @@ const stackedbarchart = (props) => {
       horizontalAlign: "left",
       offsetX: 40,
     },
-  };
+  }
 
   const series = [
     {
@@ -88,18 +75,18 @@ const stackedbarchart = (props) => {
       name: "Series B",
       data: [180, 65, 90, 65, 90, 65, 40, 65, 40, 65, 90, 65],
     },
-  ];
+  ]
 
   return (
     <React.Fragment>
-        <ReactApexChart
-          options={options}
-          series={series}
-          type="bar"
-          height="290"
-        />
-      </React.Fragment>
-  );
+      <ReactApexChart
+        options={options}
+        series={series}
+        type="bar"
+        height="290"
+      />
+    </React.Fragment>
+  )
 }
 
 export default stackedbarchart
