@@ -16,19 +16,20 @@ const fireBaseBackend = getFirebaseBackend()
 
 function* loginUser({ payload: { user, history } }) {
   try {
-    const response = yield call(postLogin, {
-      email: user.email,
-      password: user.password,
-    })
-
-    localStorage.setItem("authUser", JSON.stringify(response.data))
-    localStorage.setItem("user-token", response.token)
-
-    yield put(loginSuccess(response))
-
-    window.location.href = "/dashboard"
+  
+      const response = yield call(postLogin, {
+        email: user.email,
+        password: user.password,
+      })
+     
+      localStorage.setItem("authUser", JSON.stringify(response.data))
+      localStorage.setItem("user-token", response.token)
+      
+      yield put(loginSuccess(response))
+    
+    history.push("/dashboard")
   } catch (error) {
-    console.log("error", error.response.data.message)
+    console.log('error',error.response.data.message)
     yield put(apiError(error.response.data.message))
   }
 }
@@ -48,7 +49,11 @@ function* socialLogin({ payload: { data, history, type } }) {
   try {
     if (process.env.REACT_APP_DEFAULTAUTH === "firebase") {
       const fireBaseBackend = getFirebaseBackend()
-      const response = yield call(fireBaseBackend.socialLoginUser, data, type)
+      const response = yield call(
+        fireBaseBackend.socialLoginUser,
+        data,
+        type,
+      )
       localStorage.setItem("authUser", JSON.stringify(response))
       yield put(loginSuccess(response))
     } else {
