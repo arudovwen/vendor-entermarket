@@ -23,7 +23,7 @@ const isUserAuthenticated = () => {
 // Register Method
 const postRegister = data => {
   return axios
-    .post("http://localhost:8000/api/stores", data)
+    .post(`${process.env.REACT_APP_URL}/stores`, data)
     .then(response => {
       if (response.status >= 200 || response.status <= 299) return response.data
       throw response.data
@@ -109,7 +109,8 @@ export const getBrands = store_id => get(`${url.FETCH_BRANDS}/${store_id}`)
 export const addNewBrand = data => post(url.ADD_NEW_BRAND, data, config)
 
 // update brand
-export const updateBrand = data => put(`${url.UPDATE_BRAND}/${data.id}`, data, config)
+export const updateBrand = data =>
+  put(`${url.UPDATE_BRAND}/${data.id}`, data, config)
 
 // delete brand
 export const deleteBrand = data => del(`${url.DELETE_BRAND}/${data.id}`, config)
