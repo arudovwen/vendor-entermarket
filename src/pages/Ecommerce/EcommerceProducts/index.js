@@ -12,6 +12,7 @@ import paginationFactory, {
 } from "react-bootstrap-table2-paginator"
 import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit"
 import * as moment from "moment"
+import axios from "axios"
 
 import {
   Button,
@@ -42,28 +43,27 @@ import {
   updateProduct as onUpdateProduct,
   deleteProduct as onDeleteProduct,
   getCategories as onGetCategories,
-  getBrands as onGetBrands
+  getBrands as onGetBrands,
 } from "store/actions"
 
 import EcommerceProductsModal from "./EcommerceProductsModal"
+import { toastr } from 'toastr';
 
 const EcommerceProducts = props => {
   const dispatch = useDispatch()
-  const store = JSON.parse(localStorage.getItem('authUser'))
+  const store = JSON.parse(localStorage.getItem("authUser"))
   const { products } = useSelector(state => ({
     products: state.ecommerce.products,
   }))
   const { status } = useSelector(state => ({
     status: state.ecommerce.status,
   }))
- 
-  useEffect(()=>{
-   
-    if(status==='ADD_PRODUCT_SUCCESS' ){
-     
+
+  useEffect(() => {
+    if (status === "ADD_PRODUCT_SUCCESS") {
       setModal(false)
     }
-  },[status])
+  }, [status])
   const { categories } = useSelector(state => ({
     categories: state.ecommerce.categories,
   }))
@@ -81,8 +81,13 @@ const EcommerceProducts = props => {
   const [categoriesList, setcategoriesList] = useState([])
   const [brandList, setbrandList] = useState([])
   const [selectedFiles, setselectedFiles] = useState([])
-
+   const [productImages, setproductImages] = useState([])
+   const [isuploading, setisuploading] = useState(false)
   const handleNewProduct = (e, values) => {
+    if(isuploading){
+      toastr.info('Upload still in progres')
+      return;
+    }
     var detail = {
       category_id: values["category_id"],
       brand_id: values["brand_id"],
@@ -91,7 +96,7 @@ const EcommerceProducts = props => {
       price: values["price"],
       sales_price: values["sales_price"],
       in_stock: values["in_stock"],
-      images: selectedFiles,
+      images: productImages,
     }
     dispatch(onAddNewProduct(detail))
   }
@@ -100,7 +105,8 @@ const EcommerceProducts = props => {
     dispatch(onUpdateProduct(product))
   }
 
-  const handleTableUpdate = (id, value, column) => {112
+  const handleTableUpdate = (id, value, column) => {
+
     var data = { id }
 
     switch (column) {
@@ -144,9 +150,9 @@ const EcommerceProducts = props => {
       text: " ID",
       sort: true,
       // eslint-disable-next-line react/display-name
-      formatter: (cellContent, row,index) => (
+      formatter: (cellContent, row, index) => (
         <Link to="#" className="text-body fw-bold">
-          {index+1}
+          {index + 1}
         </Link>
       ),
     },
@@ -334,7 +340,7 @@ const EcommerceProducts = props => {
     if (categories && !categories.length) {
       dispatch(onGetCategories(store.id))
     }
-  }, [dispatch, categories])
+  }, [dispatch])
 
   useEffect(() => {
     setcategoriesList(categories)
@@ -344,7 +350,7 @@ const EcommerceProducts = props => {
     if (brands && !brands.length) {
       dispatch(onGetBrands(store.id))
     }
-  }, [dispatch, brands])
+  }, [dispatch])
 
   useEffect(() => {
     setbrandList(brands)
@@ -440,6 +446,39 @@ const EcommerceProducts = props => {
     )
 
     setselectedFiles(files)
+  }
+  function handleUploadImages(images) {
+    setisuploading(true)
+   var imagefiles = []
+    handleAcceptedFiles(images)
+    // uploads is an array that would hold all the post methods for each image to be uploaded, then we'd use axios.all()
+    const uploads = images.map(image => {
+      // our formdata
+      const formData = new FormData()
+      formData.append("file", image)
+      formData.append("tags", "Products") // Add tags for the images - {Array}
+      formData.append(
+        "upload_preset",
+        process.env.REACT_APP_CLOUNDINARY_UPLOAD_PRESET
+      ) // Replace the preset name with your own
+      formData.append("api_key", process.env.REACT_APP_CLOUNDINARY_APIKEY) // Replace API key with your own Cloudinary API key
+      formData.append("timestamp", (Date.now() / 1000) | 0)
+
+      // Replace cloudinary upload URL with yours
+      return axios
+        .post(`${process.env.REACT_APP_CLOUNDINARY_URL}`, formData, {
+          headers: { "X-Requested-With": "XMLHttpRequest" },
+        })
+        .then(response => imagefiles.push(response.data.secure_url))
+
+    })
+
+    // We would use axios `.all()` method to perform concurrent image upload to cloudinary.
+    axios.all(uploads).then(() => {
+      // ... do anything after successful upload. You can setState() or save the data
+      setproductImages(imagefiles)
+       setisuploading(false)
+    })
   }
 
   function formatBytes(bytes, decimals = 2) {
@@ -550,7 +589,6 @@ const EcommerceProducts = props => {
                                     <AvForm onValidSubmit={handleNewProduct}>
                                       <Row form>
                                         <Col className="col-12">
-                                         
                                           <div className="mb-3">
                                             <AvField
                                               name="product_name"
@@ -629,7 +667,7 @@ const EcommerceProducts = props => {
                                           <div className="mb-3">
                                             <AvField
                                               name="in_stock"
-                                              label="Available"
+                                              label="In Stock"
                                               type="number"
                                               errorMessage="Invalid Total"
                                               validate={{
@@ -669,10 +707,8 @@ const EcommerceProducts = props => {
                                               </CardTitle>
 
                                               <Dropzone
-                                                onDrop={acceptedFiles => {
-                                                  handleAcceptedFiles(
-                                                    acceptedFiles
-                                                  )
+                                                onDrop={images => {
+                                                  handleUploadImages(images)
                                                 }}
                                               >
                                                 {({

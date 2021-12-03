@@ -18,6 +18,7 @@ axiosApi.interceptors.response.use(
 )
 
 export async function get(url, config = {}) {
+
   return await axiosApi.get(url, { ...config }).then(response => response.data)
 }
 

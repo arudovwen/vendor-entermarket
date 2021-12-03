@@ -135,7 +135,7 @@ function* fetchBrands({ store_id }) {
 function* onDeleteBrand({ payload: brand }) {
   try {
     const response = yield call(onDeleteBrandApi, brand)
-   
+
     yield put(deleteBrandSuccess(response))
   } catch (error) {
     yield put(deleteBrandFail(error))
@@ -171,7 +171,7 @@ function* fetchCategories({ store_id }) {
 function* onDeleteCategory({ payload: category }) {
   try {
     const response = yield call(onDeleteCategoryApi, category)
-   
+
     yield put(deleteCategorySuccess(response))
   } catch (error) {
     yield put(deleteCategoryFail(error))
@@ -196,7 +196,7 @@ function* onUpdateCategory({ payload }) {
 }
 function* fetchProducts({ store_id }) {
   try {
-    const response = yield call(getProducts, { store_id })
+    const response = yield call(getProducts)
 
     yield put(getProductsSuccess(response))
   } catch (error) {
@@ -206,7 +206,7 @@ function* fetchProducts({ store_id }) {
 function* onDeleteProduct({ payload: product }) {
   try {
     const response = yield call(deleteProduct, product)
-   
+
     yield put(deleteProductSuccess(response))
   } catch (error) {
     yield put(deleteProductFail(error))
@@ -243,7 +243,7 @@ function* fetchProductDetail({ productId }) {
 function* fetchOrders() {
   try {
     const response = yield call(getOrders)
-   
+
     yield put(getOrdersSuccess(response))
   } catch (error) {
     yield put(getOrdersFail(error))

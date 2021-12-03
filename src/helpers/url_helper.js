@@ -24,7 +24,7 @@ export const ADD_NEW_CATEGORY = "/categories"
 export const UPDATE_CATEGORY = "/categories"
 export const DELETE_CATEGORY = "/categories"
 //PRODUCTS
-export const GET_PRODUCTS = "/store/products/all"
+export const GET_PRODUCTS = "/store/get/products"
 export const ADD_NEW_PRODUCT = "/product/add"
 export const DELETE_PRODUCT = "/products"
 export const UPDATE_PRODUCT = "/products"

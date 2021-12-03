@@ -131,7 +131,7 @@ export const deleteCategory = data =>
   del(`${url.DELETE_CATEGORY}/${data.id}`, config)
 
 // get Products
-export const getProducts = data => post(url.GET_PRODUCTS, data)
+export const getProducts = () => get(url.GET_PRODUCTS, config)
 
 // add product
 export const addNewProduct = data => post(url.ADD_NEW_PRODUCT, data, config)
