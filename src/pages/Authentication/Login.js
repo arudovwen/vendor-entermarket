@@ -27,13 +27,16 @@ const Login = props => {
       props.history.push("/dashboard")
     }
   }, [token])
-
+   const { loading } = useSelector(state => ({
+     loading: state.Login.loading,
+   }))
   const { error } = useSelector(state => ({
     error: state.Login.error,
   }))
 
   // handleValidSubmit
   const handleValidSubmit = (event, values) => {
+
     dispatch(loginUser(values, props.history))
   }
 
@@ -121,7 +124,7 @@ const Login = props => {
                           className="btn btn-primary btn-block"
                           type="submit"
                         >
-                          Log In
+                          Log In {loading?<i className="fa fa-spinner fa-spin" aria-hidden="true"></i>:''}
                         </button>
                       </div>
 

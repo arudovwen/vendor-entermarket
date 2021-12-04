@@ -41,7 +41,7 @@ const UiDrawer = () => {
     <React.Fragment>
       <div className="page-content">
         <MetaTags>
-          <title>Drawer | EnterMarket - React Admin & Dashboard Template</title>
+          <title>Drawer | EnterMarket -</title>
         </MetaTags>
         <div className="container-fluid">
           <Breadcrumbs title="Ui Elements" breadcrumbItem="Drawer" />

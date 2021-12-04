@@ -43,7 +43,7 @@ const InvoiceDetail = props => {
       <div className="page-content">
         <MetaTags>
           <title>
-            Invoice Detail | EnterMarket - React Admin & Dashboard Template
+            Invoice Detail | EnterMarket -
           </title>
         </MetaTags>
         <Container fluid>

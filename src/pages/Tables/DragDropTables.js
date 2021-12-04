@@ -79,7 +79,7 @@ const DragDropTables = () => {
       <div className="page-content">
         <MetaTags>
           <title>
-            Drag & Drop Tables | EnterMarket - React Admin & Dashboard Template
+            Drag & Drop Tables | EnterMarket -
           </title>
         </MetaTags>
         <div className="container-fluid">

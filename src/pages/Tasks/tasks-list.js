@@ -34,7 +34,7 @@ const TasksList = props => {
       <div className="page-content">
         <MetaTags>
           <title>
-            Task List | EnterMarket - React Admin & Dashboard Template
+            Task List | EnterMarket -
           </title>
         </MetaTags>
         <Container fluid>

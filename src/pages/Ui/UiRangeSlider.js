@@ -42,7 +42,7 @@ const UiRangeSlider = () => {
       <div className="page-content">
         <MetaTags>
           <title>
-            Range Slider | EnterMarket - React Admin & Dashboard Template
+            Range Slider | EnterMarket -
           </title>
         </MetaTags>
         <Container fluid={true}>

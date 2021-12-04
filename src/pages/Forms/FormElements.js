@@ -34,7 +34,7 @@ const FormElements = () => {
       <div className="page-content">
         <MetaTags>
           <title>
-            Form Elements | EnterMarket - React Admin & Dashboard Template
+            Form Elements | EnterMarket -
           </title>
         </MetaTags>
         <Container fluid={true}>

@@ -57,7 +57,7 @@ const IconBoxicons = props => {
       <div className="page-content">
         <MetaTags>
           <title>
-            Boxicons | EnterMarket - React Admin & Dashboard Template
+            Boxicons | EnterMarket -
           </title>
         </MetaTags>
         <Container fluid={true}>

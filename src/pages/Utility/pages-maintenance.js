@@ -16,7 +16,7 @@ const PagesMaintenance = () => {
       <section className="my-5 pt-sm-5">
         <MetaTags>
           <title>
-            Maintenance | EnterMarket - React Admin & Dashboard Template
+            Maintenance | EnterMarket -
           </title>
         </MetaTags>
         <Container>

@@ -13,7 +13,7 @@ const EmailVerification = () => {
       <div className="account-pages my-5 pt-sm-5">
         <MetaTags>
           <title>
-            Email Verification | EnterMarket - React Admin & Dashboard Template
+            Email Verification | EnterMarket -
           </title>
         </MetaTags>
         <Container>

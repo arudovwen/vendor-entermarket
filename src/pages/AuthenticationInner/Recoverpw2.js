@@ -15,7 +15,7 @@ const Recoverpw2 = () => {
       <div>
         <MetaTags>
           <title>
-            Recover Password 2 | EnterMarket - React Admin & Dashboard Template
+            Recover Password 2 | EnterMarket -
           </title>
         </MetaTags>
         <Container fluid className="p-0">

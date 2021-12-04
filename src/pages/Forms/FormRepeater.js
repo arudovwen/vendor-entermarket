@@ -52,7 +52,7 @@ const FormRepeater = () => {
       <div className="page-content">
         <MetaTags>
           <title>
-            Form Repeater | EnterMarket - React Admin & Dashboard Template
+            Form Repeater | EnterMarket -
           </title>
         </MetaTags>
         <Container fluid={true}>

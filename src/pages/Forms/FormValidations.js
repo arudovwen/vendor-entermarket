@@ -85,7 +85,7 @@ const FormValidations = () => {
       <div className="page-content">
         <MetaTags>
           <title>
-            Form Validation | EnterMarket - React Admin & Dashboard Template
+            Form Validation | EnterMarket -
           </title>
         </MetaTags>
         <Container fluid={true}>

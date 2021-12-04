@@ -24,7 +24,7 @@ const FormLayouts = props => {
       <div className="page-content">
         <MetaTags>
           <title>
-            Form Layouts | EnterMarket - React Admin & Dashboard Template
+            Form Layouts | EnterMarket -
           </title>
         </MetaTags>
         <Container fluid={true}>

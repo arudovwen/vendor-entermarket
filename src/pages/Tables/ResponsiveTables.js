@@ -13,7 +13,7 @@ const ResponsiveTables = () => {
       <div className="page-content">
         <MetaTags>
           <title>
-            Responsive Table | EnterMarket - React Admin & Dashboard Template
+            Responsive Table | EnterMarket -
           </title>
         </MetaTags>
         <div className="container-fluid">

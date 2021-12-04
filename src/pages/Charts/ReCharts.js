@@ -20,7 +20,7 @@ const ReCharts = () => {
         <div className="page-content">
           <MetaTags>
             <title>
-              Re Chart | EnterMarket - React Admin & Dashboard Template
+              Re Chart | EnterMarket -
             </title>
           </MetaTags>
           <div className="container-fluid">

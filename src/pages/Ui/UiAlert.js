@@ -21,7 +21,7 @@ const UiAlert = () => {
     <React.Fragment>
       <div className="page-content">
         <MetaTags>
-          <title>Alerts | EnterMarket - React Admin & Dashboard Template</title>
+          <title>Alerts | EnterMarket -</title>
         </MetaTags>
         <Container fluid={true}>
           <Breadcrumbs title="UI Elements" breadcrumbItem="Alerts" />

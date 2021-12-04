@@ -73,7 +73,7 @@ class UiSessionTimeout extends Component {
         <div className="page-content">
           <MetaTags>
             <title>
-              Session Timeout | EnterMarket - React Admin & Dashboard Template
+              Session Timeout | EnterMarket -
             </title>
           </MetaTags>
           <Container fluid={true}>

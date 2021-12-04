@@ -19,7 +19,7 @@ const SparklineChart = () => {
       <div className="page-content">
         <MetaTags>
           <title>
-            Sparkline Charts | EnterMarket - React Admin & Dashboard Template
+            Sparkline Charts | EnterMarket -
           </title>
         </MetaTags>
         <div className="container-fluid">

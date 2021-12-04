@@ -273,7 +273,7 @@ const EcommerceCustomers = props => {
       <div className="page-content">
         <MetaTags>
           <title>
-            Customers | EnterMarket - React Admin & Dashboard Template
+            Customers | EnterMarket -
           </title>
         </MetaTags>
         <Container fluid>

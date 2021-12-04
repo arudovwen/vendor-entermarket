@@ -14,7 +14,7 @@ const Register = () => {
   return (
     <React.Fragment>
       <MetaTags>
-        <title>Register | EnterMarket - React Admin & Dashboard Template</title>
+        <title>Register | EnterMarket -</title>
       </MetaTags>
       <div className="home-btn d-none d-sm-block">
         <Link to="/" className="text-dark">

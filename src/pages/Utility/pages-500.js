@@ -12,7 +12,7 @@ const Pages500 = () => {
       <div className="account-pages my-5 pt-5">
         <MetaTags>
           <title>
-            500 Error Page | EnterMarket - React Admin & Dashboard Template
+            500 Error Page | EnterMarket -
           </title>
         </MetaTags>
         <Container>

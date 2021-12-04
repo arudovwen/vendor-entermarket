@@ -21,7 +21,7 @@ const UiProgressbar = () => {
       <div className="page-content">
         <MetaTags>
           <title>
-            Progress Bars | EnterMarket - React Admin & Dashboard Template
+            Progress Bars | EnterMarket -
           </title>
         </MetaTags>
         <Container fluid={true}>

@@ -12,7 +12,7 @@ const ConfirmMail = () => {
     <React.Fragment>
       <MetaTags>
         <title>
-          Confirm Mail | EnterMarket - React Admin & Dashboard Template
+          Confirm Mail | EnterMarket -
         </title>
       </MetaTags>
       <div className="account-pages my-5 pt-sm-5">

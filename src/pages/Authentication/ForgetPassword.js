@@ -34,7 +34,7 @@ const ForgetPasswordPage = props => {
     <React.Fragment>
       <MetaTags>
         <title>
-          Forget Password | EnterMarket - React Admin & Dashboard Template
+          Forget Password | EnterMarket -
         </title>
       </MetaTags>
       <div className="home-btn d-none d-sm-block">

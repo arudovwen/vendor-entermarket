@@ -26,7 +26,7 @@ const UiCarousel = () => {
       <div className="page-content">
         <MetaTags>
           <title>
-            Carousel | EnterMarket - React Admin & Dashboard Template
+            Carousel | EnterMarket -
           </title>
         </MetaTags>
         <Container fluid={true}>

@@ -48,7 +48,7 @@ const FormUpload = () => {
       <div className="page-content">
         <MetaTags>
           <title>
-            Form File Upload | EnterMarket - React Admin & Dashboard Template
+            Form File Upload | EnterMarket -
           </title>
         </MetaTags>
         <Container fluid={true}>

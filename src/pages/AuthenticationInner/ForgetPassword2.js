@@ -15,7 +15,7 @@ const ForgetPassword2 = () => {
       <div>
         <MetaTags>
           <title>
-            Forget Password 2 | EnterMarket - React Admin & Dashboard Template
+            Forget Password 2 | EnterMarket -
           </title>
         </MetaTags>
         <Container fluid className="p-0">

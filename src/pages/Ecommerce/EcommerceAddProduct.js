@@ -60,7 +60,7 @@ const EcommerceAddProduct = () => {
       <div className="page-content">
         <MetaTags>
           <title>
-            Add Product | EnterMarket - React Admin & Dashboard Template
+            Add Product | EnterMarket -
           </title>
         </MetaTags>
         <Container fluid>

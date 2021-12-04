@@ -16,7 +16,7 @@ const Login2 = () => {
       <div>
         <MetaTags>
           <title>
-            Login 2 | EnterMarket - React Admin & Dashboard Template
+            Login 2 | EnterMarket -
           </title>
         </MetaTags>
         <Container fluid className="p-0">

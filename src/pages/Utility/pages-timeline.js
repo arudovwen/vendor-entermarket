@@ -43,7 +43,7 @@ const PagesTimeline = () => {
       <div className="page-content">
         <MetaTags>
           <title>
-            Timeline | EnterMarket - React Admin & Dashboard Template
+            Timeline | EnterMarket -
           </title>
         </MetaTags>
         <div className="container-fluid">

@@ -40,7 +40,7 @@ const UiRating = () => {
     <React.Fragment>
       <div className="page-content">
         <MetaTags>
-          <title>Rating | EnterMarket - React Admin & Dashboard Template</title>
+          <title>Rating | EnterMarket -</title>
         </MetaTags>
         <Container fluid={true}>
           <Breadcrumbs title="UI Elements" breadcrumbItem="Rating" />

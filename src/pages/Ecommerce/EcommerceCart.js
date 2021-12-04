@@ -115,7 +115,7 @@ const EcommerceCart = () => {
     <React.Fragment>
       <div className="page-content">
         <MetaTags>
-          <title>Cart | EnterMarket - React Admin & Dashboard Template</title>
+          <title>Cart | EnterMarket -</title>
         </MetaTags>
         <Container fluid>
           <Breadcrumbs title="Ecommerce" breadcrumbItem="Cart" />

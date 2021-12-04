@@ -30,7 +30,7 @@ const EcommerceShops = props => {
     <React.Fragment>
       <div className="page-content">
         <MetaTags>
-          <title>Shops | EnterMarket - React Admin & Dashboard Template</title>
+          <title>Shops | EnterMarket -</title>
         </MetaTags>
         <Container fluid>
           {/* Render Breadcrumb */}

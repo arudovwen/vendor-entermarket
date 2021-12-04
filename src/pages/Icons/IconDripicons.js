@@ -12,7 +12,7 @@ const IconDripicons = () => {
       <div className="page-content">
         <MetaTags>
           <title>
-            Dripicons | EnterMarket - React Admin & Dashboard Template
+            Dripicons | EnterMarket -
           </title>
         </MetaTags>
         <Container fluid>

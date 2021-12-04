@@ -11,7 +11,7 @@ const PagesStarter = () => {
       <div className="page-content">
         <MetaTags>
           <title>
-            Starter Page | EnterMarket - React Admin & Dashboard Template
+            Starter Page | EnterMarket -
           </title>
         </MetaTags>
         <Container fluid>

@@ -32,7 +32,7 @@ const ChartsKnob = () => {
       <div className="page-content">
         <MetaTags>
           <title>
-            Jquery Knob charts | EnterMarket - React Admin & Dashboard Template
+            Jquery Knob charts | EnterMarket -
           </title>
         </MetaTags>
         <Container fluid>

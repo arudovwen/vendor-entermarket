@@ -20,7 +20,7 @@ const BasicTable = () => {
       <div className="page-content">
         <MetaTags>
           <title>
-            Basic Tables | EnterMarket - React Admin & Dashboard Template
+            Basic Tables | EnterMarket -
           </title>
         </MetaTags>
         <div className="container-fluid">

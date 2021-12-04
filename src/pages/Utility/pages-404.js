@@ -12,7 +12,7 @@ const Pages404 = () => {
       <div className="account-pages my-5 pt-5">
         <MetaTags>
           <title>
-            404 Error Page | EnterMarket - React Admin & Dashboard Template
+            404 Error Page | EnterMarket -
           </title>
         </MetaTags>
         <Container>

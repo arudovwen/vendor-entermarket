@@ -38,7 +38,7 @@ const FormXeditable = () => {
       <div className="page-content">
         <MetaTags>
           <title>
-            Form Xeditable | EnterMarket - React Admin & Dashboard Template
+            Form Xeditable | EnterMarket -
           </title>
         </MetaTags>
         <Container fluid={true}>

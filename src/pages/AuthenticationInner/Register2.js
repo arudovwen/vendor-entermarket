@@ -16,7 +16,7 @@ const Register2 = () => {
       <div>
         <MetaTags>
           <title>
-            Register 2 | EnterMarket - React Admin & Dashboard Template
+            Register 2 | EnterMarket -
           </title>
         </MetaTags>
         <Container fluid className="p-0">

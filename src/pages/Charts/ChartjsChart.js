@@ -19,7 +19,7 @@ const ChartjsChart = () => {
       <div className="page-content">
         <MetaTags>
           <title>
-            Chartjs Charts | EnterMarket - React Admin & Dashboard Template
+            Chartjs Charts | EnterMarket -
           </title>
         </MetaTags>
         <Container fluid={true}>

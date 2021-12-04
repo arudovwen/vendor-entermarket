@@ -51,7 +51,7 @@ const UiDropdown = () => {
       <div className="page-content">
         <MetaTags>
           <title>
-            Dropdowns | EnterMarket - React Admin & Dashboard Template
+            Dropdowns | EnterMarket -
           </title>
         </MetaTags>
         <Container fluid={true}>

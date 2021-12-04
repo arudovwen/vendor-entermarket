@@ -24,7 +24,7 @@ const Apexchart = () => {
       <div className="page-content">
         <MetaTags>
           <title>
-            Apex Charts | EnterMarket - React Admin & Dashboard Template
+            Apex Charts | EnterMarket -
           </title>
         </MetaTags>
         <div className="container-fluid">

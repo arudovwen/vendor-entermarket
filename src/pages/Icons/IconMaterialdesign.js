@@ -29328,7 +29328,7 @@ const IconMaterialdesign = props => {
       <div className="page-content">
         <MetaTags>
           <title>
-            Material Design | EnterMarket - React Admin & Dashboard Template
+            Material Design | EnterMarket -
           </title>
         </MetaTags>
         <Container fluid>

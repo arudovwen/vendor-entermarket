@@ -36,7 +36,7 @@ const TasksKanban = props => {
       <div className="page-content">
         <MetaTags>
           <title>
-            Kanban Board | EnterMarket - React Admin & Dashboard Template
+            Kanban Board | EnterMarket -
           </title>
         </MetaTags>
         <Container fluid>

@@ -56,7 +56,7 @@ const FormWizard = () => {
       <div className="page-content">
         <MetaTags>
           <title>
-            Form Wizard | EnterMarket - React Admin & Dashboard Template
+            Form Wizard | EnterMarket -
           </title>
         </MetaTags>
         <Container fluid={true}>

@@ -19,7 +19,7 @@ const LockScreen2 = props => {
       <div>
         <MetaTags>
           <title>
-            Lock Screen 2 | EnterMarket - React Admin & Dashboard Template
+            Lock Screen 2 | EnterMarket -
           </title>
         </MetaTags>
         <Container fluid className="p-0">

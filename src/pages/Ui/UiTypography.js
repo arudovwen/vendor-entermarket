@@ -19,7 +19,7 @@ const UiTypography = () => {
       <div className="page-content">
         <MetaTags>
           <title>
-            Typography | EnterMarket - React Admin & Dashboard Template
+            Typography | EnterMarket -
           </title>
         </MetaTags>
         <Container fluid={true}>

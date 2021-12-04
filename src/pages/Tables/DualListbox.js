@@ -105,7 +105,7 @@ class DualListbox extends Component {
         <div className="page-content">
           <MetaTags>
             <title>
-              Transfer List | EnterMarket - React Admin & Dashboard Template
+              Transfer List | EnterMarket -
             </title>
           </MetaTags>
           <div className="container-fluid">

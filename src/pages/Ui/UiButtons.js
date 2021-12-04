@@ -22,7 +22,7 @@ const UiButtons = () => {
       <div className="page-content">
         <MetaTags>
           <title>
-            Buttons | EnterMarket - React Admin & Dashboard Template
+            Buttons | EnterMarket -
           </title>
         </MetaTags>
         <Container fluid={true}>

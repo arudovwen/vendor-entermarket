@@ -52,7 +52,7 @@ const UiLightbox = () => {
       <div className="page-content">
         <MetaTags>
           <title>
-            Lightbox | EnterMarket - React Admin & Dashboard Template
+            Lightbox | EnterMarket -
           </title>
         </MetaTags>
         <Container fluid={true}>

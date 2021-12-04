@@ -1,7 +1,7 @@
 import React, { useEffect } from "react"
 import MetaTags from "react-meta-tags"
-import { Row, Col, CardBody, Card, Alert, Container } from "reactstrap"
-import Dropzone from "react-dropzone"
+import { Row, Col, CardBody, Card, Alert, Container, Input } from "reactstrap"
+
 // availity-reactstrap-validation
 import { AvForm, AvField } from "availity-reactstrap-validation"
 
@@ -15,20 +15,22 @@ import { Link, useHistory } from "react-router-dom"
 
 // import images
 import profileImg from "../../assets/images/profile-img.png"
-
+import axios from "axios"
 import logo from "assets/images/logo.png"
 const Register = props => {
   const dispatch = useDispatch()
   const history = useHistory()
-  const [selectedFiles, setselectedFiles] = React.useState([])
-  const token = localStorage.getItem('user-token')
+  const [selectedFiles, setselectedFiles] = React.useState(null)
+  const token = localStorage.getItem("user-token")
+  const [productImages, setproductImages] = React.useState(null)
+  const [isuploading, setisuploading] = React.useState(false)
 
-  React.useEffect(() => {
-    if(token){
-      history.push('/dashboard')
-    }
-   
-  }, [token])
+  // React.useEffect(() => {
+  //   if(token){
+  //     history.push('/dashboard')
+  //   }
+
+  // }, [token])
 
   const { user, registrationError, loading } = useSelector(state => ({
     user: state.Account.user,
@@ -38,34 +40,35 @@ const Register = props => {
 
   // handleValidSubmit
   const handleValidSubmit = values => {
-    var data  = {
-      name:values['name'],
-      password: values['password'],
-      email: values['email'],
-      location:values['location'],
-      images: selectedFiles,
+    if(isuploading){
+      return;
+    }
+    var data = {
+      name: values["name"],
+      password: values["password"],
+      email: values["email"],
+      location: values["location"],
+      image: productImages,
     }
     dispatch(registerUser(data))
   }
- useEffect(() => {
-    if(user){
-      history.push('/login')
+  useEffect(() => {
+    if (user) {
+      history.push("/login")
     }
+  }, [user])
 
-   }, [user])
-  
   useEffect(() => {
     dispatch(apiError(""))
   }, [])
-  function handleAcceptedFiles(files) {
-    files.map(file =>
-      Object.assign(file, {
-        preview: URL.createObjectURL(file),
-        formattedSize: formatBytes(file.size),
-      })
-    )
 
-    setselectedFiles(files)
+  function handleAcceptedFiles(file) {
+    var file = {
+      preview: URL.createObjectURL(file),
+      formattedSize: formatBytes(file.size),
+    }
+
+    setselectedFiles(file)
   }
 
   function formatBytes(bytes, decimals = 2) {
@@ -76,6 +79,33 @@ const Register = props => {
 
     const i = Math.floor(Math.log(bytes) / Math.log(k))
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i]
+  }
+  function handleUploadImages(e) {
+    setisuploading(true)
+
+    // uploads is an array that would hold all the post methods for each image to be uploaded, then we'd use axios.all()
+    var image = e.target.files[0]
+    handleAcceptedFiles(image)
+    // our formdata
+    const formData = new FormData()
+    formData.append("file", image)
+    formData.append("tags", "storeImage") // Add tags for the images - {Array}
+    formData.append(
+      "upload_preset",
+      process.env.REACT_APP_CLOUNDINARY_UPLOAD_PRESET
+    ) // Replace the preset name with your own
+    formData.append("api_key", process.env.REACT_APP_CLOUNDINARY_APIKEY) // Replace API key with your own Cloudinary API key
+    formData.append("timestamp", (Date.now() / 1000) | 0)
+
+    // Replace cloudinary upload URL with yours
+    axios
+      .post(`${process.env.REACT_APP_CLOUNDINARY_URL}`, formData, {
+        headers: { "X-Requested-With": "XMLHttpRequest" },
+      })
+      .then(response => {
+        setproductImages(response.data.secure_url)
+        setisuploading(false)
+      })
   }
 
   return (
@@ -97,7 +127,11 @@ const Register = props => {
                   <Row>
                     <Col className="col-7">
                       <div className="text-primary p-4">
-                      <img className="text-primary mb-2" src={logo} height="40"  />
+                        <img
+                          className="text-primary mb-2"
+                          src={logo}
+                          height="40"
+                        />
                         <p>Get started today.</p>
                       </div>
                     </Col>
@@ -107,7 +141,6 @@ const Register = props => {
                   </Row>
                 </div>
                 <CardBody className="pt-0">
-                  
                   <div className="p-2 mt-4">
                     <AvForm
                       className="form-horizontal"
@@ -116,9 +149,7 @@ const Register = props => {
                       }}
                     >
                       {user && user ? (
-                        <Alert color="success">
-                          Registration Successful
-                        </Alert>
+                        <Alert color="success">Registration Successful</Alert>
                       ) : null}
 
                       {registrationError && registrationError ? (
@@ -161,96 +192,72 @@ const Register = props => {
                           label="Store location"
                           type="text"
                           required
-                          placeholder="Enter location e.g Lekki"
+                          placeholder="Enter location e.g 10, Admiralty way, lekki, Lagos, Nigeria"
                         />
                       </div>
 
-                   
-                                          <div>
-                                            <label>Upload Store Image</label>
-                                            <Dropzone
-                                                onDrop={acceptedFiles => {
-                                                  handleAcceptedFiles(
-                                                    acceptedFiles
-                                                  )
-                                                }}
-                                              >
-                                                {({
-                                                  getRootProps,
-                                                  getInputProps,
-                                                }) => (
-                                                  <div className="dropzone">
-                                                    <div
-                                                      className="dz-message needsclick"
-                                                      {...getRootProps()}
-                                                    >
-                                                      <input
-                                                        {...getInputProps()}
-                                                      />
-                                                      <div className="dz-message needsclick">
-                                                        <div className="mb-3">
-                                                          <i className="display-4 text-muted bx bxs-cloud-upload" />
-                                                        </div>
-                                                        <h4>
-                                                          Drop files here or
-                                                          click to upload.
-                                                        </h4>
-                                                      </div>
-                                                    </div>
-                                                  </div>
-                                                )}
-                                              </Dropzone>
-                                              <div
-                                                className="dropzone-previews mt-3"
-                                                id="file-previews"
-                                              >
-                                                {selectedFiles.map((f, i) => {
-                                                  return (
-                                                    <Card
-                                                      className="mt-1 mb-0 shadow-none border dz-processing dz-image-preview dz-success dz-complete"
-                                                      key={i + "-file"}
-                                                    >
-                                                      <div className="p-2">
-                                                        <Row className="align-items-center">
-                                                          <Col className="col-auto">
-                                                            <img
-                                                              data-dz-thumbnail=""
-                                                              height="80"
-                                                              className="avatar-sm rounded bg-light"
-                                                              alt={f.name}
-                                                              src={f.preview}
-                                                            />
-                                                          </Col>
-                                                          <Col>
-                                                            <Link
-                                                              to="#"
-                                                              className="text-muted font-weight-bold"
-                                                            >
-                                                              {f.name}
-                                                            </Link>
-                                                            <p className="mb-0">
-                                                              <strong>
-                                                                {
-                                                                  f.formattedSize
-                                                                }
-                                                              </strong>
-                                                            </p>
-                                                          </Col>
-                                                        </Row>
-                                                      </div>
-                                                    </Card>
-                                                  )
-                                                })}
-                                              </div>
-                                          
+                      <div>
+                        <label>Upload Store Image</label>
+                        <Input
+                          type="file"
+                          className="form-control"
+                          id="inputGroupFile01"
+                          onChange={handleUploadImages}
+                        />
 
-                                          </div>
+                        <div
+                          className="dropzone-previews mt-3"
+                          id="file-previews"
+                        >
+                          {selectedFiles ? (
+                            <Card className="mt-1 mb-0 shadow-none border dz-processing dz-image-preview dz-success dz-complete">
+                              <div className="p-2">
+                                <Row className="align-items-center">
+                                  <Col className="col-auto">
+                                    <img
+                                      data-dz-thumbnail=""
+                                      height="80"
+                                      className="avatar-sm rounded bg-light"
+                                      alt={selectedFiles.name}
+                                      src={selectedFiles.preview}
+                                    />
+                                  </Col>
+                                  <Col>
+                                    <Link
+                                      to="#"
+                                      className="text-muted font-weight-bold"
+                                    >
+                                      {selectedFiles.name}
+                                    </Link>
+                                    <p className="mb-0">
+                                      <strong>
+                                        {selectedFiles.formattedSize}
+                                      </strong>
+                                    </p>
+                                  </Col>
+                                  <Col>{isuploading?<i className="fa fa-spinner fa-spin fa-3x" aria-hidden="true"></i>: <i className="fa fa-check-circle fa-2x text-primary" aria-hidden="true"></i>}</Col>
+                                </Row>
+                              </div>
+                            </Card>
+                          ) : (
+                            ""
+                          )}
+                        </div>
+                      </div>
                       <div className="mt-4">
                         <button
                           className="btn btn-primary btn-block "
                           type="submit"
                         >
-                          Register
+                          Register{" "}
+                          {loading ? (
+                            <i
+                              className="fa fa-spinner fa-spin"
+                              aria-hidden="true"
+                            ></i>
+                          ) : (
+                            ""
+                          )}
                         </button>
                       </div>
 

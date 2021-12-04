@@ -17,7 +17,7 @@ const LockScreen = () => {
     <React.Fragment>
       <MetaTags>
         <title>
-          Lock Screen | EnterMarket - React Admin & Dashboard Template
+          Lock Screen | EnterMarket -
         </title>
       </MetaTags>
       <div className="home-btn d-none d-sm-block">

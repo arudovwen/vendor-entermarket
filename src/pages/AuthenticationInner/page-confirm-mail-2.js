@@ -14,7 +14,7 @@ const ConfirmMail2 = () => {
       <div>
         <MetaTags>
           <title>
-            Confirm Mail 2 | EnterMarket - React Admin & Dashboard Template
+            Confirm Mail 2 | EnterMarket -
           </title>
         </MetaTags>
         <Container fluid className="p-0">

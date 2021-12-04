@@ -113,7 +113,7 @@ const FormMask = () => {
       <div className="page-content">
         <MetaTags>
           <title>
-            Form Mask | EnterMarket - React Admin & Dashboard Template
+            Form Mask | EnterMarket -
           </title>
         </MetaTags>
         <Container fluid={true}>

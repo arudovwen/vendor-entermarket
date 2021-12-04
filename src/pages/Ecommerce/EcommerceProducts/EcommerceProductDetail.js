@@ -133,7 +133,7 @@ const EcommerceProductDetail = props => {
       <div className="page-content">
         <MetaTags>
           <title>
-            Product Detail | EnterMarket - React Admin & Dashboard Template
+            Product Detail | EnterMarket -
           </title>
         </MetaTags>
         <Container fluid>

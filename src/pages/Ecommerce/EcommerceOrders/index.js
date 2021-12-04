@@ -106,16 +106,16 @@ const EcommerceOrders = props => {
       text: "Subtotal",
       sort: true,
     },
-    
-  
+
+
   ]
 
   useEffect(() => {
     if (orders && !orders.length) {
-     
+
       dispatch(onGetOrders())
     }
- 
+
   }, [dispatch, orders])
 
   useEffect(() => {
@@ -231,7 +231,7 @@ const EcommerceOrders = props => {
       <EcommerceOrdersModal isOpen={modal1} toggle={toggleViewModal} />
       <div className="page-content">
         <MetaTags>
-          <title>Orders | EnterMarket - React Admin & Dashboard Template</title>
+          <title>Orders | EnterMarket -</title>
         </MetaTags>
         <Container fluid>
           <Breadcrumbs title="Ecommerce" breadcrumbItem="Orders" />
@@ -264,7 +264,7 @@ const EcommerceOrders = props => {
                                   </div>
                                 </div>
                               </Col>
-                            
+
                             </Row>
                             <Row>
                               <Col xl="12">

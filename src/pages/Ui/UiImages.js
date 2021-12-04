@@ -32,7 +32,7 @@ const UiImages = () => {
     <React.Fragment>
       <div className="page-content">
         <MetaTags>
-          <title>Images | EnterMarket - React Admin & Dashboard Template</title>
+          <title>Images | EnterMarket -</title>
         </MetaTags>
         <Container fluid={true}>
           <Breadcrumbs title="UI Elements" breadcrumbItem="Images" />

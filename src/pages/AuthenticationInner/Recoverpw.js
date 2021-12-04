@@ -14,7 +14,7 @@ const Recoverpw = () => {
       <div className="account-pages my-5 pt-sm-5">
         <MetaTags>
           <title>
-            Recover Password | EnterMarket - React Admin & Dashboard Template
+            Recover Password | EnterMarket -
           </title>
         </MetaTags>
         <Container>

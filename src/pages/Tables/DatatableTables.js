@@ -393,7 +393,7 @@ const DatatableTables = () => {
       <div className="page-content">
         <MetaTags>
           <title>
-            Data Tables | EnterMarket - React Admin & Dashboard Template
+            Data Tables | EnterMarket -
           </title>
         </MetaTags>
         <div className="container-fluid">

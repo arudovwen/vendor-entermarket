@@ -39,7 +39,7 @@ const PagesComingsoon = () => {
     <React.Fragment>
       <MetaTags>
         <title>
-          Coming Soon | EnterMarket - React Admin & Dashboard Template
+          Coming Soon | EnterMarket -
         </title>
       </MetaTags>
       <div className="home-btn d-none d-sm-block">

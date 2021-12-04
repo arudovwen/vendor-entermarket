@@ -76,7 +76,7 @@ const PagesPricing = () => {
       <div className="page-content">
         <MetaTags>
           <title>
-            Pricing | EnterMarket - React Admin & Dashboard Template
+            Pricing | EnterMarket -
           </title>
         </MetaTags>
         <Container fluid>

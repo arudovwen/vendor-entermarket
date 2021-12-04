@@ -151,7 +151,7 @@ function UiTabsAccordions(props) {
       <div className="page-content">
         <MetaTags>
           <title>
-            Tabs & Accordions | EnterMarket - React Admin & Dashboard Template
+            Tabs & Accordions | EnterMarket -
           </title>
         </MetaTags>
         <Container fluid={true}>

@@ -64,7 +64,7 @@ const IconFontawesome = props => {
       <div className="page-content">
         <MetaTags>
           <title>
-            Font awesome | EnterMarket - React Admin & Dashboard Template
+            Font awesome | EnterMarket -
           </title>
         </MetaTags>
         <Container fluid={true}>

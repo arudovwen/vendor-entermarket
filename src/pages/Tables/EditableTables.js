@@ -42,7 +42,7 @@ const EditableTables = () => {
       <div className="page-content">
         <MetaTags>
           <title>
-            Editable Table | EnterMarket - React Admin & Dashboard Template
+            Editable Table | EnterMarket -
           </title>
         </MetaTags>
         <div className="container-fluid">

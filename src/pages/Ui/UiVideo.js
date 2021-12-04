@@ -19,7 +19,7 @@ const UiVideo = () => {
     <React.Fragment>
       <div className="page-content">
         <MetaTags>
-          <title>Video | EnterMarket - React Admin & Dashboard Template</title>
+          <title>Video | EnterMarket -</title>
         </MetaTags>
         <Container fluid={true}>
           <Breadcrumbs title="UI Elements" breadcrumbItem="Video" />

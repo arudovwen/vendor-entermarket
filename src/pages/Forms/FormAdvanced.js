@@ -384,7 +384,7 @@ const FormAdvanced = () => {
       <div className="page-content">
         <MetaTags>
           <title>
-            Form Advanced | EnterMarket - React Admin & Dashboard Template
+            Form Advanced | EnterMarket -
           </title>
         </MetaTags>
         <Container fluid={true}>

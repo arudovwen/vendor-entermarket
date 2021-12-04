@@ -21,7 +21,7 @@ const EChart = () => {
       <div className="page-content">
         <MetaTags>
           <title>
-            E Chart | EnterMarket - React Admin & Dashboard Template
+            E Chart | EnterMarket -
           </title>
         </MetaTags>
         <Container fluid={true}>

@@ -75,7 +75,7 @@ const EcommerceCheckout = () => {
       <div className="page-content">
         <MetaTags>
           <title>
-            Checkout | EnterMarket - React Admin & Dashboard Template
+            Checkout | EnterMarket -
           </title>
         </MetaTags>
         <Container fluid>

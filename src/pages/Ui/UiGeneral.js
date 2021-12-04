@@ -41,7 +41,7 @@ const UiGeneral = () => {
       <div className="page-content">
         <MetaTags>
           <title>
-            General | EnterMarket - React Admin & Dashboard Template
+            General | EnterMarket -
           </title>
         </MetaTags>
         <Container fluid={true}>

@@ -13,7 +13,7 @@ function UiBreadcrumb(props) {
       <div className="page-content">
         <MetaTags>
           <title>
-            Breadcrumb | EnterMarket - React Admin & Dashboard Template
+            Breadcrumb | EnterMarket -
           </title>
         </MetaTags>
         <Container fluid={true}>

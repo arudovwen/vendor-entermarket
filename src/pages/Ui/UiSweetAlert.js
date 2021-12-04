@@ -84,7 +84,7 @@ const UiSweetAlert = () => {
       <div className="page-content">
         <MetaTags>
           <title>
-            Sweet-Alert | EnterMarket - React Admin & Dashboard Template
+            Sweet-Alert | EnterMarket -
           </title>
         </MetaTags>
         <Container fluid={true}>

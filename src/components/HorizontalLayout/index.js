@@ -36,7 +36,7 @@ const Layout = props => {
     let currentage = title.charAt(1).toUpperCase() + title.slice(2)
 
     document.title =
-      currentage + " | EnterMarket - React Admin & Dashboard Template"
+      currentage + " | EnterMarket -"
   }, [props.location.pathname])
 
   useEffect(() => {

@@ -54,7 +54,7 @@ const TasksCreate = () => {
       <div className="page-content">
         <MetaTags>
           <title>
-            Create Task | EnterMarket - React Admin & Dashboard Template
+            Create Task | EnterMarket -
           </title>
         </MetaTags>
         <Container fluid>
