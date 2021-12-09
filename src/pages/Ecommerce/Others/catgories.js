@@ -56,7 +56,7 @@ const EcommerceOthers = props => {
   const { brands } = useSelector(state => ({
     brands: state.ecommerce.brands,
   }))
-  const store = JSON.parse(localStorage.getItem("authUser"))
+
   const [modal, setModal] = useState(false)
   const [brandModal, setBrandModal] = useState(false)
 
@@ -202,16 +202,17 @@ const EcommerceOthers = props => {
   }
 
   useEffect(() => {
-    if (categories && !categories.length) {
+    const store = JSON.parse(localStorage.getItem("authUser"))
       dispatch(onGetCategories(store.id))
-    }
-  }, [dispatch, categories])
+
+  }, [dispatch])
 
   useEffect(() => {
-    if (brands && !brands.length) {
+    const store = JSON.parse(localStorage.getItem("authUser"))
+
       dispatch(onGetBrands(store.id))
-    }
-  }, [dispatch, brands])
+
+  }, [dispatch])
 
   const toggle = () => {
     setModal(!modal)
