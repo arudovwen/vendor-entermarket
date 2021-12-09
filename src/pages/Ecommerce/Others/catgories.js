@@ -287,12 +287,12 @@ const EcommerceOthers = props => {
     <React.Fragment>
       <div className="page-content">
         <MetaTags>
-          <title>Others | EnterMarket</title>
+          <title>Categories & Brands | EnterMarket</title>
         </MetaTags>
         <Container fluid>
           <Breadcrumbs title="Ecommerce" breadcrumbItem="Others" />
           <Row>
-            <Col xs="6">
+            <Col xs="12" md="6">
               <Card>
                 <CardBody>
                   <PaginationProvider
@@ -422,7 +422,7 @@ const EcommerceOthers = props => {
                 </CardBody>
               </Card>
             </Col>
-            <Col xs="6">
+            <Col xs="12" md="6">
               <Card>
                 <CardBody>
                   <PaginationProvider
