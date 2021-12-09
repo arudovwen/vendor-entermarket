@@ -21,6 +21,7 @@ import {
   CardTitle,
   Form,
   Col,
+  Input,
   Container,
   Row,
   Badge,
@@ -38,6 +39,7 @@ import { useSelector, useDispatch } from "react-redux"
 import Breadcrumbs from "components/Common/Breadcrumb"
 
 import {
+  resetstatus,
   getProducts as onGetProducts,
   addNewProduct as onAddNewProduct,
   updateProduct as onUpdateProduct,
@@ -47,7 +49,7 @@ import {
 } from "store/actions"
 
 import EcommerceProductsModal from "./EcommerceProductsModal"
-import { toastr } from 'toastr';
+import { toastr } from "toastr"
 
 const EcommerceProducts = props => {
   const dispatch = useDispatch()
@@ -62,6 +64,7 @@ const EcommerceProducts = props => {
   useEffect(() => {
     if (status === "ADD_PRODUCT_SUCCESS") {
       setModal(false)
+      dispatch(resetstatus())
     }
   }, [status])
   const { categories } = useSelector(state => ({
@@ -81,12 +84,13 @@ const EcommerceProducts = props => {
   const [categoriesList, setcategoriesList] = useState([])
   const [brandList, setbrandList] = useState([])
   const [selectedFiles, setselectedFiles] = useState([])
-   const [productImages, setproductImages] = useState([])
-   const [isuploading, setisuploading] = useState(false)
+  const [productImages, setproductImages] = useState([])
+  const [isuploading, setisuploading] = useState(false)
+  const [filterbrands, setfilterbrands] = useState([])
   const handleNewProduct = (e, values) => {
-    if(isuploading){
-      toastr.info('Upload still in progres')
-      return;
+    if (isuploading) {
+      toastr.info("Upload still in progres")
+      return
     }
     var detail = {
       category_id: values["category_id"],
@@ -106,7 +110,6 @@ const EcommerceProducts = props => {
   }
 
   const handleTableUpdate = (id, value, column) => {
-
     var data = { id }
 
     switch (column) {
@@ -164,6 +167,15 @@ const EcommerceProducts = props => {
       formatter: (cellContent, row) => <div>{row.category.name}</div>,
     },
     {
+      dataField: "brand.name",
+      text: "Brand",
+      sort: true,
+      // eslint-disable-next-line react/display-name
+      formatter: (cellContent, row) => (
+        <div>{row.brand ? row.brand.name : "-"}</div>
+      ),
+    },
+    {
       dataField: "product_name",
       text: "Name",
       sort: true,
@@ -191,6 +203,8 @@ const EcommerceProducts = props => {
             data-toggle="tooltip"
             data-placement="top"
             title="Double click to edit"
+            className=" text-truncate text-truncate--1"
+            style={{ maxWidth: "160px" }}
           >
             {row.product_desc}
           </div>
@@ -336,10 +350,14 @@ const EcommerceProducts = props => {
     },
   ]
 
-  useEffect(() => {
-      const store = JSON.parse(localStorage.getItem("authUser"))
-      dispatch(onGetCategories(store.id))
+  function handleBrand(e) {
+    var brand = brandList.filter(item => Number(item.category_id) === Number(e))
+    setfilterbrands(brand)
+  }
 
+  useEffect(() => {
+    const store = JSON.parse(localStorage.getItem("authUser"))
+    dispatch(onGetCategories(store.id))
   }, [dispatch])
 
   useEffect(() => {
@@ -347,19 +365,18 @@ const EcommerceProducts = props => {
   }, [categories])
 
   useEffect(() => {
-     const store = JSON.parse(localStorage.getItem("authUser"))
-      dispatch(onGetBrands(store.id))
-
+    const store = JSON.parse(localStorage.getItem("authUser"))
+    dispatch(onGetBrands(store.id))
   }, [dispatch])
 
   useEffect(() => {
     setbrandList(brands)
+    setfilterbrands(brands)
   }, [brands])
 
   useEffect(() => {
-     const store = JSON.parse(localStorage.getItem("authUser"))
-      dispatch(onGetProducts(store.id))
-
+    const store = JSON.parse(localStorage.getItem("authUser"))
+    dispatch(onGetProducts(store.id))
   }, [dispatch])
 
   useEffect(() => {
@@ -438,6 +455,7 @@ const EcommerceProducts = props => {
     },
   ]
   function handleAcceptedFiles(files) {
+
     files.map(file =>
       Object.assign(file, {
         preview: URL.createObjectURL(file),
@@ -447,10 +465,13 @@ const EcommerceProducts = props => {
 
     setselectedFiles(files)
   }
-  function handleUploadImages(images) {
+  function handleUploadImages(e) {
+    var images = Object.values(e.target.files)
+
     setisuploading(true)
-   var imagefiles = []
+    var imagefiles = []
     handleAcceptedFiles(images)
+
     // uploads is an array that would hold all the post methods for each image to be uploaded, then we'd use axios.all()
     const uploads = images.map(image => {
       // our formdata
@@ -470,14 +491,13 @@ const EcommerceProducts = props => {
           headers: { "X-Requested-With": "XMLHttpRequest" },
         })
         .then(response => imagefiles.push(response.data.secure_url))
-
     })
 
     // We would use axios `.all()` method to perform concurrent image upload to cloudinary.
     axios.all(uploads).then(() => {
       // ... do anything after successful upload. You can setState() or save the data
       setproductImages(imagefiles)
-       setisuploading(false)
+      setisuploading(false)
     })
   }
 
@@ -612,6 +632,9 @@ const EcommerceProducts = props => {
                                                 required: { value: true },
                                               }}
                                               value=""
+                                              onChange={e =>
+                                                handleBrand(e.target.value)
+                                              }
                                             >
                                               <option value="">
                                                 Select category
@@ -641,7 +664,7 @@ const EcommerceProducts = props => {
                                               <option value="">
                                                 Select brand
                                               </option>
-                                              {brandList.map(item => (
+                                              {filterbrands.map(item => (
                                                 <option
                                                   key={item.id}
                                                   value={item.id}
@@ -706,7 +729,16 @@ const EcommerceProducts = props => {
                                                 Product Images
                                               </CardTitle>
 
-                                              <Dropzone
+                                              <Input
+                                                type="file"
+                                                className="form-control"
+                                                id="inputGroupFile01"
+                                                multiple
+                                                accept=".jpg,.jpeg,.png,.gif"
+                                                onChange={handleUploadImages}
+                                              />
+
+                                              {/* <Dropzone
                                                 onDrop={images => {
                                                   handleUploadImages(images)
                                                 }}
@@ -735,7 +767,7 @@ const EcommerceProducts = props => {
                                                     </div>
                                                   </div>
                                                 )}
-                                              </Dropzone>
+                                              </Dropzone> */}
                                               <div
                                                 className="dropzone-previews mt-3"
                                                 id="file-previews"

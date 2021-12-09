@@ -67,13 +67,12 @@ const EcommerceOthers = props => {
 
   useEffect(() => {
     if (status === "ADD_CATEGORY_SUCCESS") {
-
       setModal(false)
-       dispatch(resetstatus())
+      dispatch(resetstatus())
     }
     if (status === "ON_ADD_BRAND_SUCCESS") {
       setBrandModal(false)
-       dispatch(resetstatus())
+      dispatch(resetstatus())
     }
   }, [status])
   //pagination customization
@@ -158,6 +157,21 @@ const EcommerceOthers = props => {
         <Link to="#" className="text-body fw-bold">
           {index + 1}
         </Link>
+      ),
+    },
+    {
+      dataField: "category.name",
+      text: "Catgory",
+      sort: true,
+      // eslint-disable-next-line react/display-name
+      formatter: (cellContent, row) => (
+        <div
+          data-toggle="tooltip"
+          data-placement="top"
+          title="Double click to edit"
+        >
+          {row.category.name}
+        </div>
       ),
     },
     {
@@ -250,6 +264,7 @@ const EcommerceOthers = props => {
   const handleNewBrand = (e, values) => {
     var detail = {
       name: values["name"],
+      id: values["category_id"],
     }
     dispatch(onAddBrand(detail))
   }
@@ -509,6 +524,31 @@ const EcommerceOthers = props => {
                                     <AvForm onValidSubmit={handleNewBrand}>
                                       <Row form>
                                         <Col className="col-12">
+                                          <div className="mb-3">
+                                            <AvField
+                                              name="category_id"
+                                              label="Category"
+                                              type="select"
+                                              className="form-select"
+                                              errorMessage="Invalid Category"
+                                              validate={{
+                                                required: { value: true },
+                                              }}
+                                              value=""
+                                            >
+                                              <option value="">
+                                                Select category
+                                              </option>
+                                              {categories.map(item => (
+                                                <option
+                                                  key={item.id}
+                                                  value={item.id}
+                                                >
+                                                  {item.name}
+                                                </option>
+                                              ))}
+                                            </AvField>
+                                          </div>
                                           <div className="mb-3">
                                             <AvField
                                               name="name"
