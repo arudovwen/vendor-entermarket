@@ -51,7 +51,7 @@ import { toastr } from 'toastr';
 
 const EcommerceProducts = props => {
   const dispatch = useDispatch()
-  const store = JSON.parse(localStorage.getItem("authUser"))
+
   const { products } = useSelector(state => ({
     products: state.ecommerce.products,
   }))
@@ -337,9 +337,9 @@ const EcommerceProducts = props => {
   ]
 
   useEffect(() => {
-    if (categories && !categories.length) {
+      const store = JSON.parse(localStorage.getItem("authUser"))
       dispatch(onGetCategories(store.id))
-    }
+
   }, [dispatch])
 
   useEffect(() => {
@@ -347,9 +347,9 @@ const EcommerceProducts = props => {
   }, [categories])
 
   useEffect(() => {
-    if (brands && !brands.length) {
+     const store = JSON.parse(localStorage.getItem("authUser"))
       dispatch(onGetBrands(store.id))
-    }
+
   }, [dispatch])
 
   useEffect(() => {
@@ -357,10 +357,10 @@ const EcommerceProducts = props => {
   }, [brands])
 
   useEffect(() => {
-    if (products && !products.length) {
+     const store = JSON.parse(localStorage.getItem("authUser"))
       dispatch(onGetProducts(store.id))
-    }
-  }, [dispatch, products])
+
+  }, [dispatch])
 
   useEffect(() => {
     setProductList(products)

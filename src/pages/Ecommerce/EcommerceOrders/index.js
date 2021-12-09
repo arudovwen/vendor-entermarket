@@ -111,12 +111,11 @@ const EcommerceOrders = props => {
   ]
 
   useEffect(() => {
-    if (orders && !orders.length) {
 
       dispatch(onGetOrders())
-    }
 
-  }, [dispatch, orders])
+
+  }, [dispatch])
 
   useEffect(() => {
     setOrderList(orders)
