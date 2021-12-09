@@ -1,3 +1,5 @@
+export const RESET_STATUS = "RESET_STATUS"
+
 //brands
 export const GET_BRANDS = "GET_BRANDS"
 export const GET_BRANDS_SUCCESS = "GET_BRANDS_SUCCESS"

@@ -37,6 +37,7 @@ import { useSelector, useDispatch } from "react-redux"
 import Breadcrumbs from "components/Common/Breadcrumb"
 
 import {
+  resetstatus,
   getBrands as onGetBrands,
   getCategories as onGetCategories,
   addNewBrand as onAddBrand,
@@ -65,12 +66,15 @@ const EcommerceOthers = props => {
   }))
 
   useEffect(() => {
-    if (status === "ON_ADD_CATEGORY_SUCCESS") {
+    if (status === "ADD_CATEGORY_SUCCESS") {
+
       setModal(false)
+       dispatch(resetstatus())
     }
     if (status === "ON_ADD_BRAND_SUCCESS") {
-        setBrandModal(false)
-      }
+      setBrandModal(false)
+       dispatch(resetstatus())
+    }
   }, [status])
   //pagination customization
   const pageOptions = {
@@ -203,15 +207,13 @@ const EcommerceOthers = props => {
 
   useEffect(() => {
     const store = JSON.parse(localStorage.getItem("authUser"))
-      dispatch(onGetCategories(store.id))
-
+    dispatch(onGetCategories(store.id))
   }, [dispatch])
 
   useEffect(() => {
     const store = JSON.parse(localStorage.getItem("authUser"))
 
-      dispatch(onGetBrands(store.id))
-
+    dispatch(onGetBrands(store.id))
   }, [dispatch])
 
   const toggle = () => {

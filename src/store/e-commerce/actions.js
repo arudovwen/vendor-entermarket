@@ -84,8 +84,13 @@ import {
   ON_UPDATE_BRAND_SUCCESS,
   ON_DELETE_BRAND,
   ON_DELETE_BRAND_FAIL,
-  ON_DELETE_BRAND_SUCCESS
+  ON_DELETE_BRAND_SUCCESS,
+  RESET_STATUS
 } from "./actionTypes"
+
+export const resetstatus = () => ({
+  type: RESET_STATUS
+})
 
 export const getBrands = store_id => ({
   type: GET_BRANDS,
