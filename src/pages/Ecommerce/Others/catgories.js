@@ -65,6 +65,8 @@ const EcommerceOthers = props => {
     status: state.ecommerce.status,
   }))
 
+  const [isdisabled, setisdisabled] = useState(false)
+
   useEffect(() => {
     if (status === "ADD_CATEGORY_SUCCESS") {
       setModal(false)
@@ -74,6 +76,7 @@ const EcommerceOthers = props => {
       setBrandModal(false)
       dispatch(resetstatus())
     }
+      setisdisabled(false)
   }, [status])
   //pagination customization
   const pageOptions = {
@@ -256,12 +259,14 @@ const EcommerceOthers = props => {
   }
 
   const handleNewCategory = (e, values) => {
+    setisdisabled(true)
     var detail = {
       name: values["name"],
     }
     dispatch(onAddCategory(detail))
   }
   const handleNewBrand = (e, values) => {
+      setisdisabled(true)
     var detail = {
       name: values["name"],
       id: values["category_id"],
@@ -414,6 +419,7 @@ const EcommerceOthers = props => {
                                             <button
                                               type="submit"
                                               className="btn btn-success save-user"
+                                              disabled={isdisabled}
                                             >
                                               Save
                                             </button>
@@ -569,6 +575,7 @@ const EcommerceOthers = props => {
                                             <button
                                               type="submit"
                                               className="btn btn-success save-user"
+                                              disabled={isdisabled}
                                             >
                                               Save
                                             </button>
