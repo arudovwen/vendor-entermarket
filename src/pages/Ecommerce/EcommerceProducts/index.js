@@ -20,6 +20,7 @@ import {
   CardBody,
   CardTitle,
   Form,
+  Label,
   Col,
   Input,
   Container,
@@ -48,8 +49,7 @@ import {
   getBrands as onGetBrands,
 } from "store/actions"
 
-import EcommerceProductsModal from "./EcommerceProductsModal"
-import { toastr } from "toastr"
+import toastr from "toastr"
 
 const EcommerceProducts = props => {
   const dispatch = useDispatch()
@@ -65,6 +65,7 @@ const EcommerceProducts = props => {
     if (status === "ADD_PRODUCT_SUCCESS") {
       setModal(false)
       dispatch(resetstatus())
+      toastr.success("Success")
     }
   }, [status])
   const { categories } = useSelector(state => ({
@@ -76,7 +77,17 @@ const EcommerceProducts = props => {
   const selectRow = {
     mode: "checkbox",
   }
-
+  const initialvalue = {
+    category_id: "",
+    brand_id: "",
+    product_name: "",
+    product_desc: "",
+    price: 0,
+    sales_price: 0,
+    in_stock: 0,
+    image: [],
+  }
+  const [bulkproducts, setbulkproducts] = useState([initialvalue])
   const [modal, setModal] = useState(false)
   const [modal1, setModal1] = useState(false)
   const [productList, setProductList] = useState([])
@@ -84,9 +95,10 @@ const EcommerceProducts = props => {
   const [categoriesList, setcategoriesList] = useState([])
   const [brandList, setbrandList] = useState([])
   const [selectedFiles, setselectedFiles] = useState([])
-  const [productImages, setproductImages] = useState([])
+  const [productimage, setproductimage] = useState([])
   const [isuploading, setisuploading] = useState(false)
   const [filterbrands, setfilterbrands] = useState([])
+  const [uploadtype, setuploadtype] = useState("single")
   const handleNewProduct = (e, values) => {
     if (isuploading) {
       toastr.info("Upload still in progres")
@@ -100,9 +112,38 @@ const EcommerceProducts = props => {
       price: values["price"],
       sales_price: values["sales_price"],
       in_stock: values["in_stock"],
-      images: productImages,
+      image: productimage,
     }
     dispatch(onAddNewProduct(detail))
+  }
+  const handleNewBulkProduct = e => {
+    e.preventDefault()
+
+    const token = localStorage.getItem("user-token")
+    axios
+      .post(`${process.env.REACT_APP_URL}/bulk/upload`, bulkproducts, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(res => {
+        if (res.status === 200) {
+          const store = JSON.parse(localStorage.getItem("authUser"))
+          dispatch(onGetProducts(store.id))
+          setModal1(false)
+          setbulkproducts([initialvalue])
+          toastr.success("Success")
+        }
+      })
+      .catch(() => {
+        toastr.error("Something went wrong")
+      })
+  }
+  const handleBulkUpload = (e, index) => {
+    e.preventDefault()
+    let newFormValues = [...bulkproducts]
+    newFormValues[index][e.target.name] = e.target.value
+    setbulkproducts(newFormValues)
   }
   const handleCheckBox = (id, value) => {
     var product = { id, active: value }
@@ -142,9 +183,6 @@ const EcommerceProducts = props => {
   }
   const { SearchBar } = Search
 
-  // const toggleModal = () => {
-  //   setModal1(!modal1)
-  // }
   const toggleViewModal = () => setModal1(!modal1)
 
   const EcommerceProductColumns = toggleModal => [
@@ -391,7 +429,12 @@ const EcommerceProducts = props => {
   }, [products])
 
   const toggle = () => {
+    setuploadtype("single")
     setModal(!modal)
+  }
+  const toggle1 = () => {
+    setuploadtype("bulk")
+    setModal1(!modal1)
   }
 
   const toLowerCase1 = str => {
@@ -443,6 +486,12 @@ const EcommerceProducts = props => {
     toggle()
   }
 
+  const handleProductClicks1 = () => {
+    setProductList("")
+    setIsEdit(false)
+    toggle1()
+  }
+
   const handleValidDate = date => {
     const date1 = moment(new Date(date)).format("DD MMM Y")
     return date1
@@ -455,7 +504,6 @@ const EcommerceProducts = props => {
     },
   ]
   function handleAcceptedFiles(files) {
-
     files.map(file =>
       Object.assign(file, {
         preview: URL.createObjectURL(file),
@@ -465,19 +513,21 @@ const EcommerceProducts = props => {
 
     setselectedFiles(files)
   }
-  function handleUploadImages(e) {
-    var images = Object.values(e.target.files)
+  function handleUploadimage(e, index) {
+    var image = Object.values(e.target.files)
 
     setisuploading(true)
     var imagefiles = []
-    handleAcceptedFiles(images)
+    if (uploadtype === "single") {
+      handleAcceptedFiles(image)
+    }
 
     // uploads is an array that would hold all the post methods for each image to be uploaded, then we'd use axios.all()
-    const uploads = images.map(image => {
+    const uploads = image.map(image => {
       // our formdata
       const formData = new FormData()
       formData.append("file", image)
-      formData.append("tags", "Products") // Add tags for the images - {Array}
+      formData.append("tags", "Products") // Add tags for the image - {Array}
       formData.append(
         "upload_preset",
         process.env.REACT_APP_CLOUNDINARY_UPLOAD_PRESET
@@ -496,7 +546,13 @@ const EcommerceProducts = props => {
     // We would use axios `.all()` method to perform concurrent image upload to cloudinary.
     axios.all(uploads).then(() => {
       // ... do anything after successful upload. You can setState() or save the data
-      setproductImages(imagefiles)
+      if (uploadtype == -"single") {
+        setproductimage(imagefiles)
+      } else {
+        let newimage = [...bulkproducts]
+        newimage[index].image = imagefiles
+        setbulkproducts(newimage)
+      }
       setisuploading(false)
     })
   }
@@ -510,10 +566,19 @@ const EcommerceProducts = props => {
     const i = Math.floor(Math.log(bytes) / Math.log(k))
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i]
   }
+  let addFormFields = e => {
+    e.preventDefault()
+    setbulkproducts([...bulkproducts, initialvalue])
+  }
+
+  let removeFormFields = i => {
+    let newFormValues = [...bulkproducts]
+    newFormValues.splice(i, 1)
+    setbulkproducts(newFormValues)
+  }
 
   return (
     <React.Fragment>
-      <EcommerceProductsModal isOpen={modal1} toggle={toggleViewModal} />
       <div className="page-content">
         <MetaTags>
           <title>Products | EnterMarket</title>
@@ -558,7 +623,17 @@ const EcommerceProducts = props => {
                                     onClick={handleProductClicks}
                                   >
                                     <i className="mdi mdi-plus me-1" />
-                                    Add New Product
+                                    Add Product
+                                  </Button>
+
+                                  <Button
+                                    type="button"
+                                    color="success"
+                                    className="btn-rounded  mb-2 me-2"
+                                    onClick={handleProductClicks1}
+                                  >
+                                    <i className="mdi mdi-plus me-1" />
+                                    Add Bulk Product
                                   </Button>
                                 </div>
                               </Col>
@@ -601,18 +676,19 @@ const EcommerceProducts = props => {
                                     ref={node}
                                   />
                                 </div>
-                                <Modal isOpen={modal} toggle={toggle}>
+                                <Modal size="lg" isOpen={modal} toggle={toggle}>
                                   <ModalHeader toggle={toggle} tag="h4">
                                     {!!isEdit ? "Edit Product" : "Add Product"}
                                   </ModalHeader>
                                   <ModalBody>
                                     <AvForm onValidSubmit={handleNewProduct}>
-                                      <Row form>
-                                        <Col className="col-12">
+                                      <Row>
+                                        <Col className="col-4">
+                                          {" "}
                                           <div className="mb-3">
                                             <AvField
                                               name="product_name"
-                                              label="Product Name"
+                                              label=" Name"
                                               type="text"
                                               errorMessage="Invalid product name"
                                               validate={{
@@ -621,10 +697,12 @@ const EcommerceProducts = props => {
                                               value=""
                                             />
                                           </div>
+                                        </Col>
+                                        <Col className="col-4">
                                           <div className="mb-3">
                                             <AvField
                                               name="category_id"
-                                              label="Product Category"
+                                              label=" Category"
                                               type="select"
                                               className="form-select"
                                               errorMessage="Invalid Category"
@@ -636,23 +714,23 @@ const EcommerceProducts = props => {
                                                 handleBrand(e.target.value)
                                               }
                                             >
-                                              <option value="">
+                                              <option disabled value="">
                                                 Select category
                                               </option>
                                               {categoriesList.map(item => (
-                                                <option
-                                                  key={item.id}
-                                                  value={item.id}
-                                                >
+                                                <option key={item.id} value="">
                                                   {item.name}
                                                 </option>
                                               ))}
                                             </AvField>
                                           </div>
+                                        </Col>
+                                        <Col className="col-4">
+                                          {" "}
                                           <div className="mb-3">
                                             <AvField
                                               name="brand_id"
-                                              label="Product brand"
+                                              label=" Brand"
                                               type="select"
                                               className="form-select"
                                               errorMessage="Invalid brand"
@@ -661,7 +739,7 @@ const EcommerceProducts = props => {
                                               }}
                                               value=""
                                             >
-                                              <option value="">
+                                              <option disabled value="">
                                                 Select brand
                                               </option>
                                               {filterbrands.map(item => (
@@ -674,23 +752,15 @@ const EcommerceProducts = props => {
                                               ))}
                                             </AvField>
                                           </div>
-                                          <div className="mb-3">
-                                            <AvField
-                                              name="product_desc"
-                                              label="Product Description"
-                                              type="textarea"
-                                              errorMessage="Invalid Product Description"
-                                              validate={{
-                                                required: { value: true },
-                                              }}
-                                              value=""
-                                            />
-                                          </div>
-
+                                        </Col>
+                                      </Row>
+                                      <Row>
+                                        <Col className="col-md-4">
+                                          {" "}
                                           <div className="mb-3">
                                             <AvField
                                               name="in_stock"
-                                              label="In Stock"
+                                              label="Stock"
                                               type="number"
                                               errorMessage="Invalid Total"
                                               validate={{
@@ -699,10 +769,13 @@ const EcommerceProducts = props => {
                                               value=""
                                             />
                                           </div>
+                                        </Col>
+                                        <Col className="col-md-4">
+                                          {" "}
                                           <div className="mb-3">
                                             <AvField
                                               name="price"
-                                              label="price"
+                                              label="Price"
                                               type="number"
                                               errorMessage="Invalid Total"
                                               validate={{
@@ -711,6 +784,9 @@ const EcommerceProducts = props => {
                                               value=""
                                             />
                                           </div>
+                                        </Col>
+                                        <Col className="col-md-4">
+                                          {" "}
                                           <div className="mb-3">
                                             <AvField
                                               name="sales_price"
@@ -723,97 +799,76 @@ const EcommerceProducts = props => {
                                               value=""
                                             />
                                           </div>
-                                          <Card>
-                                            <CardBody>
-                                              <CardTitle className="mb-3">
-                                                Product Images
-                                              </CardTitle>
-
-                                              <Input
-                                                type="file"
-                                                className="form-control"
-                                                id="inputGroupFile01"
-                                                multiple
-                                                accept=".jpg,.jpeg,.png,.gif"
-                                                onChange={handleUploadImages}
-                                              />
-
-                                              {/* <Dropzone
-                                                onDrop={images => {
-                                                  handleUploadImages(images)
-                                                }}
-                                              >
-                                                {({
-                                                  getRootProps,
-                                                  getInputProps,
-                                                }) => (
-                                                  <div className="dropzone">
-                                                    <div
-                                                      className="dz-message needsclick"
-                                                      {...getRootProps()}
-                                                    >
-                                                      <input
-                                                        {...getInputProps()}
-                                                      />
-                                                      <div className="dz-message needsclick">
-                                                        <div className="mb-3">
-                                                          <i className="display-4 text-muted bx bxs-cloud-upload" />
-                                                        </div>
-                                                        <h4>
-                                                          Drop files here or
-                                                          click to upload.
-                                                        </h4>
-                                                      </div>
-                                                    </div>
-                                                  </div>
-                                                )}
-                                              </Dropzone> */}
-                                              <div
-                                                className="dropzone-previews mt-3"
-                                                id="file-previews"
-                                              >
-                                                {selectedFiles.map((f, i) => {
-                                                  return (
-                                                    <Card
-                                                      className="mt-1 mb-0 shadow-none border dz-processing dz-image-preview dz-success dz-complete"
-                                                      key={i + "-file"}
-                                                    >
-                                                      <div className="p-2">
-                                                        <Row className="align-items-center">
-                                                          <Col className="col-auto">
-                                                            <img
-                                                              data-dz-thumbnail=""
-                                                              height="80"
-                                                              className="avatar-sm rounded bg-light"
-                                                              alt={f.name}
-                                                              src={f.preview}
-                                                            />
-                                                          </Col>
-                                                          <Col>
-                                                            <Link
-                                                              to="#"
-                                                              className="text-muted font-weight-bold"
-                                                            >
-                                                              {f.name}
-                                                            </Link>
-                                                            <p className="mb-0">
-                                                              <strong>
-                                                                {
-                                                                  f.formattedSize
-                                                                }
-                                                              </strong>
-                                                            </p>
-                                                          </Col>
-                                                        </Row>
-                                                      </div>
-                                                    </Card>
-                                                  )
-                                                })}
-                                              </div>
-                                            </CardBody>
-                                          </Card>
                                         </Col>
                                       </Row>
+                                      <Row>
+                                        <Col className="col-12 ">
+                                          <div className="mb-3">
+                                            <AvField
+                                              name="product_desc"
+                                              label=" Description"
+                                              type="textarea"
+                                              errorMessage="Invalid Product Description"
+                                              validate={{
+                                                required: { value: true },
+                                              }}
+                                              value=""
+                                            />
+                                          </div>
+                                        </Col>
+                                      </Row>
+
+                                      <Label className="mb-3">image</Label>
+
+                                      <Input
+                                        type="file"
+                                        className="form-control"
+                                        id="inputGroupFile01"
+                                        multiple
+                                        accept=".jpg,.jpeg,.png,.gif"
+                                        onChange={handleUploadimage}
+                                      />
+
+                                      <div
+                                        className="dropzone-previews mt-3"
+                                        id="file-previews"
+                                      >
+                                        {selectedFiles.map((f, i) => {
+                                          return (
+                                            <Card
+                                              className="mt-1 mb-0 shadow-none border dz-processing dz-image-preview dz-success dz-complete"
+                                              key={i + "-file"}
+                                            >
+                                              <div className="p-2">
+                                                <Row className="align-items-center">
+                                                  <Col className="col-auto">
+                                                    <img
+                                                      data-dz-thumbnail=""
+                                                      height="80"
+                                                      className="avatar-sm rounded bg-light"
+                                                      alt={f.name}
+                                                      src={f.preview}
+                                                    />
+                                                  </Col>
+                                                  <Col>
+                                                    <Link
+                                                      to="#"
+                                                      className="text-muted font-weight-bold"
+                                                    >
+                                                      {f.name}
+                                                    </Link>
+                                                    <p className="mb-0">
+                                                      <strong>
+                                                        {f.formattedSize}
+                                                      </strong>
+                                                    </p>
+                                                  </Col>
+                                                </Row>
+                                              </div>
+                                            </Card>
+                                          )
+                                        })}
+                                      </div>
                                       <Row>
                                         <Col>
                                           <div className="text-end">
@@ -827,6 +882,265 @@ const EcommerceProducts = props => {
                                         </Col>
                                       </Row>
                                     </AvForm>
+                                  </ModalBody>
+                                </Modal>
+                                <Modal
+                                  size="lg"
+                                  isOpen={modal1}
+                                  toggle={toggle1}
+                                >
+                                  <ModalHeader toggle={toggle1} tag="h4">
+                                    {!!isEdit
+                                      ? "Edit Upload Product"
+                                      : "Bulk Upload Product"}
+                                  </ModalHeader>
+                                  <ModalBody>
+                                    <Form
+                                      onSubmit={e => handleNewBulkProduct(e)}
+                                    >
+                                      {bulkproducts.map((item, index) => (
+                                        <div
+                                          style={{ marginBottom: "2.5rem" }}
+                                          key={index}
+                                        >
+                                          <Row>
+                                            <Col className="col-4">
+                                              {" "}
+                                              <div className="mb-3">
+                                                <Input
+                                                  id={`name${index}`}
+                                                  name="product_name"
+                                                  placeholder="Name"
+                                                  type="text"
+                                                  required
+                                                  value={item.product_name}
+                                                  onChange={e =>
+                                                    handleBulkUpload(e, index)
+                                                  }
+                                                />
+                                              </div>
+                                            </Col>
+                                            <Col className="col-4">
+                                              <div className="mb-3">
+                                                <Input
+                                                  id={`category${index}`}
+                                                  name="category_id"
+                                                  placeholder="Category"
+                                                  type="select"
+                                                  className="form-select"
+                                                  required
+                                                  value={item.category_id}
+                                                  onChange={e =>
+                                                    handleBulkUpload(e, index)
+                                                  }
+                                                >
+                                                  <option disabled value="">
+                                                    Select category
+                                                  </option>
+                                                  {categoriesList.map(item => (
+                                                    <option
+                                                      key={item.id}
+                                                      value={item.id}
+                                                    >
+                                                      {item.name}
+                                                    </option>
+                                                  ))}
+                                                </Input>
+                                              </div>
+                                            </Col>
+                                            <Col className="col-4">
+                                              {" "}
+                                              <div className="mb-3">
+                                                <Input
+                                                  id={`brand${index}`}
+                                                  name="brand_id"
+                                                  placeholder=" Brand"
+                                                  type="select"
+                                                  className="form-select"
+                                                  required
+                                                  value={item.brand_id}
+                                                  onChange={e =>
+                                                    handleBulkUpload(e, index)
+                                                  }
+                                                >
+                                                  <option disabled value="">
+                                                    Select brand
+                                                  </option>
+                                                  {filterbrands.map(item => (
+                                                    <option
+                                                      key={item.id}
+                                                      value={item.id}
+                                                    >
+                                                      {item.name}
+                                                    </option>
+                                                  ))}
+                                                </Input>
+                                              </div>
+                                            </Col>
+                                          </Row>
+                                          <Row>
+                                            <Col className="col-md-4">
+                                              {" "}
+                                              <div className="mb-3">
+                                                <Input
+                                                  id={`stock${index}`}
+                                                  name="in_stock"
+                                                  placeholder="Stock"
+                                                  type="number"
+                                                  required
+                                                  value={item.in_stock}
+                                                  onChange={e =>
+                                                    handleBulkUpload(e, index)
+                                                  }
+                                                />
+                                              </div>
+                                            </Col>
+                                            <Col className="col-md-4">
+                                              {" "}
+                                              <div className="mb-3">
+                                                <Input
+                                                  name="price"
+                                                  id={`price${index}`}
+                                                  placeholder="Price"
+                                                  type="number"
+                                                  required
+                                                  value={item.price}
+                                                  onChange={e =>
+                                                    handleBulkUpload(e, index)
+                                                  }
+                                                />
+                                              </div>
+                                            </Col>
+                                            <Col className="col-md-4">
+                                              {" "}
+                                              <div className="mb-3">
+                                                <Input
+                                                  id={`sp${index}`}
+                                                  name="sales_price"
+                                                  placeholder="Sales Price"
+                                                  type="number"
+                                                  required
+                                                  value={item.sales_price}
+                                                  onChange={e =>
+                                                    handleBulkUpload(e, index)
+                                                  }
+                                                />
+                                              </div>
+                                            </Col>
+                                          </Row>
+                                          <Row>
+                                            <Col className="col-12 ">
+                                              <div className="mb-3">
+                                                <Input
+                                                  id={`desc${index}`}
+                                                  name="product_desc"
+                                                  placeholder=" Description"
+                                                  type="textarea"
+                                                  required
+                                                  value={item.product_desc}
+                                                  onChange={e =>
+                                                    handleBulkUpload(e, index)
+                                                  }
+                                                />
+                                              </div>
+                                            </Col>
+                                          </Row>
+
+                                          <Row>
+                                            <Col>
+                                              <Label className="mb-3">
+                                                Product images
+                                              </Label>
+
+                                              <Input
+                                                type="file"
+                                                className="form-control"
+                                                id="inputGroupFile01"
+                                                multiple
+                                                accept=".jpg,.jpeg,.png,.gif"
+                                                onChange={e =>
+                                                  handleUploadimage(e, index)
+                                                }
+                                              />
+
+                                              {item.image ? (
+                                                <div
+                                                  className="dropzone-previews mt-3"
+                                                  id="file-previews"
+                                                >
+                                                  <Card className=" mt-1 mb-0 shadow-none border dz-processing dz-image-preview dz-success dz-complete">
+                                                    <Row className="align-items-center p-2">
+                                                      {item.image.map(
+                                                        (f, i) => {
+                                                          return (
+                                                            <Col
+                                                              className="col-auto"
+                                                              key={i + "-file"}
+                                                            >
+                                                              <img
+                                                                data-dz-thumbnail=""
+                                                                height="80"
+                                                                className="avatar-sm rounded bg-light"
+                                                                alt={`image${index}-${i}`}
+                                                                src={f}
+                                                              />
+                                                            </Col>
+                                                          )
+                                                        }
+                                                      )}
+                                                    </Row>
+                                                  </Card>
+                                                </div>
+                                              ) : (
+                                                ""
+                                              )}
+                                              {isuploading ? (
+                                                <i
+                                                  className="fa fa-spinner fa-spin text-primary m-2"
+                                                  aria-hidden="true"
+                                                ></i>
+                                              ) : (
+                                                ""
+                                              )}
+                                            </Col>
+                                          </Row>
+                                          <div className="mt-2">
+                                            <Button
+                                              color="danger"
+                                              size="sm"
+                                              onClick={() =>
+                                                removeFormFields(index)
+                                              }
+                                            >
+                                              <i
+                                                className="fa fa-trash"
+                                                aria-hidden="true"
+                                              ></i>
+                                            </Button>
+                                          </div>
+                                        </div>
+                                      ))}
+
+                                      <Row>
+                                        <Col>
+                                          <div className="text-end">
+                                            <Button
+                                              style={{ marginRight: "1rem" }}
+                                              onClick={e => addFormFields(e)}
+                                            >
+                                              Add field
+                                            </Button>
+                                            <button
+                                              disabled={isuploading}
+                                              type="submit"
+                                              className="btn btn-success save-user"
+                                            >
+                                              Save productss
+                                            </button>
+                                          </div>
+                                        </Col>
+                                      </Row>
+                                    </Form>
                                   </ModalBody>
                                 </Modal>
                               </Col>
