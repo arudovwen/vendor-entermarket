@@ -50,9 +50,40 @@ const postRegister = data => {
       throw message
     })
 }
+const postRegisterAdmin = data => {
+  return axios
+    .post(`${process.env.REACT_APP_URL}/admin/register`, data)
+    .then(response => {
+      if (response.status >= 200 || response.status <= 299) return response.data
+      throw response.data
+    })
+    .catch(err => {
+      let message
+      if (err.response && err.response.status) {
+        switch (err.response.status) {
+          case 404:
+            message = "Sorry! the page you are looking for could not be found"
+            break
+          case 500:
+            message =
+              "Sorry! something went wrong, please contact our support team"
+            break
+          case 401:
+            message = "Invalid credentials"
+            break
+          default:
+            message = err.response.data
+            break
+        }
+      }
+      throw message
+    })
+}
 
 // Login Method
 const postLogin = data => post(url.POST_LOGIN, data)
+const postLoginAdmin = data => post(url.ADMIN_POST_LOGIN, data)
+
 
 // postForgetPwd
 const postForgetPwd = data => post(url.POST_PASSWORD_FORGET, data)
@@ -335,7 +366,9 @@ export {
   getLoggedInUser,
   isUserAuthenticated,
   postRegister,
+  postRegisterAdmin,
   postLogin,
+  postLoginAdmin,
   postProfile,
   postForgetPwd,
   postJwtRegister,

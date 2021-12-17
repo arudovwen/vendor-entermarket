@@ -6,6 +6,7 @@ const Authmiddleware = ({
   component: Component,
   layout: Layout,
   isAuthProtected,
+  isAdminProtected,
   ...rest
 }) => (
   <Route
@@ -15,6 +16,14 @@ const Authmiddleware = ({
         return (
           <Redirect
             to={{ pathname: "/login", state: { from: props.location } }}
+          />
+        )
+      }
+
+      if (isAdminProtected && !localStorage.getItem("admin-token")) {
+        return (
+          <Redirect
+            to={{ pathname: "/admin/login", state: { from: props.location } }}
           />
         )
       }
@@ -30,6 +39,7 @@ const Authmiddleware = ({
 
 Authmiddleware.propTypes = {
   isAuthProtected: PropTypes.bool,
+  isAdminProtected:PropTypes.bool,
   component: PropTypes.any,
   location: PropTypes.object,
   layout: PropTypes.any,

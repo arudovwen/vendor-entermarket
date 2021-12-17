@@ -30,6 +30,12 @@ import Logout from "../pages/Authentication/Logout"
 import Register from "../pages/Authentication/Register"
 import ForgetPwd from "../pages/Authentication/ForgetPassword"
 
+//Admin login
+import AdminLogin from "../pages/Admin/Authentication/Login"
+import AdminLogout from "../pages/Admin/Authentication/Logout"
+import AdminRegister from "../pages/Admin/Authentication/Register"
+import AdminForgetPwd from "../pages/Admin/Authentication/ForgetPassword"
+
 //  // Inner Authentication
 import Login1 from "../pages/AuthenticationInner/Login"
 import Login2 from "../pages/AuthenticationInner/Login2"
@@ -50,6 +56,15 @@ import TwostepVerification2 from "../pages/AuthenticationInner/auth-two-step-ver
 
 // Dashboard
 import Dashboard from "../pages/Dashboard/index"
+import AdminDashboard from "../pages/Admin/Dashboard/index"
+
+//Admin Orders
+import AdminOrders from "../pages/Admin/Orders/index"
+import AdminOrdersAssigned from "../pages/Admin/Orders/assigned"
+import AdminOrdersPending from "../pages/Admin/Orders/pending"
+
+
+
 
 // Charts
 import ChartApex from "../pages/Charts/Apexcharts"
@@ -136,7 +151,7 @@ const authProtectedRoutes = [
   { path: "/ecommerce-checkout", component: EcommerceCheckout },
   { path: "/ecommerce-shops", component: EcommerceShops },
   { path: "/ecommerce-add-product", component: EcommerceAddProduct },
-  {path:"/ecommerce-others", component:EcommerceOthers},
+  { path: "/ecommerce-others", component: EcommerceOthers },
 
   //Invoices
   { path: "/invoices-list", component: InvoicesList },
@@ -224,6 +239,11 @@ const publicRoutes = [
   { path: "/forgot-password", component: ForgetPwd },
   { path: "/register", component: Register },
 
+  { path: "/admin/logout", component: AdminLogout },
+  { path: "/admin/login", component: AdminLogin },
+  { path: "/admin/forgot-password", component: AdminForgetPwd },
+  { path: "/admin/register", component: AdminRegister },
+
   { path: "/pages-maintenance", component: PagesMaintenance },
   { path: "/pages-comingsoon", component: PagesComingsoon },
   { path: "/pages-404", component: Pages404 },
@@ -248,4 +268,17 @@ const publicRoutes = [
   { path: "/auth-two-step-verification-2", component: TwostepVerification2 },
 ]
 
-export { authProtectedRoutes, publicRoutes }
+const adminProtectedRoutes = [
+  { path: "/admin", component: AdminDashboard },
+  { path: "/admin/orders", component: AdminOrders },
+  { path: "/admin/orders/assigned", component: AdminOrdersAssigned },
+  { path: "/admin/orders/pending", component: AdminOrdersPending },
+
+  {
+    path: "/admin/dashboard",
+    exact: true,
+    component: () => <Redirect to="/admin" />,
+  },
+]
+
+export { authProtectedRoutes, adminProtectedRoutes, publicRoutes }

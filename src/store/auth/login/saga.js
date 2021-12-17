@@ -1,13 +1,14 @@
 import { call, put, takeEvery, takeLatest } from "redux-saga/effects"
 
 // Login Redux States
-import { LOGIN_USER, LOGOUT_USER, SOCIAL_LOGIN } from "./actionTypes"
-import { apiError, loginSuccess, logoutUserSuccess } from "./actions"
+import { LOGIN_USER, LOGOUT_USER, ADMIN_LOGIN_USER, ADMIN_LOGOUT_USER, SOCIAL_LOGIN } from "./actionTypes"
+import { apiError, loginSuccess, logoutUserSuccess, adminloginSuccess, adminlogoutUserSuccess } from "./actions"
 
 //Include Both Helper File with needed methods
 import { getFirebaseBackend } from "../../../helpers/firebase_helper"
 import {
   postLogin,
+  postLoginAdmin,
   postJwtLogin,
   postSocialLogin,
 } from "../../../helpers/backend_helper"
@@ -44,6 +45,36 @@ function* logoutUser({ payload: { history } }) {
   }
 }
 
+function* adminloginUser({ payload: { user, history } }) {
+  try {
+    const response = yield call(postLoginAdmin, {
+      email: user.email,
+      password: user.password,
+    })
+
+    localStorage.setItem("authAdmin", JSON.stringify(response.data))
+    localStorage.setItem("admin-token", response.token)
+
+    yield put(adminloginSuccess(response))
+
+    window.location.href = "/admin/dashboard"
+  } catch (error) {
+    console.log("error", error.response.data.message)
+    yield put(apiError(error.response.data.message))
+  }
+}
+
+function* adminlogoutUser({ payload: { history } }) {
+  try {
+    localStorage.removeItem("authAdmin")
+    localStorage.removeItem("admin-token")
+
+    history.push("/admin/login")
+  } catch (error) {
+    yield put(apiError(error))
+  }
+}
+
 function* socialLogin({ payload: { data, history, type } }) {
   try {
     if (process.env.REACT_APP_DEFAULTAUTH === "firebase") {
@@ -66,6 +97,9 @@ function* authSaga() {
   yield takeEvery(LOGIN_USER, loginUser)
   yield takeLatest(SOCIAL_LOGIN, socialLogin)
   yield takeEvery(LOGOUT_USER, logoutUser)
+
+    yield takeEvery(ADMIN_LOGIN_USER, adminloginUser)
+  yield takeEvery(ADMIN_LOGOUT_USER, adminlogoutUser)
 }
 
 export default authSaga

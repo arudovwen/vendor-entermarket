@@ -1,8 +1,10 @@
 //REGISTER
 export const POST_REGISTER = "/stores"
+export const ADMIN_POST_REGISTER = "/admin/register"
 
 //LOGIN
 export const POST_LOGIN = "/store/login"
+export const ADMIN_POST_LOGIN = "/admin/login"
 export const POST_JWT_LOGIN = "/post-jwt-login"
 export const POST_PASSWORD_FORGET = "/fake-forget-pwd"
 export const POST_JWT_PASSWORD_FORGET = "/jwt-forget-pwd"

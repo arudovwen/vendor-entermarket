@@ -3,6 +3,10 @@ import {
   LOGIN_SUCCESS,
   LOGOUT_USER,
   LOGOUT_USER_SUCCESS,
+  ADMIN_LOGIN_USER,
+  ADMIN_LOGIN_SUCCESS,
+  ADMIN_LOGOUT_USER,
+  ADMIN_LOGOUT_USER_SUCCESS,
   API_ERROR,
 } from "./actionTypes"
 
@@ -29,6 +33,25 @@ const login = (state = initialState, action) => {
       state = { ...state }
       break
     case LOGOUT_USER_SUCCESS:
+      state = { ...state }
+      break
+
+    case ADMIN_LOGIN_USER:
+      state = {
+        ...state,
+        loading: true,
+      }
+      break
+    case ADMIN_LOGIN_SUCCESS:
+      state = {
+        ...state,
+        loading: false,
+      }
+      break
+    case ADMIN_LOGOUT_USER:
+      state = { ...state }
+      break
+    case ADMIN_LOGOUT_USER_SUCCESS:
       state = { ...state }
       break
     case API_ERROR:

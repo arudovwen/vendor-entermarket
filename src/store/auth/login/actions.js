@@ -3,6 +3,10 @@ import {
   LOGIN_SUCCESS,
   LOGOUT_USER,
   LOGOUT_USER_SUCCESS,
+  ADMIN_LOGIN_USER,
+  ADMIN_LOGIN_SUCCESS,
+  ADMIN_LOGOUT_USER,
+  ADMIN_LOGOUT_USER_SUCCESS,
   API_ERROR,
   SOCIAL_LOGIN,
 } from "./actionTypes"
@@ -31,6 +35,35 @@ export const logoutUser = history => {
 export const logoutUserSuccess = () => {
   return {
     type: LOGOUT_USER_SUCCESS,
+    payload: {},
+  }
+}
+
+
+export const adminloginUser = (user, history) => {
+  return {
+    type: ADMIN_LOGIN_USER,
+    payload: { user, history },
+  }
+}
+
+export const adminloginSuccess = user => {
+  return {
+    type: ADMIN_LOGIN_SUCCESS,
+    payload: user,
+  }
+}
+
+export const adminlogoutUser = history => {
+  return {
+    type: ADMIN_LOGOUT_USER,
+    payload: { history },
+  }
+}
+
+export const adminlogoutUserSuccess = () => {
+  return {
+    type: ADMIN_LOGOUT_USER_SUCCESS,
     payload: {},
   }
 }

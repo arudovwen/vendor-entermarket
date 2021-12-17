@@ -2,6 +2,9 @@ import {
   REGISTER_USER,
   REGISTER_USER_SUCCESSFUL,
   REGISTER_USER_FAILED,
+  ADMIN_REGISTER_USER,
+  ADMIN_REGISTER_USER_SUCCESSFUL,
+  ADMIN_REGISTER_USER_FAILED,
 } from "./actionTypes"
 
 const initialState = {
@@ -29,6 +32,30 @@ const account = (state = initialState, action) => {
       }
       break
     case REGISTER_USER_FAILED:
+      state = {
+        ...state,
+        user: null,
+        loading: false,
+        registrationError: action.payload,
+      }
+      break
+
+    case ADMIN_REGISTER_USER:
+      state = {
+        ...state,
+        loading: true,
+        registrationError: null,
+      }
+      break
+    case ADMIN_REGISTER_USER_SUCCESSFUL:
+      state = {
+        ...state,
+        loading: false,
+        user: action.payload,
+        registrationError: null,
+      }
+      break
+    case ADMIN_REGISTER_USER_FAILED:
       state = {
         ...state,
         user: null,
