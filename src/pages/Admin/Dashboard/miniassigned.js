@@ -51,13 +51,7 @@ export default function miniassigned() {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1</td>
-                <td>#080808</td>
-                <td>Kwik </td>
-                <td>Out For delivery</td>
-              </tr>
-              <tbody>
+
                 {orders.map((item, id) => (
                   <tr key={item.id}>
                     <td>{id + 1}</td>
@@ -66,7 +60,7 @@ export default function miniassigned() {
                     <td>Out For delivery</td>
                   </tr>
                 ))}
-              </tbody>
+
             </tbody>
           </Table>
         ) : (

@@ -251,7 +251,7 @@ const PendingOrders = props => {
                                 sm="8"
                                 className="d-flex justify-content-end align-items-center"
                               >
-                                <span className="mx-2">Shipping Method - </span>
+
                                 <span>
                                   {" "}
                                   <ButtonGroup>
@@ -294,10 +294,10 @@ const PendingOrders = props => {
 
                                     <Button
                                       onClick={() =>
-                                        toggleShippingType("scheduled")
+                                        toggleShippingType("schedule")
                                       }
                                       className={
-                                        showing !== "scheduled"
+                                        showing !== "schedule"
                                           ? "opacity-50"
                                           : ""
                                       }

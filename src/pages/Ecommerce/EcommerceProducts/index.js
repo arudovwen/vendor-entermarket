@@ -86,6 +86,7 @@ const EcommerceProducts = props => {
     sales_price: 0,
     in_stock: 0,
     image: [],
+    weight:0
   }
   const [bulkproducts, setbulkproducts] = useState([initialvalue])
   const [modal, setModal] = useState(false)
@@ -110,6 +111,7 @@ const EcommerceProducts = props => {
       product_name: values["product_name"],
       product_desc: values["product_desc"],
       price: values["price"],
+      weight: values["weight"],
       sales_price: values["sales_price"],
       in_stock: values["in_stock"],
       image: productimage,
@@ -248,6 +250,13 @@ const EcommerceProducts = props => {
           </div>
         </>
       ),
+    },
+    {
+      dataField: "weight",
+      text: "Weight(Kg)",
+      sort: true,
+      // eslint-disable-next-line react/display-name
+
     },
     {
       dataField: "created_at",
@@ -546,7 +555,7 @@ const EcommerceProducts = props => {
     // We would use axios `.all()` method to perform concurrent image upload to cloudinary.
     axios.all(uploads).then(() => {
       // ... do anything after successful upload. You can setState() or save the data
-      if (uploadtype == -"single") {
+      if (uploadtype ==="single") {
         setproductimage(imagefiles)
       } else {
         let newimage = [...bulkproducts]
@@ -718,7 +727,7 @@ const EcommerceProducts = props => {
                                                 Select category
                                               </option>
                                               {categoriesList.map(item => (
-                                                <option key={item.id} value="">
+                                                <option key={item.id} value={item.id}>
                                                   {item.name}
                                                 </option>
                                               ))}
@@ -755,7 +764,7 @@ const EcommerceProducts = props => {
                                         </Col>
                                       </Row>
                                       <Row>
-                                        <Col className="col-md-4">
+                                        <Col className="col-md-3">
                                           {" "}
                                           <div className="mb-3">
                                             <AvField
@@ -770,7 +779,7 @@ const EcommerceProducts = props => {
                                             />
                                           </div>
                                         </Col>
-                                        <Col className="col-md-4">
+                                        <Col className="col-md-3">
                                           {" "}
                                           <div className="mb-3">
                                             <AvField
@@ -785,7 +794,7 @@ const EcommerceProducts = props => {
                                             />
                                           </div>
                                         </Col>
-                                        <Col className="col-md-4">
+                                        <Col className="col-md-3">
                                           {" "}
                                           <div className="mb-3">
                                             <AvField
@@ -800,7 +809,23 @@ const EcommerceProducts = props => {
                                             />
                                           </div>
                                         </Col>
+                                        <Col className="col-md-3">
+                                          {" "}
+                                          <div className="mb-3">
+                                            <AvField
+                                              name="weight"
+                                              label="Weight(kg)"
+                                              type="number"
+                                              errorMessage="Invalid weight"
+                                              validate={{
+                                                required: { value: true },
+                                              }}
+                                              value=""
+                                            />
+                                          </div>
+                                        </Col>
                                       </Row>
+
                                       <Row>
                                         <Col className="col-12 ">
                                           <div className="mb-3">
@@ -851,17 +876,18 @@ const EcommerceProducts = props => {
                                                     />
                                                   </Col>
                                                   <Col>
-                                                    <Link
-                                                      to="#"
-                                                      className="text-muted font-weight-bold"
-                                                    >
-                                                      {f.name}
-                                                    </Link>
-                                                    <p className="mb-0">
-                                                      <strong>
-                                                        {f.formattedSize}
-                                                      </strong>
-                                                    </p>
+                                                    {isuploading ? (
+                                                      <i
+                                                        className="fa fa-spinner fa-spin text-primary m-2"
+                                                        aria-hidden="true"
+                                                      ></i>
+                                                    ) : (
+                                                      <p className="mb-0">
+                                                        <strong>
+                                                          {f.formattedSize}
+                                                        </strong>
+                                                      </p>
+                                                    )}
                                                   </Col>
                                                 </Row>
                                               </div>
@@ -979,7 +1005,7 @@ const EcommerceProducts = props => {
                                             </Col>
                                           </Row>
                                           <Row>
-                                            <Col className="col-md-4">
+                                            <Col className="col-md-3">
                                               {" "}
                                               <div className="mb-3">
                                                 <Input
@@ -995,7 +1021,7 @@ const EcommerceProducts = props => {
                                                 />
                                               </div>
                                             </Col>
-                                            <Col className="col-md-4">
+                                            <Col className="col-md-3">
                                               {" "}
                                               <div className="mb-3">
                                                 <Input
@@ -1011,7 +1037,7 @@ const EcommerceProducts = props => {
                                                 />
                                               </div>
                                             </Col>
-                                            <Col className="col-md-4">
+                                            <Col className="col-md-3">
                                               {" "}
                                               <div className="mb-3">
                                                 <Input
@@ -1027,7 +1053,24 @@ const EcommerceProducts = props => {
                                                 />
                                               </div>
                                             </Col>
+                                            <Col className="col-md-3">
+                                              {" "}
+                                              <div className="mb-3">
+                                                <Input
+                                                  id={`weight${index}`}
+                                                  name="weight"
+                                                  placeholder="Weight(kg)"
+                                                  type="number"
+                                                  required
+                                                  value={item.weight}
+                                                  onChange={e =>
+                                                    handleBulkUpload(e, index)
+                                                  }
+                                                />
+                                              </div>
+                                            </Col>
                                           </Row>
+
                                           <Row>
                                             <Col className="col-12 ">
                                               <div className="mb-3">
