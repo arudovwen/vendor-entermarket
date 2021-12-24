@@ -459,7 +459,8 @@ const Orders = props => {
               </div>
             </ModalBody>
             <ModalFooter>
-              <Button className="text-capitalize">{orderList.status}</Button>
+              <span>Status</span>{" "}
+              <Button className="text-capitalize"> {orderList.status}</Button>
             </ModalFooter>
           </Modal>
           {shownTab ? (

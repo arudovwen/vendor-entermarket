@@ -23,7 +23,7 @@ export default function miniassigned() {
         })
         .then(res => {
           if (res.status === 200) {
-            setorders(res.data.slice(0, 9))
+            setorders(res.data.data.slice(0, 9))
           }
         })
     }

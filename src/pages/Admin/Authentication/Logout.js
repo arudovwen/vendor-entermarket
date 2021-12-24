@@ -3,16 +3,16 @@ import React, { useEffect } from "react"
 import { connect } from "react-redux"
 import { withRouter } from "react-router-dom"
 
-import { logoutUser } from "../../../store/actions"
 
 //redux
 import { useSelector, useDispatch } from "react-redux"
+import { adminlogoutUser } from '../../../store/auth/login/actions';
 
 const Logout = props => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(logoutUser(props.history))
+    dispatch(adminlogoutUser(props.history))
   }, [dispatch])
 
   return <></>

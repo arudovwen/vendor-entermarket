@@ -172,7 +172,7 @@ const AssignedOrders = props => {
       formatter: (cellContent, row) => (
         <div className="d-flex">
           <Button
-            pill
+
             size="sm"
             className="mx-2 "
             onClick={() => handleOrderClick(row)}
