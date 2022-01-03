@@ -56,8 +56,8 @@ export default function miniassigned() {
                   <tr key={item.id}>
                     <td>{id + 1}</td>
                     <td>{item.order_no}</td>
-                    <td>Kwik </td>
-                    <td>Out For delivery</td>
+                    <td className="text-capitalize">{item.logistic} </td>
+                    <td className="text-capitalize">{item.logistic_status}</td>
                   </tr>
                 ))}
 

@@ -374,16 +374,29 @@ const Orders = props => {
               Order No : #{orderList.order_no}
             </ModalHeader>
             <ModalBody>
-              {orderList.user ? (
+              {orderList.orderinfo ? (
                 <h6>
                   Customer name :{" "}
                   <span className="text-capitalize">
-                    {orderList.user.firstName} {orderList.user.lastName}
+                    {orderList.orderinfo.firstName}{" "}
+                    {orderList.orderinfo.lastName}
                   </span>
                 </h6>
               ) : (
                 ""
               )}
+              <h6>
+                Email :{" "}
+                <span className="">
+                  {orderList.orderinfo ? orderList.orderinfo.email : ""}
+                </span>
+              </h6>
+              <h6>
+                Phone :{" "}
+                <span className="text-capitalize">
+                  {orderList.orderinfo ? orderList.orderinfo.phoneNumber : ""}
+                </span>
+              </h6>
 
               <h6>
                 Address :{" "}
@@ -394,12 +407,17 @@ const Orders = props => {
                 </span>
               </h6>
               <h6>
+                State :{" "}
+                <span className="text-capitalize">
+                  {orderList.orderinfo ? orderList.orderinfo.state : ""}
+                </span>
+              </h6>
+              <h6>
                 Shipping Type :{" "}
                 <span className="text-capitalize">
                   {orderList.shipping_method}
                 </span>
               </h6>
-
               {orderList.shipping_method === "schedule" ? (
                 <div>
                   <h6>Delivery Date : {orderList.schedule_time}</h6>
@@ -583,6 +601,13 @@ const Orders = props => {
                     aria-hidden="true"
                   ></i>
                 </span>
+                <span className="mx-3">
+                  Failed{" "}
+                  <i
+                    className="fa fa-circle text-danger"
+                    aria-hidden="true"
+                  ></i>
+                </span>
               </div>
               <InfiniteScroll
                 dataLength={orderItemsFiltered.length} //This is important field to render the next data
@@ -625,7 +650,7 @@ const Orders = props => {
                           <CardTitle className="d-flex justify-content-between align-items-center">
                             <span> {item.order_no}</span>
 
-                            {item.status === "pending" ? (
+                            {item.logistic_status === null ? (
                               <i
                                 className="fa fa-circle text-default"
                                 aria-hidden="true"
@@ -633,7 +658,7 @@ const Orders = props => {
                             ) : (
                               ""
                             )}
-                            {item.status === "assigned" ? (
+                            {item.logistic_status === "out for delivery" ? (
                               <i
                                 className="fa fa-circle text-warning"
                                 aria-hidden="true"
@@ -641,7 +666,15 @@ const Orders = props => {
                             ) : (
                               ""
                             )}
-                            {item.status === "delivered" ? (
+                            {item.logistic_status === "failed" ? (
+                              <i
+                                className="fa fa-circle text-danger"
+                                aria-hidden="true"
+                              ></i>
+                            ) : (
+                              ""
+                            )}
+                            {item.logistic_status === "delivered" ? (
                               <i
                                 className="fa fa-circle text-primary"
                                 aria-hidden="true"

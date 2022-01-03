@@ -47,16 +47,16 @@ import { currency } from "../../../helpers/currency"
 const PendingOrders = props => {
   const dispatch = useDispatch()
   const [orders, setorders] = useState([])
-  const [logistics, setlogistics] = useState(1)
+  const [logistics, setlogistics] = useState("kwik")
   const [orderItemsFiltered, setorderItemsFiltered] = useState([])
   const [showing, setshowing] = useState("all")
   const [shownTab, setshownTab] = useState(false)
   const [link, setlink] = useState(null)
   const [meta, setmeta] = useState(null)
   const [hasmore, sethasmore] = useState(false)
-
+ const token = localStorage.getItem("admin-token")
   function getOrders() {
-    const token = localStorage.getItem("admin-token")
+
 
     axios
       .get(`${process.env.REACT_APP_URL}/admin/get/pending/orders`, {
@@ -227,7 +227,7 @@ const PendingOrders = props => {
       sethasmore(false)
       return
     }
-    const token = localStorage.getItem("admin-token")
+
     axios
       .get(link.next, {
         headers: {
@@ -291,6 +291,27 @@ const PendingOrders = props => {
       order: "desc",
     },
   ]
+  const handleAssign = ()=>{
+    var data = {
+      logistic: logistics,
+      status: "assigned",
+      logistic_status: "out for delivery",
+    }
+    axios.put(
+      `${process.env.REACT_APP_URL}/admin/update/order/status/${orderList.id}`,
+      data,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    ).then(res=>{
+      if(res.status === 200){
+        getOrders()
+        toggle()
+      }
+    })
+  }
 
   return (
     <React.Fragment>
@@ -369,16 +390,29 @@ const PendingOrders = props => {
               Order No : #{orderList.order_no}
             </ModalHeader>
             <ModalBody>
-              {orderList.user ? (
+              {orderList.orderinfo ? (
                 <h6>
                   Customer name :{" "}
                   <span className="text-capitalize">
-                    {orderList.user.firstName} {orderList.user.lastName}
+                    {orderList.orderinfo.firstName}{" "}
+                    {orderList.orderinfo.lastName}
                   </span>
                 </h6>
               ) : (
                 ""
               )}
+              <h6>
+                Email :{" "}
+                <span className="">
+                  {orderList.orderinfo ? orderList.orderinfo.email : ""}
+                </span>
+              </h6>
+              <h6>
+                Phone :{" "}
+                <span className="text-capitalize">
+                  {orderList.orderinfo ? orderList.orderinfo.phoneNumber : ""}
+                </span>
+              </h6>
 
               <h6>
                 Address :{" "}
@@ -386,6 +420,12 @@ const PendingOrders = props => {
                   {orderList.orderinfo
                     ? orderList.orderinfo.shipping_address
                     : ""}
+                </span>
+              </h6>
+              <h6>
+                State :{" "}
+                <span className="text-capitalize">
+                  {orderList.orderinfo ? orderList.orderinfo.state : ""}
                 </span>
               </h6>
               <h6>
@@ -457,27 +497,31 @@ const PendingOrders = props => {
                 <div className="d-flex">
                   <Button
                     size="sm"
-                    outline={logistics !== 1}
+                    outline={logistics !== "kwik"}
                     color="primary"
-                    className={logistics === 1 ? "shadow-lg" : ""}
-                    onClick={() => toggleLogisitics(1)}
+                    className={logistics === "kwik" ? "shadow-lg" : ""}
+                    onClick={() => toggleLogisitics("kwik")}
                   >
                     Kwik
                   </Button>
                   <Button
                     size="sm"
                     color="primary"
-                    className={logistics === 2 ? "shadow-lg mx-3" : "mx-3"}
-                    outline={logistics !== 2}
-                    onClick={() => toggleLogisitics(2)}
+                    className={
+                      logistics === "gokada" ? "shadow-lg mx-3" : "mx-3"
+                    }
+                    outline={logistics !== "gokada"}
+                    onClick={() => toggleLogisitics("gokada")}
                   >
-                    Gokakda
+                    Gokada
                   </Button>
                 </div>
               </div>
             </ModalBody>
             <ModalFooter>
-              <Button size="sm">Assign</Button>
+              <Button size="sm" onClick={() => handleAssign()}>
+                Assign
+              </Button>
             </ModalFooter>
           </Modal>
           {shownTab ? (

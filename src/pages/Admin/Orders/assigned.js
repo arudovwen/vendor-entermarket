@@ -61,8 +61,9 @@ const AssignedOrders = props => {
   const [link, setlink] = useState(null)
   const [meta, setmeta] = useState(null)
   const [hasmore, sethasmore] = useState(false)
+  const token = localStorage.getItem("admin-token")
   function getOrders() {
-    const token = localStorage.getItem("admin-token")
+
 
     axios
       .get(`${process.env.REACT_APP_URL}/admin/get/assigned/orders`, {
@@ -89,12 +90,12 @@ const AssignedOrders = props => {
 
     if (val === "all") {
       order = orders.filter(
-        item => item.shipping_method.toLowerCase() !== "all"
+        item => item.logistic_status.toLowerCase() !== "all"
       )
       setorderItemsFiltered(order)
     } else {
       order = orders.filter(
-        item => item.shipping_method.toLowerCase() === val.toLowerCase()
+        item => item.logistic_status.toLowerCase() === val.toLowerCase()
       )
       setorderItemsFiltered(order)
     }
@@ -232,7 +233,7 @@ const AssignedOrders = props => {
       sethasmore(false)
       return
     }
-    const token = localStorage.getItem("admin-token")
+
     axios
       .get(link.next, {
         headers: {
@@ -297,6 +298,28 @@ const AssignedOrders = props => {
     },
   ]
 
+   const handleSubmit = val => {
+     var data = {
+       logistic_status: val,
+     }
+     axios
+       .put(
+         `${process.env.REACT_APP_URL}/admin/update/order/status/${orderList.id}`,
+         data,
+         {
+           headers: {
+             Authorization: `Bearer ${token}`,
+           },
+         }
+       )
+       .then(res => {
+         if (res.status === 200) {
+           getOrders()
+           toggle()
+         }
+       })
+   }
+
   return (
     <React.Fragment>
       <div className="page-content">
@@ -360,8 +383,8 @@ const AssignedOrders = props => {
                   </Button>
 
                   <Button
-                    onClick={() => toggleShippingType("success")}
-                    className={showing !== "success" ? "opacity-50" : ""}
+                    onClick={() => toggleShippingType("delivered")}
+                    className={showing !== "delivered" ? "opacity-50" : ""}
                   >
                     Success
                   </Button>
@@ -374,22 +397,43 @@ const AssignedOrders = props => {
               Order No : #{orderList.order_no}
             </ModalHeader>
             <ModalBody>
-              {orderList.user ? (
+              {orderList.orderinfo ? (
                 <h6>
                   Customer name :{" "}
                   <span className="text-capitalize">
-                    {orderList.user.firstName} {orderList.user.lastName}
+                    {orderList.orderinfo.firstName}{" "}
+                    {orderList.orderinfo.lastName}
                   </span>
                 </h6>
               ) : (
                 ""
               )}
+              <h6>
+                Email :{" "}
+                <span className="">
+                  {orderList.orderinfo ? orderList.orderinfo.email : ""}
+                </span>
+              </h6>
+              <h6>
+                Phone :{" "}
+                <span className="text-capitalize">
+                  {orderList.orderinfo ? orderList.orderinfo.phoneNumber : ""}
+                </span>
+              </h6>
 
               <h6>
                 Address :{" "}
                 <span className="text-capitalize">
                   {orderList.orderinfo
                     ? orderList.orderinfo.shipping_address
+                    : ""}
+                </span>
+              </h6>
+              <h6>
+                State :{" "}
+                <span className="text-capitalize">
+                  {orderList.orderinfo
+                    ? orderList.orderinfo.state
                     : ""}
                 </span>
               </h6>
@@ -454,23 +498,72 @@ const AssignedOrders = props => {
                       <td>Total price</td>
                       <td>{currency.format(orderList.grand_total)}</td>
                     </tr>
+                    <tr>
+                      <td>Logistic</td>
+                      <td className="text-capitalize">{orderList.logistic}</td>
+                    </tr>
                   </tbody>
                 </Table>
               </div>
-              <h5 className="d-flex align-items-center p-2 bg-light">
+              <h6 className="d-flex align-items-center p-2 bg-light">
                 <span className="text-muted">Status :</span> {"   "}
-                <span className="font-weight-bold mx-2">
-                  {" "}
-                  Out For Delivery{"   "}
-                </span>
-                <span className="bx bx-timer"></span>
-              </h5>
+                {orderList.logistic_status === "out for delivery" ? (
+                  <span>
+                    <span className="text-capitalize font-weight-bold mx-2">
+                      {" "}
+                      {orderList.logistic_status}
+                      {"   "}
+                    </span>
+                    <span className="bx bx-timer"></span>
+                  </span>
+                ) : (
+                  ""
+                )}
+                {orderList.logistic_status === "failed" ? (
+                  <span>
+                    <span className="text-capitalize font-weight-bold mx-2 text-danger">
+                      {" "}
+                      {orderList.logistic_status}
+                      {"   "}
+                    </span>
+                    <span className="bx bx-x text-danger"></span>
+                  </span>
+                ) : (
+                  ""
+                )}
+                {orderList.logistic_status === "delivered" ? (
+                  <span>
+                    <span className="text-capitalize font-weight-bold mx-2 text-success">
+                      {" "}
+                      {orderList.logistic_status}
+                      {"   "}
+                    </span>
+                    <span className="bx bx-check text-success"></span>
+                  </span>
+                ) : (
+                  ""
+                )}
+              </h6>
             </ModalBody>
-            <ModalFooter>
-              <Button className="d-flex align-items-center">
-                Re-query <span className="bx bx-rotate-right"></span>
-              </Button>{" "}
-            </ModalFooter>
+            {orderList.logistic_status === "delivered" ? (
+              ""
+            ) : (
+              <ModalFooter>
+                <Button
+                  color="danger"
+                  onClick={() => handleSubmit("failed")}
+                  className="d-flex align-items-center"
+                >
+                  Mark as failed <span className="bx bx-x"></span>
+                </Button>{" "}
+                <Button
+                  onClick={() => handleSubmit("delivered")}
+                  className="d-flex align-items-center"
+                >
+                  Mark as delivered <span className="bx bx-check"></span>
+                </Button>{" "}
+              </ModalFooter>
+            )}
           </Modal>
           {shownTab ? (
             <Row>
@@ -631,17 +724,48 @@ const AssignedOrders = props => {
                                 {currency.format(item.total_amount)}
                               </td>
                             </tr>
+                            <tr>
+                              <td>Logistic</td>
+                              <td className="text-capitalize font-weight-bolder">
+                                {item.logistic}
+                              </td>
+                            </tr>
                           </tbody>
                         </Table>
                         <div className="my-3">
-                          <span className="d-flex justify-content-between align-items-center p-2 bg-light">
-
-                            <span className="font-weight-bolder mx-2">
-                              {" "}
-                              Out For Delivery{"   "}
+                          {item.logistic_status === "out for delivery" ? (
+                            <span className="d-flex justify-content-between align-items-center p-2 bg-light">
+                              <span className="text-capitalize font-weight-bolder mx-2">
+                                {" "}
+                                {item.logistic_status} {"   "}
+                              </span>
+                              <span className="bx bx-timer"></span>
                             </span>
-                            <span className="bx bx-timer"></span>
-                          </span>
+                          ) : (
+                            ""
+                          )}
+                          {item.logistic_status === "failed" ? (
+                            <span className="d-flex justify-content-between align-items-center p-2 bg-light text-danger">
+                              <span className="text-capitalize font-weight-bolder mx-2">
+                                {" "}
+                                {item.logistic_status} {"   "}
+                              </span>
+                              <span className="bx bx-x"></span>
+                            </span>
+                          ) : (
+                            ""
+                          )}
+                          {item.logistic_status === "delivered" ? (
+                            <span className="d-flex justify-content-between align-items-center p-2 bg-light text-success">
+                              <span className="text-capitalize font-weight-bolder mx-2">
+                                {" "}
+                                {item.logistic_status} {"   "}
+                              </span>
+                              <span className="bx bx-check"></span>
+                            </span>
+                          ) : (
+                            ""
+                          )}
                         </div>
 
                         <Button
