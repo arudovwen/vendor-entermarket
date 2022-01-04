@@ -208,7 +208,7 @@ const Ecommerce = (state = INIT_STATE, action) => {
     case ADD_PRODUCT_SUCCESS:
       return {
         ...state,
-        products: [...state.products, action.payload],
+        products: [action.payload, ...state.products],
         status: action.type,
       }
 

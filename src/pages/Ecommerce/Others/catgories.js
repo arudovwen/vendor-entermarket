@@ -75,6 +75,7 @@ const EcommerceOthers = props => {
     if (status === "ON_ADD_BRAND_SUCCESS") {
       setBrandModal(false)
       dispatch(resetstatus())
+
     }
       setisdisabled(false)
   }, [status])
@@ -164,7 +165,7 @@ const EcommerceOthers = props => {
     },
     {
       dataField: "category.name",
-      text: "Catgory",
+      text: "Category",
       sort: true,
       // eslint-disable-next-line react/display-name
       formatter: (cellContent, row) => (

@@ -37,11 +37,11 @@ export default function minipending() {
   }, [])
 
   return (
-    <Card>
+    <Card className="card-box">
       <CardHeader>
         <CardTitle>Pending Orders</CardTitle>
       </CardHeader>
-      <CardBody className="p-5">
+      <CardBody className="p-5  d-flex justify-content-between flex-column">
         {orders.length ? (
           <Table>
             <thead>
@@ -65,7 +65,6 @@ export default function minipending() {
           ""
         )}
         <div className="text-right">
-
           <Link to="/admin/orders/pending">
             <Button className="" size="sm">
               {" "}

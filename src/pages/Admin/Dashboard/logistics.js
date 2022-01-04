@@ -3,7 +3,7 @@ import { Card, CardBody, CardHeader, CardTitle, Table } from "reactstrap"
 
 export default function logistics() {
   return (
-    <Card>
+    <Card className="card-box">
       <CardHeader>
         <CardTitle>Logistics</CardTitle>
       </CardHeader>

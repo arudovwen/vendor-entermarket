@@ -82,11 +82,11 @@ const EcommerceProducts = props => {
     brand_id: "",
     product_name: "",
     product_desc: "",
-    price: 0,
-    sales_price: 0,
-    in_stock: 0,
+    price: null,
+    sales_price: null,
+    in_stock: null,
     image: [],
-    weight:0
+    weight:null
   }
   const [bulkproducts, setbulkproducts] = useState([initialvalue])
   const [modal, setModal] = useState(false)
@@ -655,7 +655,7 @@ const EcommerceProducts = props => {
                                     responsive
                                     bproducted={false}
                                     striped={false}
-                                    defaultSorted={defaultSorted}
+
                                     selectRow={selectRow}
                                     cellEdit={cellEditFactory({
                                       mode: "dbclick",
@@ -743,9 +743,7 @@ const EcommerceProducts = props => {
                                               type="select"
                                               className="form-select"
                                               errorMessage="Invalid brand"
-                                              validate={{
-                                                required: { value: true },
-                                              }}
+
                                               value=""
                                             >
                                               <option disabled value="">
@@ -802,9 +800,7 @@ const EcommerceProducts = props => {
                                               label="Sales Price"
                                               type="number"
                                               errorMessage="Invalid sales price"
-                                              validate={{
-                                                required: { value: true },
-                                              }}
+
                                               value=""
                                             />
                                           </div>
@@ -983,7 +979,7 @@ const EcommerceProducts = props => {
                                                   placeholder=" Brand"
                                                   type="select"
                                                   className="form-select"
-                                                  required
+
                                                   value={item.brand_id}
                                                   onChange={e =>
                                                     handleBulkUpload(e, index)
@@ -1045,7 +1041,7 @@ const EcommerceProducts = props => {
                                                   name="sales_price"
                                                   placeholder="Sales Price"
                                                   type="number"
-                                                  required
+
                                                   value={item.sales_price}
                                                   onChange={e =>
                                                     handleBulkUpload(e, index)

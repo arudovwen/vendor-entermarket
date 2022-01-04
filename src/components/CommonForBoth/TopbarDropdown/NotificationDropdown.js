@@ -1,8 +1,10 @@
 import React, { useState } from "react"
-import PropTypes from 'prop-types'
+import PropTypes from "prop-types"
 import { Link } from "react-router-dom"
 import { Dropdown, DropdownToggle, DropdownMenu, Row, Col } from "reactstrap"
 import SimpleBar from "simplebar-react"
+import axios from 'axios';
+import * as moment from "moment";
 
 //Import images
 import avatar3 from "../../../assets/images/users/avatar-3.jpg"
@@ -14,6 +16,51 @@ import { withTranslation } from "react-i18next"
 const NotificationDropdown = props => {
   // Declare a new state variable, which we'll call "menu"
   const [menu, setMenu] = useState(false)
+  const [notifications, setnotifications] = useState([])
+    const [unreadnotifications, setunreadnotifications] = useState(null)
+  function getNotifications() {
+    const token = localStorage.getItem("admin-token")
+
+    axios
+      .get(`${process.env.REACT_APP_URL}/admin/notifications`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(res => {
+        if (res.status === 200) {
+          setnotifications(res.data)
+          var unread = res.data.filter(item=> !item.read_at).length
+          setunreadnotifications(unread)
+        }
+      })
+  }
+    function markasread(id) {
+      const token = localStorage.getItem("admin-token")
+
+      axios
+        .get(`${process.env.REACT_APP_URL}/admin/notifications/${id}/mark`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then(res => {
+          if (res.status === 200) {
+            getNotifications()
+          }
+        })
+    }
+    const handleValidDate = date => {
+      const date1 = moment(new Date(date)).format("DD MMM Y")
+      return date1
+    }
+
+  React.useEffect(() => {
+    getNotifications()
+    return () => {
+      setnotifications([])
+    }
+  }, [])
 
   return (
     <React.Fragment>
@@ -29,7 +76,10 @@ const NotificationDropdown = props => {
           id="page-header-notifications-dropdown"
         >
           <i className="bx bx-bell bx-tada" />
-          <span className="badge bg-danger rounded-pill">3</span>
+         {
+           unreadnotifications?
+            <span className="badge bg-danger rounded-pill">{unreadnotifications}</span>:''
+         }
         </DropdownToggle>
 
         <DropdownMenu className="dropdown-menu dropdown-menu-lg p-0 dropdown-menu-end">
@@ -38,117 +88,49 @@ const NotificationDropdown = props => {
               <Col>
                 <h6 className="m-0"> {props.t("Notifications")} </h6>
               </Col>
-              <div className="col-auto">
+              {/* <div className="col-auto">
                 <a href="#!" className="small">
                   {" "}
                   View All
                 </a>
-              </div>
+              </div> */}
             </Row>
           </div>
 
           <SimpleBar style={{ height: "230px" }}>
-            <Link to="" className="text-reset notification-item">
-              <div className="media">
-                <div className="avatar-xs me-3">
-                  <span className="avatar-title bg-primary rounded-circle font-size-16">
-                    <i className="bx bx-cart" />
-                  </span>
-                </div>
-                <div className="media-body">
-                  <h6 className="mt-0 mb-1">
-                    {props.t("Your order is placed")}
-                  </h6>
-                  <div className="font-size-12 text-muted">
-                    <p className="mb-1">
-                      {props.t("If several languages coalesce the grammar")}
-                    </p>
-                    <p className="mb-0">
-                      <i className="mdi mdi-clock-outline" />{" "}
-                      {props.t("3 min ago")}{" "}
-                    </p>
+            {notifications.map(item => (
+              <div
+                key={item.id}
+                onClick={()=>markasread(item.id)}
+                className="text-reset notification-item"
+              >
+                <div className="media">
+                  <div className="avatar-xs me-3">
+                    <span className="avatar-title bg-primary rounded-circle font-size-16">
+                      <i className="bx bx-cart" />
+                    </span>
+                  </div>
+                  <div className="media-body">
+                    <div className="font-size-12 text-muted">
+                      <p className="mb-1">{props.t(item.data.message) + "."}</p>
+                      <p className="mb-0">
+                        <i className="mdi mdi-clock-outline" />
+                        {props.t(handleValidDate(item.created_at))}{" "}
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
-            </Link>
-            <Link to="" className="text-reset notification-item">
-              <div className="media">
-                <img
-                  src={avatar3}
-                  className="me-3 rounded-circle avatar-xs"
-                  alt="user-pic"
-                />
-                <div className="media-body">
-                  <h6 className="mt-0 mb-1">James Lemire</h6>
-                  <div className="font-size-12 text-muted">
-                    <p className="mb-1">
-                      {props.t("It will seem like simplified English") + "."}
-                    </p>
-                    <p className="mb-0">
-                      <i className="mdi mdi-clock-outline" />
-                      {props.t("1 hours ago")}{" "}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </Link>
-            <Link to="" className="text-reset notification-item">
-              <div className="media">
-                <div className="avatar-xs me-3">
-                  <span className="avatar-title bg-success rounded-circle font-size-16">
-                    <i className="bx bx-badge-check" />
-                  </span>
-                </div>
-                <div className="media-body">
-                  <h6 className="mt-0 mb-1">
-                    {props.t("Your item is shipped")}
-                  </h6>
-                  <div className="font-size-12 text-muted">
-                    <p className="mb-1">
-                      {props.t("If several languages coalesce the grammar")}
-                    </p>
-                    <p className="mb-0">
-                      <i className="mdi mdi-clock-outline" />{" "}
-                      {props.t("3 min ago")}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </Link>
-
-            <Link to="" className="text-reset notification-item">
-              <div className="media">
-                <img
-                  src={avatar4}
-                  className="me-3 rounded-circle avatar-xs"
-                  alt="user-pic"
-                />
-                <div className="media-body">
-                  <h6 className="mt-0 mb-1">Salena Layfield</h6>
-                  <div className="font-size-12 text-muted">
-                    <p className="mb-1">
-                      {props.t(
-                        "As a skeptical Cambridge friend of mine occidental"
-                      ) + "."}
-                    </p>
-                    <p className="mb-0">
-                      <i className="mdi mdi-clock-outline" />
-                      {props.t("1 hours ago")}{" "}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </Link>
+            ))}
           </SimpleBar>
           <div className="p-2 border-top d-grid">
-            <Link
+            {/* <Link
               className="btn btn-sm btn-link font-size-14 btn-block text-center"
               to="#"
             >
-              <i className="mdi mdi-arrow-right-circle me-1"></i>
-              {" "}
+              <i className="mdi mdi-arrow-right-circle me-1"></i>{" "}
               {props.t("View all")}{" "}
-            </Link>
+            </Link> */}
           </div>
         </DropdownMenu>
       </Dropdown>
@@ -159,5 +141,5 @@ const NotificationDropdown = props => {
 export default withTranslation()(NotificationDropdown)
 
 NotificationDropdown.propTypes = {
-  t: PropTypes.any
+  t: PropTypes.any,
 }

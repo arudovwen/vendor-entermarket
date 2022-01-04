@@ -35,11 +35,11 @@ export default function miniassigned() {
       }
     }, [])
   return (
-    <Card>
+    <Card className='card-box'>
       <CardHeader>
         <CardTitle>Assigned Orders</CardTitle>
       </CardHeader>
-      <CardBody className="p-5">
+      <CardBody className="p-5 d-flex justify-content-between flex-column">
         {orders.length ? (
           <Table>
             <thead>
