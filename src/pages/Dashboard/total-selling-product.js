@@ -43,7 +43,7 @@ const getChartOptions = index => {
 const TotalSellngProduct = props => {
   const dispatch = useDispatch();
   const [topSellingData, settopSellingData] = useState(null)
- 
+
   const { sellingData } = useSelector(state => ({
     sellingData: state.dashboard.topearners,
   }));
@@ -55,9 +55,9 @@ const TotalSellngProduct = props => {
 
   useEffect(()=>{
     settopSellingData(sellingData.shift() )
-    
+
   },[sellingData])
- 
+
   const [seletedMonth, setSeletedMonth] = useState("");
   const currentdate = moment(new Date()).format("MMM Y")
   const onChangeMonth = value => {
@@ -73,7 +73,7 @@ const TotalSellngProduct = props => {
             <div className="clearfix">
               <div className="float-end">
                 <div className="input-group input-group-sm">
-                 
+
                   <label className="input-group-text">{currentdate}</label>
                 </div>
               </div>
@@ -100,8 +100,8 @@ const TotalSellngProduct = props => {
                     return (
                       <tr key={key}>
                         <td>
-                          <h5 className="font-size-14 mb-1">{data.product.product_name}</h5>
-                          <p className="text-muted mb-0" style={{fontSize:.6+'rem'}}>{data.product.product_desc}</p>
+                          <h5 className="font-size-13 mb-1">{data.product.product_name}</h5>
+
                         </td>
 
                         <td>

@@ -18,8 +18,9 @@ const NotificationDropdown = props => {
   const [menu, setMenu] = useState(false)
   const [notifications, setnotifications] = useState([])
     const [unreadnotifications, setunreadnotifications] = useState(null)
-  function getNotifications() {
     const token = localStorage.getItem("admin-token")
+
+  function getNotifications() {
 
     axios
       .get(`${process.env.REACT_APP_URL}/admin/notifications`, {
@@ -56,11 +57,13 @@ const NotificationDropdown = props => {
     }
 
   React.useEffect(() => {
-    getNotifications()
+    if (token) {
+      getNotifications()
+    }
     return () => {
       setnotifications([])
     }
-  }, [])
+  }, [token])
 
   return (
     <React.Fragment>
