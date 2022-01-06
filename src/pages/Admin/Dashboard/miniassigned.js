@@ -35,23 +35,23 @@ export default function miniassigned() {
       }
     }, [])
   return (
-    <Card className='card-box'>
+    <Card className="card-box">
       <CardHeader>
         <CardTitle>Assigned Orders</CardTitle>
       </CardHeader>
       <CardBody className="p-5 d-flex justify-content-between flex-column">
-        {orders.length ? (
-          <Table>
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Order No</th>
-                <th>Logistic</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-
+        <div>
+          {orders.length ? (
+            <Table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Order No</th>
+                  <th>Logistic</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
                 {orders.map((item, id) => (
                   <tr key={item.id}>
                     <td>{id + 1}</td>
@@ -60,14 +60,13 @@ export default function miniassigned() {
                     <td className="text-capitalize">{item.logistic_status}</td>
                   </tr>
                 ))}
-
-            </tbody>
-          </Table>
-        ) : (
-          ""
-        )}
+              </tbody>
+            </Table>
+          ) : (
+            <div>No Assigned order</div>
+          )}
+        </div>
         <div className="text-right">
-
           <Link to="/admin/orders/assigned">
             <Button className="" size="sm">
               {" "}

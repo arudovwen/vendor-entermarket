@@ -385,7 +385,7 @@ const PendingOrders = props => {
               </span>
             </Col>
           </Row>
-          <Modal isOpen={modal} toggle={toggle}>
+          <Modal isOpen={modal} toggle={toggle} size="md">
             <ModalHeader toggle={toggle} tag="h4">
               Order No : #{orderList.order_no}
             </ModalHeader>

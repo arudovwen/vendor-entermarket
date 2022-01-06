@@ -42,28 +42,30 @@ export default function minipending() {
         <CardTitle>Pending Orders</CardTitle>
       </CardHeader>
       <CardBody className="p-5  d-flex justify-content-between flex-column">
-        {orders.length ? (
-          <Table>
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Order No</th>
-                <th>Total weight(kg)</th>
-              </tr>
-            </thead>
-            <tbody>
-              {orders.map((item, id) => (
-                <tr key={item.id}>
-                  <td>{id + 1}</td>
-                  <td>{item.order_no}</td>
-                  <td>{item.weight}kg</td>
+        <div>
+          {orders.length ? (
+            <Table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Order No</th>
+                  <th>Total weight(kg)</th>
                 </tr>
-              ))}
-            </tbody>
-          </Table>
-        ) : (
-          ""
-        )}
+              </thead>
+              <tbody>
+                {orders.map((item, id) => (
+                  <tr key={item.id}>
+                    <td>{id + 1}</td>
+                    <td>{item.order_no}</td>
+                    <td>{item.weight}kg</td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          ) : (
+            <div className='text-center'>No pending order</div>
+          )}
+        </div>
         <div className="text-right">
           <Link to="/admin/orders/pending">
             <Button className="" size="sm">

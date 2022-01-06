@@ -79,10 +79,13 @@ const NotificationDropdown = props => {
           id="page-header-notifications-dropdown"
         >
           <i className="bx bx-bell bx-tada" />
-         {
-           unreadnotifications?
-            <span className="badge bg-danger rounded-pill">{unreadnotifications}</span>:''
-         }
+          {unreadnotifications ? (
+            <span className="badge bg-danger rounded-pill">
+              {unreadnotifications}
+            </span>
+          ) : (
+            ""
+          )}
         </DropdownToggle>
 
         <DropdownMenu className="dropdown-menu dropdown-menu-lg p-0 dropdown-menu-end">
@@ -104,7 +107,7 @@ const NotificationDropdown = props => {
             {notifications.map(item => (
               <div
                 key={item.id}
-                onClick={()=>markasread(item.id)}
+                onClick={() => markasread(item.id)}
                 className="text-reset notification-item"
               >
                 <div className="media">
@@ -115,9 +118,11 @@ const NotificationDropdown = props => {
                   </div>
                   <div className="media-body">
                     <div className="font-size-12 text-muted">
-                      <p className="mb-1">{props.t(item.data.message) + "."}</p>
+                      <p className={item.read_at?'mb-1':'font-weight-semibold mb-1'}>
+                        {props.t(item.data.message) + "."}
+                      </p>
                       <p className="mb-0">
-                        <i className="mdi mdi-clock-outline" />
+                        <i className="mdi mdi-clock-outline mr-1" />
                         {props.t(handleValidDate(item.created_at))}{" "}
                       </p>
                     </div>

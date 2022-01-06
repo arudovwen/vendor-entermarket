@@ -392,7 +392,7 @@ const AssignedOrders = props => {
               </span>
             </Col>
           </Row>
-          <Modal isOpen={modal} toggle={toggle}>
+          <Modal isOpen={modal} toggle={toggle} size="md">
             <ModalHeader toggle={toggle} tag="h4">
               Order No : #{orderList.order_no}
             </ModalHeader>
@@ -432,9 +432,7 @@ const AssignedOrders = props => {
               <h6>
                 State :{" "}
                 <span className="text-capitalize">
-                  {orderList.orderinfo
-                    ? orderList.orderinfo.state
-                    : ""}
+                  {orderList.orderinfo ? orderList.orderinfo.state : ""}
                 </span>
               </h6>
               <h6>
@@ -665,7 +663,7 @@ const AssignedOrders = props => {
                         <CardTitle className="d-flex justify-content-between align-items-center">
                           <span> {item.order_no}</span>
 
-                          {item.status === "pending" ? (
+                          {item.logistic_status === null ? (
                             <i
                               className="fa fa-circle text-default"
                               aria-hidden="true"
@@ -673,7 +671,7 @@ const AssignedOrders = props => {
                           ) : (
                             ""
                           )}
-                          {item.status === "assigned" ? (
+                          {item.logistic_status === "out for delivery" ? (
                             <i
                               className="fa fa-circle text-warning"
                               aria-hidden="true"
@@ -681,7 +679,15 @@ const AssignedOrders = props => {
                           ) : (
                             ""
                           )}
-                          {item.status === "delivered" ? (
+                          {item.logistic_status === "failed" ? (
+                            <i
+                              className="fa fa-circle text-danger"
+                              aria-hidden="true"
+                            ></i>
+                          ) : (
+                            ""
+                          )}
+                          {item.logistic_status === "delivered" ? (
                             <i
                               className="fa fa-circle text-primary"
                               aria-hidden="true"
