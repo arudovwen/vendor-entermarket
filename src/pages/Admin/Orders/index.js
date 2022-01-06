@@ -51,6 +51,7 @@ const Orders = props => {
   const [link, setlink] = useState(null)
   const [meta, setmeta] = useState(null)
   const [hasmore, sethasmore] = useState(false)
+   const token = localStorage.getItem("admin-token")
 
   const selectRow = {
     mode: "checkbox",
@@ -172,8 +173,10 @@ const Orders = props => {
   }
 
   const handleOrderClick = arg => {
+
     setOrderList(arg)
     toggle()
+    markasviewed()
   }
 
   var node = useRef()
@@ -296,6 +299,27 @@ const Orders = props => {
       order: "desc",
     },
   ]
+    const markasviewed = () => {
+      var data = {
+        view_at: "viewed",
+      }
+      axios
+        .put(
+          `${process.env.REACT_APP_URL}/admin/update/order/status/${orderList.id}`,
+          data,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        .then(res => {
+          if (res.status === 200) {
+            getOrders()
+          }
+        })
+    }
+
 
   return (
     <React.Fragment>
@@ -648,7 +672,8 @@ const Orders = props => {
                       <Card>
                         <CardHeader>
                           <CardTitle className="d-flex justify-content-between align-items-center">
-                            <span> {item.order_no}</span>
+                            <span>{
+                              !item.view_at? <Badge  color="primary" className="mr-1 bg-primary">New</Badge>:''} {item.order_no}</span>
 
                             {item.logistic_status === null ? (
                               <i
