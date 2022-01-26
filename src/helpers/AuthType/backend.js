@@ -495,18 +495,6 @@ const Backend = () => {
     })
   })
 
-  mock.onGet(url.GET_CATEGORIES).reply(() => {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        if (calenderDefaultCategories) {
-          // Passing  JSON data as response
-          resolve([200, calenderDefaultCategories])
-        } else {
-          reject([400, "Cannot get categories"])
-        }
-      })
-    })
-  })
 
   mock.onGet(url.GET_CHATS).reply(() => {
     return new Promise((resolve, reject) => {

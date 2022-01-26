@@ -123,9 +123,9 @@ import {
   deleteCategory as onDeleteCategoryApi
 } from "helpers/backend_helper"
 
-function* fetchBrands({ store_id }) {
+function* fetchBrands() {
   try {
-    const response = yield call(getBrandsApi, store_id)
+    const response = yield call(getBrandsApi)
 
     yield put(getBrandsSuccess(response))
   } catch (error) {
@@ -159,9 +159,9 @@ function* onUpdateBrand({ payload }) {
   }
 }
 
-function* fetchCategories({ store_id }) {
+function* fetchCategories() {
   try {
-    const response = yield call(getCategories, store_id)
+    const response = yield call(getCategories)
 
     yield put(getCategoriesSuccess(response))
   } catch (error) {

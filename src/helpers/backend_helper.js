@@ -134,7 +134,7 @@ const postJwtForgetPwd = data => post(url.POST_JWT_PASSWORD_FORGET, data)
 export const postSocialLogin = data => post(url.SOCIAL_LOGIN, data)
 
 // get BRANDS
-export const getBrands = store_id => get(`${url.FETCH_BRANDS}/${store_id}`)
+export const getBrands = () => get(`${url.FETCH_BRANDS}`)
 
 // add brand
 export const addNewBrand = data => post(url.ADD_NEW_BRAND, data, config)
@@ -147,8 +147,7 @@ export const updateBrand = data =>
 export const deleteBrand = data => del(`${url.DELETE_BRAND}/${data.id}`, config)
 
 // get Categories
-export const getCategories = store_id =>
-  get(`${url.GET_CATEGORIES}/${store_id}`)
+export const getCategories = () => get(`${url.GET_CATEGORIES}`)
 
 // add category
 export const addNewCategory = data => post(url.ADD_NEW_CATEGORY, data, config)

@@ -163,21 +163,7 @@ const EcommerceOthers = props => {
         </Link>
       ),
     },
-    {
-      dataField: "category.name",
-      text: "Category",
-      sort: true,
-      // eslint-disable-next-line react/display-name
-      formatter: (cellContent, row) => (
-        <div
-          data-toggle="tooltip"
-          data-placement="top"
-          title="Double click to edit"
-        >
-          {row.category.name}
-        </div>
-      ),
-    },
+
     {
       dataField: "name",
       text: "Brand",
@@ -190,6 +176,21 @@ const EcommerceOthers = props => {
           title="Double click to edit"
         >
           {row.name}
+        </div>
+      ),
+    },
+    {
+      dataField: "category.name",
+      text: "Category",
+      sort: true,
+      // eslint-disable-next-line react/display-name
+      formatter: (cellContent, row) => (
+        <div
+          data-toggle="tooltip"
+          data-placement="top"
+          title="Double click to edit"
+        >
+          {row.category?row.category.name:'-'}
         </div>
       ),
     },
@@ -224,14 +225,13 @@ const EcommerceOthers = props => {
   }
 
   useEffect(() => {
-    const store = JSON.parse(localStorage.getItem("authUser"))
-    dispatch(onGetCategories(store.id))
+
+    dispatch(onGetCategories())
   }, [dispatch])
 
   useEffect(() => {
-    const store = JSON.parse(localStorage.getItem("authUser"))
 
-    dispatch(onGetBrands(store.id))
+    dispatch(onGetBrands())
   }, [dispatch])
 
   const toggle = () => {

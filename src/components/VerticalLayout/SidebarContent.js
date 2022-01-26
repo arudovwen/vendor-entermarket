@@ -119,12 +119,7 @@ const SidebarContent = props => {
                 </Link>
               </li>
 
-              <li>
-                <Link to="/ecommerce-others">
-                  <i className="bx bx-store"></i>
-                  <span>{props.t("Others")}</span>
-                </Link>
-              </li>
+
             </ul>
           ) : (
             <ul className="metismenu list-unstyled" id="side-menu">
@@ -156,6 +151,12 @@ const SidebarContent = props => {
                   <i className="bx bx-list-check"></i>
 
                   <span>{props.t("Assigned Orders")}</span>
+                </Link>
+              </li>
+               <li>
+                <Link to="/admin-others">
+                  <i className="bx bx-store"></i>
+                  <span>{props.t("Others")}</span>
                 </Link>
               </li>
             </ul>
