@@ -34,7 +34,7 @@ const EcommerceOrdersModal = props => {
           </p>
 
           <div className="table-responsive">
-            <Table className="table align-middle table-nowrap">
+            <Table responsive className="table align-middle table-nowrap">
               <thead>
                 <tr>
                   <th scope="col">Product</th>

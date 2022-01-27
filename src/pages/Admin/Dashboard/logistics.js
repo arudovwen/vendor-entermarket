@@ -8,7 +8,7 @@ export default function logistics() {
         <CardTitle>Logistics</CardTitle>
       </CardHeader>
       <CardBody className="">
-        <Table>
+        <Table responsive>
           <tbody>
             <tr>
               <td>Kwik Logistics</td>

@@ -57,7 +57,7 @@ const FormXeditable = () => {
                   </CardSubtitle>
 
                   <div className="table-responsive">
-                    <Table responsive striped className="table-nowrap mb-0">
+                    <Table responsive responsive striped className="table-nowrap mb-0">
                       <thead>
                         <tr>
                           <th style={{ width: "50%" }}>Inline</th>

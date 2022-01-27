@@ -44,7 +44,7 @@ export default function minipending() {
       <CardBody className="p-5  d-flex justify-content-between flex-column">
         <div>
           {orders.length ? (
-            <Table>
+            <Table responsive>
               <thead>
                 <tr>
                   <th>#</th>

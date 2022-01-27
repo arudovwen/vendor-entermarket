@@ -460,7 +460,7 @@ const AssignedOrders = props => {
                 </p>
               </div>
               {orderList.items ? (
-                <Table>
+                <Table responsive>
                   <thead>
                     <tr>
                       <th>Item</th>
@@ -486,7 +486,7 @@ const AssignedOrders = props => {
                 ""
               )}
               <div className="my-4">
-                <Table borderless size="sm">
+                <Table responsive borderless size="sm">
                   <tbody>
                     <tr>
                       <td>Total weight</td>
@@ -698,7 +698,7 @@ const AssignedOrders = props => {
                         </CardTitle>
                       </CardHeader>
                       <CardBody>
-                        <Table>
+                        <Table responsive>
                           <tbody>
                             <tr>
                               <td>Order </td>

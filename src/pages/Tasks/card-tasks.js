@@ -10,7 +10,7 @@ const CardTasks = props => {
         <CardBody>
           <CardTitle className="mb-4">{props.taskTitle}</CardTitle>
           <div className="table-responsive">
-            <Table className="table-nowrap table-centered mb-0">
+            <Table responsive className="table-nowrap table-centered mb-0">
               <tbody>
               {props.data.map((task, i) => (
                 <tr key={i}>

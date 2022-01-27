@@ -34,7 +34,7 @@ const ResponsiveTables = () => {
                       className="table-responsive mb-0"
                       data-pattern="priority-columns"
                     >
-                      <Table
+                      <Table responsive
                         id="tech-companies-1"
                         className="table table-striped table-bordered"
                       >

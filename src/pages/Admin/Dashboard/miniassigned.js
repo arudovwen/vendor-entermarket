@@ -42,7 +42,7 @@ export default function miniassigned() {
       <CardBody className="p-5 d-flex justify-content-between flex-column">
         <div>
           {orders.length ? (
-            <Table>
+            <Table responsive>
               <thead>
                 <tr>
                   <th>#</th>

@@ -38,7 +38,7 @@ const BasicTable = () => {
                   </CardSubtitle>
 
                   <div className="table-responsive">
-                    <Table className="table mb-0">
+                    <Table responsive className="table mb-0">
                       <thead>
                         <tr>
                           <th>#</th>
@@ -83,7 +83,7 @@ const BasicTable = () => {
                   </CardSubtitle>
 
                   <div className="table-responsive">
-                    <Table className="table table-dark mb-0">
+                    <Table responsive className="table table-dark mb-0">
                       <thead>
                         <tr>
                           <th>#</th>
@@ -130,7 +130,7 @@ const BasicTable = () => {
                   </CardSubtitle>
 
                   <div className="table-responsive">
-                    <Table className="table mb-0">
+                    <Table responsive className="table mb-0">
                       <thead className="table-light">
                         <tr>
                           <th>#</th>
@@ -175,7 +175,7 @@ const BasicTable = () => {
                   </CardSubtitle>
 
                   <div className="table-responsive">
-                    <Table className="table table-striped mb-0">
+                    <Table responsive className="table table-striped mb-0">
                       <thead>
                         <tr>
                           <th>#</th>
@@ -222,7 +222,7 @@ const BasicTable = () => {
                   </CardSubtitle>
 
                   <div className="table-responsive">
-                    <Table className="table table-bordered mb-0">
+                    <Table responsive className="table table-bordered mb-0">
                       <thead>
                         <tr>
                           <th>#</th>
@@ -268,7 +268,7 @@ const BasicTable = () => {
                   </CardSubtitle>
 
                   <div className="table-responsive">
-                    <Table className="table table-borderless mb-0">
+                    <Table responsive className="table table-borderless mb-0">
                       <thead>
                         <tr>
                           <th>#</th>
@@ -318,7 +318,7 @@ const BasicTable = () => {
                     </p>
 
                     <div className="table-responsive">
-                      <Table className="align-middle mb-0">
+                      <Table responsive className="align-middle mb-0">
                         <thead>
                           <tr>
                             <th>#</th>
@@ -398,7 +398,7 @@ const BasicTable = () => {
                   </p>
 
                   <div className="table-responsive">
-                    <Table className="table-striped table-bordered mb-0">
+                    <Table responsive className="table-striped table-bordered mb-0">
                       <thead>
                         <tr>
                           <th scope="col">#</th>
@@ -464,7 +464,7 @@ const BasicTable = () => {
                   </CardSubtitle>
 
                   <div className="table-responsive">
-                    <Table className="table table-hover mb-0">
+                    <Table responsive className="table table-hover mb-0">
                       <thead>
                         <tr>
                           <th>#</th>
@@ -510,7 +510,7 @@ const BasicTable = () => {
                   </CardSubtitle>
 
                   <div className="table-responsive">
-                    <Table className="table table-sm m-0">
+                    <Table responsive className="table table-sm m-0">
                       <thead>
                         <tr>
                           <th>#</th>
@@ -568,7 +568,7 @@ const BasicTable = () => {
                   </CardSubtitle>
 
                   <div className="table-responsive">
-                    <Table className="table mb-0">
+                    <Table responsive className="table mb-0">
                       <thead>
                         <tr>
                           <th>#</th>
@@ -631,7 +631,7 @@ const BasicTable = () => {
                   </CardSubtitle>
 
                   <div className="table-responsive">
-                    <Table className="table mb-0">
+                    <Table responsive className="table mb-0">
                       <caption>List of users</caption>
                       <thead>
                         <tr>
@@ -681,7 +681,7 @@ const BasicTable = () => {
                   </CardSubtitle>
 
                   <div className="table-responsive">
-                    <Table className="table mb-0">
+                    <Table responsive className="table mb-0">
                       <thead>
                         <tr>
                           <th>#</th>

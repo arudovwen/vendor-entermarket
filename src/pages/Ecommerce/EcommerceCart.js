@@ -125,7 +125,7 @@ const EcommerceCart = () => {
               <Card>
                 <CardBody>
                   <div className="table-responsive">
-                    <Table className="table align-middle mb-0 table-nowrap">
+                    <Table responsive className="table align-middle mb-0 table-nowrap">
                       <thead className="table-light">
                         <tr>
                           <th>Product</th>
@@ -292,7 +292,7 @@ const EcommerceCart = () => {
                   <CardTitle className="mb-3">Order Summary</CardTitle>
 
                   <div className="table-responsive">
-                    <Table className="table mb-0">
+                    <Table responsive className="table mb-0">
                       <tbody>
                         <tr>
                           <td>Grand Total :</td>

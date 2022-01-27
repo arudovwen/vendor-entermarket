@@ -61,7 +61,7 @@ const TotalSellongProduct = props => {
             <div className="mt-4">
               <SimpleBar style={{ maxHeight: "250px" }}>
                 <div className="table-responsive">
-                  <Table className="table table-nowrap align-middle table-hover mb-0">
+                  <Table responsive className="table table-nowrap align-middle table-hover mb-0">
                     <tbody>
                       <tr>
                         <td style={{ width: "50px" }}>

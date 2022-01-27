@@ -98,7 +98,7 @@ const DragDropTables = () => {
 
                   <div className="table-responsive">
                     <ReactDragListView {...dragProps}>
-                      <Table className="table mb-0">
+                      <Table responsive className="table mb-0">
                         <thead>
                           <tr>
                             <th>#</th>
@@ -139,7 +139,7 @@ const DragDropTables = () => {
 
                   <div className="table-responsive">
                     <ReactDragListView {...dragProps1}>
-                      <Table className="table table-dark mb-0">
+                      <Table responsive className="table table-dark mb-0">
                         <thead>
                           <tr>
                             <th>#</th>

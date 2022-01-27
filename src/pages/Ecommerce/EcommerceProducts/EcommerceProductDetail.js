@@ -373,7 +373,7 @@ const EcommerceProductDetail = props => {
                       <h5 className="mb-3">Specifications :</h5>
 
                       <div className="table-responsive">
-                        <Table className="table mb-0 table-bordered">
+                        <Table responsive className="table mb-0 table-bordered">
                           <tbody>
                             {product.specification &&
                               product.specification.map((specification, i) => (

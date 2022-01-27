@@ -642,7 +642,7 @@ const EcommerceCheckout = () => {
                             </CardTitle>
 
                             <div className="table-responsive">
-                              <Table className="table align-middle mb-0 table-nowrap">
+                              <Table responsive className="table align-middle mb-0 table-nowrap">
                                 <thead className="table-light">
                                   <tr>
                                     <th scope="col">Product</th>

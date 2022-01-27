@@ -127,7 +127,7 @@ const InvoiceDetail = props => {
                       <h3 className="font-size-15 fw-bold">Order summary</h3>
                     </div>
                     <div className="table-responsive">
-                      <Table className="table-nowrap">
+                      <Table responsive className="table-nowrap">
                         <thead>
                           <tr>
                             <th style={{ width: "70px" }}>No.</th>

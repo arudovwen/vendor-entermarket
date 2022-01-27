@@ -93,7 +93,7 @@ const TotalSellngProduct = props => {
             </div>
 
             <div className="table-responsive mt-4">
-              <Table className="table align-middle mb-0">
+              <Table responsive className="table align-middle mb-0">
                 <tbody>
                   {(sellingData || []).map((data, key) => {
                     const options = getChartOptions(key + 1);

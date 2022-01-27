@@ -287,7 +287,7 @@ const PendingOrders = props => {
     }
 
     if (!url) return
-   
+
     axios
       .get(url, {
         headers: {
@@ -475,7 +475,7 @@ const PendingOrders = props => {
                 </p>
               </div>
               {orderList.items ? (
-                <Table>
+                <Table responsive>
                   <thead>
                     <tr>
                       <th>Item</th>
@@ -501,7 +501,7 @@ const PendingOrders = props => {
                 ""
               )}
               <div className="my-4">
-                <Table borderless size="sm">
+                <Table responsive borderless size="sm">
                   <tbody>
                     <tr>
                       <td>Total weight</td>
@@ -723,7 +723,7 @@ const PendingOrders = props => {
                         </CardTitle>
                       </CardHeader>
                       <CardBody>
-                        <Table>
+                        <Table responsive>
                           <tbody>
                             <tr>
                               <td>Order </td>
