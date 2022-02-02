@@ -69,7 +69,7 @@ const TotalSellngProduct = props => {
     <React.Fragment>
       <Col xl="4">
         <Card>
-          <CardBody>
+          <CardBody style={{ minHeight:'425px' }}>
             <div className="clearfix">
               <div className="float-end">
                 <div className="input-group input-group-sm">

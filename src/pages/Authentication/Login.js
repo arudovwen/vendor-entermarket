@@ -6,7 +6,7 @@ import { Row, Col, CardBody, Card, Alert, Container } from "reactstrap"
 
 //redux
 import { useSelector, useDispatch } from "react-redux"
-
+import toastr from 'toastr'
 import { withRouter, Link } from "react-router-dom"
 
 // availity-reactstrap-validation
@@ -23,8 +23,10 @@ const Login = props => {
   const token = localStorage.getItem("user-token")
 
   React.useEffect(() => {
-    if (token) {
-      props.history.push("/dashboard")
+
+    if (token ) {
+
+     window.location.href = "/dashboard"
     }
   }, [token])
    const { loading } = useSelector(state => ({
@@ -36,8 +38,11 @@ const Login = props => {
 
   // handleValidSubmit
   const handleValidSubmit = (event, values) => {
-
-    dispatch(loginUser(values, props.history))
+ if(values.password.length < 6){
+   toastr.error('Password must be more 6 or more!')
+   return;
+ }
+     dispatch(loginUser(values, props.history))
   }
 
   return (
@@ -101,6 +106,7 @@ const Login = props => {
                           value=""
                           type="password"
                           required
+                          min="6"
                           placeholder="Enter Password"
                         />
                       </div>

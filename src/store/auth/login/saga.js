@@ -27,7 +27,7 @@ function* loginUser({ payload: { user, history } }) {
 
     yield put(loginSuccess(response))
 
-    window.location.href = "/dashboard"
+
   } catch (error) {
     console.log("error", error.response.data.message)
     yield put(apiError(error.response.data.message))
@@ -57,7 +57,7 @@ function* adminloginUser({ payload: { user, history } }) {
 
     yield put(adminloginSuccess(response))
 
-    window.location.href = "/admin/dashboard"
+   
   } catch (error) {
     console.log("error", error.response.data.message)
     yield put(apiError(error.response.data.message))

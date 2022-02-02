@@ -10,29 +10,29 @@ const MiniWidget = ({ reports }) => {
           <Card>
             <CardBody>
               <div className="d-flex align-items-center mb-3">
-                <div className="avatar-xs me-3">
-                  <span className="avatar-title rounded-circle bg-primary bg-soft text-primary font-size-18">
+                <div className="avatar-sm me-3">
+                  <span className="avatar-title rounded-circle bg-primary bg-soft text-primary font-size-28">
                     <i className={report.icon} />
                   </span>
                 </div>
-                <h5 className="font-size-14 mb-0">{report.title}</h5>
-              </div>
-              <div className="text-muted mt-4">
-                <h4>
-                  {report.value}{" "}
-                  <i className="mdi mdi-chevron-up ms-1 text-success" />
-                </h4>
-                <div className="d-flex">
-                  <span
-                    className={
-                      "badge badge-soft-" + report.color + " font-size-12"
-                    }
-                  >
-                    {" "}
-                    {report.badgeValue}{" "}
-                  </span>{" "}
-                  <span className="ms-2 text-truncate">{report.desc}</span>
+                <div className="text-muted mt-4">
+                  <h3 className="font-size-20 mb-0 text-muted">{report.title}</h3>
+                  <h1>
+                    {report.value}{" "}
+
+                  </h1>
                 </div>
+              </div>
+              <div className="d-flex justify-content-end">
+                <span
+                  className={
+                    "badge badge-soft-" + report.color + " font-size-12"
+                  }
+                >
+                  {" "}
+                  {report.badgeValue}{" "}
+                </span>{" "}
+                <span className="ms-2 text-truncate">{report.desc}</span>
               </div>
             </CardBody>
           </Card>
