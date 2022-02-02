@@ -82,11 +82,11 @@ const EcommerceProducts = props => {
     brand_id: "",
     product_name: "",
     product_desc: "",
-    price: null,
-    sales_price: null,
-    in_stock: null,
+    price: "",
+    sales_price: "",
+    in_stock: "",
     image: [],
-    weight:null
+    weight:""
   }
   const [bulkproducts, setbulkproducts] = useState([initialvalue])
   const [modal, setModal] = useState(false)
@@ -1143,7 +1143,9 @@ const EcommerceProducts = props => {
                                               )}
                                             </Col>
                                           </Row>
-                                          <div className="mt-2">
+                                         {
+                                           index >1?
+                                            <div className="mt-2">
                                             <Button
                                               color="danger"
                                               size="sm"
@@ -1156,7 +1158,8 @@ const EcommerceProducts = props => {
                                                 aria-hidden="true"
                                               ></i>
                                             </Button>
-                                          </div>
+                                          </div>:''
+                                         }
                                         </div>
                                       ))}
 

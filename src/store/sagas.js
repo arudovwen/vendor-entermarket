@@ -8,10 +8,6 @@ import ProfileSaga from "./auth/profile/saga"
 import LayoutSaga from "./layout/saga"
 import ecommerceSaga from "./e-commerce/saga"
 
-import invoiceSaga from "./invoices/saga"
-
-import tasksSaga from "./tasks/saga"
-
 import dashboardSaga from "./dashboard/saga"
 
 export default function* rootSaga() {
@@ -23,8 +19,7 @@ export default function* rootSaga() {
     fork(ProfileSaga),
     fork(LayoutSaga),
     fork(ecommerceSaga),
-    fork(invoiceSaga),
-    fork(tasksSaga),
+
     fork(dashboardSaga),
   ])
 }

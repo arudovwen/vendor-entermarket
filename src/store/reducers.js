@@ -12,11 +12,6 @@ import Profile from "./auth/profile/reducer"
 //E-commerce
 import ecommerce from "./e-commerce/reducer"
 
-//invoices
-import invoices from "./invoices/reducer"
-
-//tasks
-import tasks from "./tasks/reducer"
 
 //Dasboard saas
 import dashboard from "./dashboard/reducer"
@@ -29,8 +24,7 @@ const rootReducer = combineReducers({
   ForgetPassword,
   Profile,
   ecommerce,
-  invoices,
-  tasks,
+  
   dashboard,
 })
 

@@ -113,6 +113,7 @@ const Layout = props => {
   )
 }
 
+
 Layout.propTypes = {
   changeLayout: PropTypes.func /*  */,
   changeLayoutWidth: PropTypes.func,

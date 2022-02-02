@@ -18,6 +18,8 @@ import { adminloginUser, apiError } from "../../../store/actions"
 // import images
 import profile from "assets/images/profile-img.png"
 import logo from "assets/images/logo.png"
+import toastr from "toastr"
+
 const Login = props => {
   const dispatch = useDispatch()
   const token = localStorage.getItem("admin-token")
@@ -36,7 +38,10 @@ const Login = props => {
 
   // handleValidSubmit
   const handleValidSubmit = (event, values) => {
-
+if (values.password.length < 6) {
+  toastr.error("Password must be more 6 or more!")
+  return
+}
     dispatch(adminloginUser(values, props.history))
   }
 
