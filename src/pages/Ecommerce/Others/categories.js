@@ -276,12 +276,15 @@ const EcommerceOthers = props => {
   }
 
   const handleDelete = (data, type) => {
-    if (data.id !== undefined) {
-      type === "category"
-        ? dispatch(onDeleteCategory(data))
-        : dispatch(onDeleteBrand(data))
-      onPaginationPageChange(1)
-    }
+   let confirm = confirm('Are you sure?')
+   if(confirm){
+      if (data.id !== undefined) {
+        type === "category"
+          ? dispatch(onDeleteCategory(data))
+          : dispatch(onDeleteBrand(data))
+        onPaginationPageChange(1)
+      }
+   }
   }
   const handleTableUpdate = (id, value, column, type) => {
     var data = { id }

@@ -26,7 +26,7 @@ const Login = props => {
 
   React.useEffect(() => {
     if (token) {
-      window.location.href = "/admin/dashboard"
+      window.location.href = "/admin"
     }
   }, [token])
    const { loading } = useSelector(state => ({

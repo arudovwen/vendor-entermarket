@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react"
+import React, { useEffect, useState, useRef, useMemo } from "react"
 import MetaTags from "react-meta-tags"
 import PropTypes from "prop-types"
 import { withRouter, Link } from "react-router-dom"
@@ -12,6 +12,10 @@ import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit"
 import * as moment from "moment"
 import axios from "axios"
 import InfiniteScroll from "react-infinite-scroll-component"
+import debounce from "lodash.debounce"
+import DatePicker from "react-datepicker"
+import "react-datepicker/dist/react-datepicker.css"
+
 import {
   Button,
   Card,
@@ -56,6 +60,9 @@ const PendingOrders = props => {
   const [meta, setmeta] = useState(null)
   const [hasmore, sethasmore] = useState(false)
  const token = localStorage.getItem("admin-token")
+   const [startdate, setStartdate] = useState(new Date())
+   const [enddate, setEnddate] = useState(null)
+
   function getOrders() {
 
 
@@ -195,15 +202,15 @@ const PendingOrders = props => {
   const handleOrderClick = arg => {
     setOrderList(arg)
     toggle()
-    markasviewed()
+    markasviewed(arg.id)
   }
-  const markasviewed = () => {
+  const markasviewed = (id) => {
     var data = {
-      view_at: "viewed",
+      view_at: new Date(),
     }
     axios
       .put(
-        `${process.env.REACT_APP_URL}/admin/update/order/status/${orderList.id}`,
+        `${process.env.REACT_APP_URL}/admin/update/order/status/${id}`,
         data,
         {
           headers: {
@@ -235,10 +242,70 @@ const PendingOrders = props => {
     const date1 = moment(new Date(date)).format("DD MMM Y")
     return date1
   }
-  const handleSearch = val => {
-    let newsearch = orders.filter(item => item.order_no.includes(val))
-    setorderItemsFiltered(newsearch)
-  }
+ const handleSearch = val => {
+   const token = localStorage.getItem("admin-token")
+   setorders([])
+   setorderItemsFiltered([])
+   axios
+     .get(`${process.env.REACT_APP_URL}/search/pending/order?query=${val}`, {
+       headers: {
+         Authorization: `Bearer ${token}`,
+       },
+     })
+     .then(res => {
+       if (res.status === 200) {
+         setorders(res.data.data)
+         setorderItemsFiltered(res.data.data)
+         setlink(res.data.links)
+         setmeta(res.data.meta)
+         if (res.data.meta.total > 20) {
+           sethasmore(true)
+         }
+       }
+     })
+ }
+
+ const debouncedChangeHandler = useMemo(
+   () => debounce(val => handleSearch(val), 500),
+   []
+ )
+ function handleSearchByDate(dates) {
+   const [start, end] = dates
+   setStartdate(start)
+   setEnddate(end)
+   handledatesearch(start, end)
+ }
+ function handledatesearch(start, end) {
+   if (!start && !end) {
+     getOrders()
+     return
+   }
+   const token = localStorage.getItem("admin-token")
+   setorders([])
+   setorderItemsFiltered([])
+   let data = {
+     start: start,
+     end: end,
+   }
+   axios
+     .post(`${process.env.REACT_APP_URL}/search/pending/order-by-date`, data, {
+       headers: {
+         Authorization: `Bearer ${token}`,
+       },
+     })
+     .then(res => {
+       if (res.status === 200) {
+         setorders(res.data.data)
+         setorderItemsFiltered(res.data.data)
+         setlink(res.data.links)
+         setmeta(res.data.meta)
+         if (res.data.meta.total > 20) {
+           sethasmore(true)
+         }
+       }
+     })
+ }
+
   const handleCheckBox = () => {
     setshowing("all")
     getOrders()
@@ -343,13 +410,13 @@ const PendingOrders = props => {
         </MetaTags>
         <Container fluid>
           <Breadcrumbs title="Pending" breadcrumbItem="Orders" />
-          <Row className="my-5">
+          <Row className="my-5 align-items-end">
             <Col sm="3">
               <Input
                 type="search"
-                className="rounded-pill"
-                placeholder="Search order no"
-                onChange={e => handleSearch(e.target.value)}
+                className="rounded-pill px-3"
+                placeholder="Search by order no, order name, weight"
+                onChange={e => debouncedChangeHandler(e.target.value)}
               />
             </Col>
             <Col sm="3" className="d-flex align-items-center">
@@ -371,8 +438,21 @@ const PendingOrders = props => {
             </Col>
             <Col
               sm="6"
-              className="d-flex justify-content-end align-items-center"
+              className="d-flex justify-content-between align-items-end"
             >
+              <div className="w-100 mx-4">
+                <div className="text-xs ">Filter by date</div>
+                <DatePicker
+                  selected={startdate}
+                  onChange={handleSearchByDate}
+                  startDate={startdate}
+                  endDate={enddate}
+                  selectsRange
+                  isClearable={true}
+                  shouldCloseOnSelect={false}
+                  className="w-100 rounded-pill border py-2"
+                />
+              </div>
               <span>
                 {" "}
                 <ButtonGroup>

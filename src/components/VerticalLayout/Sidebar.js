@@ -15,11 +15,16 @@ import logoLightSvg from "../../assets/images/logo.png"
 import logoDark from "../../assets/images/logo-dark.png"
 
 const Sidebar = props => {
+  const admintoken =   localStorage.getItem("admin-token")
+
   return (
     <React.Fragment>
       <div className="vertical-menu">
         <div className="navbar-brand-box bg-white">
-          <Link to="/" className="logo logo-dark">
+          <Link
+            to={admintoken ? "/admin" : "/dashboard"}
+            className="logo logo-dark"
+          >
             <span className="logo-sm">
               <img src={logo} alt="" width="190" />
             </span>
@@ -28,7 +33,10 @@ const Sidebar = props => {
             </span>
           </Link>
 
-          <Link to="/" className="logo logo-light">
+          <Link
+            to={admintoken ? "/admin" : "/dashboard"}
+            className="logo logo-light"
+          >
             <span className="logo-sm">
               <img src={logoLightSvg} alt="" width="190" />
             </span>

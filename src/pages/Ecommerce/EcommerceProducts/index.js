@@ -143,7 +143,20 @@ const EcommerceProducts = props => {
   }
   const handleBulkUpload = (e, index) => {
     e.preventDefault()
+
     let newFormValues = [...bulkproducts]
+    if (e.target.name == "in_stock" && e.target.value < 0) {
+       newFormValues[index][e.target.name] = 0
+       setbulkproducts(newFormValues)
+      return
+    }
+    if (e.target.name == "sales_price" && Number(e.target.value) > Number(newFormValues[index]['price'])) {
+      newFormValues[index][e.target.name] = Number(
+        newFormValues[index]["price"]
+      )
+      setbulkproducts(newFormValues)
+      return
+    }
     newFormValues[index][e.target.name] = e.target.value
     setbulkproducts(newFormValues)
   }
@@ -483,10 +496,13 @@ const EcommerceProducts = props => {
   }
 
   const handleDeleteProduct = product => {
-    if (product.id !== undefined) {
-      dispatch(onDeleteProduct(product))
-      onPaginationPageChange(1)
-    }
+   let confirm = confirm('Are you sure?')
+   if(confirm){
+      if (product.id !== undefined) {
+        dispatch(onDeleteProduct(product))
+        onPaginationPageChange(1)
+      }
+   }
   }
 
   const handleProductClicks = () => {
@@ -625,7 +641,7 @@ const EcommerceProducts = props => {
                               </Col>
                               <Col sm="8">
                                 <div className="text-sm-end">
-                                  <Button
+                                  {/* <Button
                                     type="button"
                                     color="success"
                                     className="btn-rounded  mb-2 me-2"
@@ -633,7 +649,7 @@ const EcommerceProducts = props => {
                                   >
                                     <i className="mdi mdi-plus me-1" />
                                     Add Product
-                                  </Button>
+                                  </Button> */}
 
                                   <Button
                                     type="button"
@@ -655,7 +671,6 @@ const EcommerceProducts = props => {
                                     responsive
                                     bproducted={false}
                                     striped={false}
-
                                     selectRow={selectRow}
                                     cellEdit={cellEditFactory({
                                       mode: "dbclick",
@@ -727,7 +742,10 @@ const EcommerceProducts = props => {
                                                 Select category
                                               </option>
                                               {categoriesList.map(item => (
-                                                <option key={item.id} value={item.id}>
+                                                <option
+                                                  key={item.id}
+                                                  value={item.id}
+                                                >
                                                   {item.name}
                                                 </option>
                                               ))}
@@ -743,7 +761,6 @@ const EcommerceProducts = props => {
                                               type="select"
                                               className="form-select"
                                               errorMessage="Invalid brand"
-
                                               value=""
                                             >
                                               <option disabled value="">
@@ -769,6 +786,7 @@ const EcommerceProducts = props => {
                                               name="in_stock"
                                               label="Stock"
                                               type="number"
+                                              min="0"
                                               errorMessage="Invalid Total"
                                               validate={{
                                                 required: { value: true },
@@ -784,6 +802,7 @@ const EcommerceProducts = props => {
                                               name="price"
                                               label="Price"
                                               type="number"
+                                              min="0"
                                               errorMessage="Invalid Total"
                                               validate={{
                                                 required: { value: true },
@@ -799,8 +818,8 @@ const EcommerceProducts = props => {
                                               name="sales_price"
                                               label="Sales Price"
                                               type="number"
+                                              min="0"
                                               errorMessage="Invalid sales price"
-
                                               value=""
                                             />
                                           </div>
@@ -812,6 +831,7 @@ const EcommerceProducts = props => {
                                               name="weight"
                                               label="Weight(kg)"
                                               type="number"
+                                              min="0"
                                               errorMessage="Invalid weight"
                                               validate={{
                                                 required: { value: true },
@@ -979,7 +999,6 @@ const EcommerceProducts = props => {
                                                   placeholder=" Brand"
                                                   type="select"
                                                   className="form-select"
-
                                                   value={item.brand_id}
                                                   onChange={e =>
                                                     handleBulkUpload(e, index)
@@ -1009,6 +1028,7 @@ const EcommerceProducts = props => {
                                                   name="in_stock"
                                                   placeholder="Stock"
                                                   type="number"
+                                                  min="0"
                                                   required
                                                   value={item.in_stock}
                                                   onChange={e =>
@@ -1025,6 +1045,7 @@ const EcommerceProducts = props => {
                                                   id={`price${index}`}
                                                   placeholder="Price"
                                                   type="number"
+                                                  min="0"
                                                   required
                                                   value={item.price}
                                                   onChange={e =>
@@ -1041,7 +1062,7 @@ const EcommerceProducts = props => {
                                                   name="sales_price"
                                                   placeholder="Sales Price"
                                                   type="number"
-
+                                                  min="0"
                                                   value={item.sales_price}
                                                   onChange={e =>
                                                     handleBulkUpload(e, index)
@@ -1057,6 +1078,7 @@ const EcommerceProducts = props => {
                                                   name="weight"
                                                   placeholder="Weight(kg)"
                                                   type="number"
+                                                  min="0"
                                                   required
                                                   value={item.weight}
                                                   onChange={e =>
@@ -1143,23 +1165,22 @@ const EcommerceProducts = props => {
                                               )}
                                             </Col>
                                           </Row>
-                                         {
-                                           index >1?
+                                          {index > 0 ? (
                                             <div className="mt-2">
-                                            <Button
-                                              color="danger"
-                                              size="sm"
-                                              onClick={() =>
-                                                removeFormFields(index)
-                                              }
-                                            >
-                                              <i
-                                                className="fa fa-trash"
-                                                aria-hidden="true"
-                                              ></i>
-                                            </Button>
-                                          </div>:''
-                                         }
+
+                                              <span
+                                              className="text-danger text-sm cursor-pointer"
+                                                onClick={() =>
+                                                  removeFormFields(index)
+                                                }
+                                              >
+                                                Remove field
+                                                <i className="fa fa-times-circle mx-1" aria-hidden="true"></i>
+                                              </span>
+                                            </div>
+                                          ) : (
+                                            ""
+                                          )}
                                         </div>
                                       ))}
 

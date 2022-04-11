@@ -106,7 +106,6 @@ const Login = props => {
                           value=""
                           type="password"
                           required
-                          min="6"
                           placeholder="Enter Password"
                         />
                       </div>

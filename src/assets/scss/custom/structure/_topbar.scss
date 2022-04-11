@@ -112,6 +112,7 @@
   padding: calc(#{$header-height} + #{$grid-gutter-width})
     calc(#{$grid-gutter-width} / 2) $footer-height
     calc(#{$grid-gutter-width} / 2);
+    min-height: 70vh;
 }
 
 .header-item {

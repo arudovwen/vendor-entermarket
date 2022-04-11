@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react"
+import React, { useEffect, useState, useRef, useMemo } from "react"
 import MetaTags from "react-meta-tags"
 import PropTypes from "prop-types"
 import { withRouter, Link } from "react-router-dom"
@@ -12,6 +12,10 @@ import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit"
 import * as moment from "moment"
 import axios from "axios"
 import InfiniteScroll from "react-infinite-scroll-component"
+import debounce from "lodash.debounce"
+import DatePicker from "react-datepicker"
+import "react-datepicker/dist/react-datepicker.css"
+
 import {
   Button,
   Card,
@@ -51,7 +55,9 @@ const Orders = props => {
   const [link, setlink] = useState(null)
   const [meta, setmeta] = useState(null)
   const [hasmore, sethasmore] = useState(false)
-   const token = localStorage.getItem("admin-token")
+  const token = localStorage.getItem("admin-token")
+  const [startdate, setStartdate] = useState(new Date())
+  const [enddate, setEnddate] = useState(null)
 
   const selectRow = {
     mode: "checkbox",
@@ -71,9 +77,9 @@ const Orders = props => {
           setorderItemsFiltered(res.data.data)
           setlink(res.data.links)
           setmeta(res.data.meta)
-           if (res.data.meta.total > 30) {
-             sethasmore(true)
-           }
+          if (res.data.meta.total > 20) {
+            sethasmore(true)
+          }
         }
       })
   }
@@ -99,7 +105,6 @@ const Orders = props => {
   const toggleViewModal = () => setModal1(!modal1)
 
   const OrderColumns = () => [
-
     {
       dataField: "order_no",
       text: "Order No",
@@ -173,10 +178,9 @@ const Orders = props => {
   }
 
   const handleOrderClick = arg => {
-
     setOrderList(arg)
     toggle()
-    markasviewed()
+    markasviewed(arg.id)
   }
 
   var node = useRef()
@@ -221,14 +225,38 @@ const Orders = props => {
     const date1 = moment(new Date(date)).format("DD MMM Y")
     return date1
   }
+
   const handleSearch = val => {
-    let newsearch = orderItems.filter(item => item.order_no.includes(val))
-    setorderItemsFiltered(newsearch)
+    const token = localStorage.getItem("admin-token")
+    setorderItems([])
+    setorderItemsFiltered([])
+    axios
+      .get(`${process.env.REACT_APP_URL}/search/order?query=${val}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(res => {
+        if (res.status === 200) {
+          setorderItems(res.data.data)
+          setorderItemsFiltered(res.data.data)
+          setlink(res.data.links)
+          setmeta(res.data.meta)
+          if (res.data.meta.total > 20) {
+            sethasmore(true)
+          }
+        }
+      })
   }
+
+  const debouncedChangeHandler = useMemo(
+    () => debounce(val => handleSearch(val), 500),
+    []
+  )
   const handleCheckBox = () => {
-    setshowing('all')
+    setshowing("all")
     getOrders()
-     setshownTab(!shownTab)
+    setshownTab(!shownTab)
   }
   const fetchData = () => {
     if (!link.next) {
@@ -252,8 +280,8 @@ const Orders = props => {
         }
       })
   }
-  const handlePagination=(val)=>{
-    let url;
+  const handlePagination = val => {
+    let url
     switch (val) {
       case "next":
         url = link.next
@@ -272,23 +300,22 @@ const Orders = props => {
         break
     }
 
-    if(!url) return
-     const token = localStorage.getItem("admin-token")
-     axios
-       .get(url, {
-         headers: {
-           Authorization: `Bearer ${token}`,
-         },
-       })
-       .then(res => {
-         if (res.status === 200) {
-           setorderItems(res.data.data)
-           setorderItemsFiltered(res.data.data)
-           setlink(res.data.links)
-           setmeta(res.data.meta)
-         }
-       })
-
+    if (!url) return
+    const token = localStorage.getItem("admin-token")
+    axios
+      .get(url, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(res => {
+        if (res.status === 200) {
+          setorderItems(res.data.data)
+          setorderItemsFiltered(res.data.data)
+          setlink(res.data.links)
+          setmeta(res.data.meta)
+        }
+      })
   }
   const refresh = () => {
     getOrders()
@@ -299,43 +326,79 @@ const Orders = props => {
       order: "desc",
     },
   ]
-    const markasviewed = () => {
-      var data = {
-        view_at: "viewed",
-      }
-      axios
-        .put(
-          `${process.env.REACT_APP_URL}/admin/update/order/status/${orderList.id}`,
-          data,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        )
-        .then(res => {
-          if (res.status === 200) {
-            getOrders()
-          }
-        })
+  const markasviewed = (id) => {
+    var data = {
+      view_at: new Date(),
     }
+    axios
+      .put(
+        `${process.env.REACT_APP_URL}/admin/update/order/status/${id}`,
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then(res => {
+        if (res.status === 200) {
+          getOrders()
+        }
+      })
+  }
+  function handleSearchByDate(dates)  {
 
+    const [start, end] = dates;
+    setStartdate(start);
+    setEnddate(end);
+    handledatesearch(start,end)
+  };
+  function handledatesearch(start,end) {
+   if(!start && !end){
+     getOrders()
+     return
+   }
+    const token = localStorage.getItem("admin-token")
+    setorderItems([])
+    setorderItemsFiltered([])
+    let data = {
+      start: start,
+      end: end,
+    }
+    axios
+      .post(`${process.env.REACT_APP_URL}/search/order-by-date`, data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(res => {
+        if (res.status === 200) {
+          setorderItems(res.data.data)
+          setorderItemsFiltered(res.data.data)
+          setlink(res.data.links)
+          setmeta(res.data.meta)
+          if (res.data.meta.total > 20) {
+            sethasmore(true)
+          }
+        }
+      })
+  }
 
   return (
     <React.Fragment>
       <div className="page-content">
         <MetaTags>
-          <title>Orders | EnterMarket -</title>
+          <title>Orders | EnterMarket </title>
         </MetaTags>
         <Container fluid>
           <Breadcrumbs title="" breadcrumbItem="Orders" />
-          <Row className="my-5">
+          <Row className="my-5 align-items-end">
             <Col sm="3">
               <Input
                 type="search"
-                className="rounded-pill"
-                placeholder="Search order no"
-                onChange={e => handleSearch(e.target.value)}
+                className="rounded-pill px-3"
+                placeholder="Search by order no, order name, weight"
+                onChange={e => debouncedChangeHandler(e.target.value)}
               />
             </Col>
             <Col sm="3" className="d-flex align-items-center">
@@ -357,8 +420,21 @@ const Orders = props => {
             </Col>
             <Col
               sm="6"
-              className="d-flex justify-content-end align-items-center"
+              className="d-flex justify-content-between align-items-end"
             >
+              <div className="w-100 mx-4">
+                <div className="text-xs ">Filter by date</div>
+                <DatePicker
+                  selected={startdate}
+                  onChange={handleSearchByDate}
+                  startDate={startdate}
+                  endDate={enddate}
+                  selectsRange
+                  isClearable={true}
+                  shouldCloseOnSelect={false}
+                  className="w-100 rounded-pill border py-2"
+                />
+              </div>
               <span>
                 {" "}
                 <ButtonGroup>
@@ -672,8 +748,19 @@ const Orders = props => {
                       <Card>
                         <CardHeader>
                           <CardTitle className="d-flex justify-content-between align-items-center">
-                            <span>{
-                              !item.view_at? <Badge  color="primary" className="mr-1 bg-primary">New</Badge>:''} {item.order_no}</span>
+                            <span>
+                              {!item.view_at ? (
+                                <Badge
+                                  color="primary"
+                                  className="mr-1 bg-primary"
+                                >
+                                  New
+                                </Badge>
+                              ) : (
+                                ""
+                              )}{" "}
+                              {item.order_no}
+                            </span>
 
                             {item.logistic_status === null ? (
                               <i

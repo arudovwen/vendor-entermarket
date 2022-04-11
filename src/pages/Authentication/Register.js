@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import MetaTags from "react-meta-tags"
 import { Row, Col, CardBody, Card, Alert, Container, Input } from "reactstrap"
 
@@ -12,6 +12,7 @@ import { registerUser, apiError } from "../../store/actions"
 import { useSelector, useDispatch } from "react-redux"
 
 import { Link, useHistory } from "react-router-dom"
+import GooglePlacesAutocomplete from "react-google-places-autocomplete"
 
 // import images
 import profileImg from "../../assets/images/profile-img.png"
@@ -24,7 +25,8 @@ const Register = props => {
   const token = localStorage.getItem("user-token")
   const [productImages, setproductImages] = React.useState(null)
   const [isuploading, setisuploading] = React.useState(false)
-
+ const [address, setAddress] = useState(null)
+ const apikey = process.env.REACT_APP_APIKEY
   // React.useEffect(() => {
   //   if(token){
   //     history.push('/dashboard')
@@ -47,11 +49,14 @@ const Register = props => {
       name: values["name"],
       password: values["password"],
       email: values["email"],
-      location: values["location"],
+      location: address.label,
       image: productImages,
     }
-    dispatch(registerUser(data))
+     dispatch(registerUser(data))
+
+
   }
+
   useEffect(() => {
     if (user) {
       history.push("/login")
@@ -187,11 +192,22 @@ const Register = props => {
                         />
                       </div>
                       <div className="mb-3">
-                        <AvField
+                        {/* <AvField
                           name="location"
                           label="Store location"
                           type="text"
                           required
+                          placeholder="Enter location e.g 10, Admiralty way, lekki, Lagos, Nigeria"
+                        /> */}
+                        <GooglePlacesAutocomplete
+                          required
+                          name="location"
+                          label="Store location"
+                          selectProps={{
+                            address,
+                            onChange: setAddress,
+                          }}
+                          apiKey={apikey}
                           placeholder="Enter location e.g 10, Admiralty way, lekki, Lagos, Nigeria"
                         />
                       </div>
@@ -235,7 +251,19 @@ const Register = props => {
                                       </strong>
                                     </p>
                                   </Col>
-                                  <Col>{isuploading?<i className="fa fa-spinner fa-spin fa-3x" aria-hidden="true"></i>: <i className="fa fa-check-circle fa-2x text-primary" aria-hidden="true"></i>}</Col>
+                                  <Col>
+                                    {isuploading ? (
+                                      <i
+                                        className="fa fa-spinner fa-spin fa-3x"
+                                        aria-hidden="true"
+                                      ></i>
+                                    ) : (
+                                      <i
+                                        className="fa fa-check-circle fa-2x text-primary"
+                                        aria-hidden="true"
+                                      ></i>
+                                    )}
+                                  </Col>
                                 </Row>
                               </div>
                             </Card>
