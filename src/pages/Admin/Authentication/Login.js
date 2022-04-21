@@ -19,6 +19,7 @@ import { adminloginUser, apiError } from "../../../store/actions"
 import profile from "assets/images/profile-img.png"
 import logo from "assets/images/logo.png"
 import toastr from "toastr"
+import "toastr/build/toastr.min.css"
 
 const Login = props => {
   const dispatch = useDispatch()

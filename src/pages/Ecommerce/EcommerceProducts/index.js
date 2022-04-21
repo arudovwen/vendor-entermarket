@@ -50,6 +50,7 @@ import {
 } from "store/actions"
 
 import toastr from "toastr"
+import "toastr/build/toastr.min.css"
 
 const EcommerceProducts = props => {
   const dispatch = useDispatch()
@@ -217,7 +218,7 @@ const EcommerceProducts = props => {
       text: "Category",
       sort: true,
       // eslint-disable-next-line react/display-name
-      formatter: (cellContent, row) => <div>{row.category.name}</div>,
+      formatter: (cellContent, row) => <div>{row.category?row.category.name:'-'}</div>,
     },
     {
       dataField: "brand.name",
@@ -496,7 +497,7 @@ const EcommerceProducts = props => {
   }
 
   const handleDeleteProduct = product => {
-   let confirm = confirm('Are you sure?')
+   let confirm = window.confirm('Are you sure?')
    if(confirm){
       if (product.id !== undefined) {
         dispatch(onDeleteProduct(product))

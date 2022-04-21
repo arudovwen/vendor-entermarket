@@ -7,6 +7,7 @@ import { Row, Col, CardBody, Card, Alert, Container } from "reactstrap"
 //redux
 import { useSelector, useDispatch } from "react-redux"
 import toastr from 'toastr'
+import "toastr/build/toastr.min.css"
 import { withRouter, Link } from "react-router-dom"
 
 // availity-reactstrap-validation

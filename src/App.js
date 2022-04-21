@@ -5,7 +5,7 @@ import { Switch, BrowserRouter as Router } from "react-router-dom"
 import { connect } from "react-redux"
 
 // Import Routes all
-import { authProtectedRoutes,adminProtectedRoutes, publicRoutes } from "./routes"
+import { authProtectedRoutes, publicRoutes } from "./routes"
 
 // Import all middleware
 import Authmiddleware from "./routes/route"
@@ -78,7 +78,7 @@ const App = props => {
             />
           ))}
 
-          {adminProtectedRoutes.map((route, idx) => (
+          {/* {adminProtectedRoutes.map((route, idx) => (
             <Authmiddleware
               path={route.path}
               layout={Layout}
@@ -87,7 +87,7 @@ const App = props => {
               isAdminProtected={true}
               exact
             />
-          ))}
+          ))} */}
         </Switch>
       </Router>
     </React.Fragment>

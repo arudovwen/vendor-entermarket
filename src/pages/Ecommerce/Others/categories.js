@@ -276,7 +276,7 @@ const EcommerceOthers = props => {
   }
 
   const handleDelete = (data, type) => {
-   let confirm = confirm('Are you sure?')
+   let confirm = window.confirm('Are you sure?')
    if(confirm){
       if (data.id !== undefined) {
         type === "category"
@@ -317,7 +317,7 @@ const EcommerceOthers = props => {
           <title>Categories & Brands | EnterMarket</title>
         </MetaTags>
         <Container fluid>
-          <Breadcrumbs title="Ecommerce" breadcrumbItem="Others" />
+          <Breadcrumbs title="" breadcrumbItem="Categories & Brands" />
           <Row>
             <Col xs="12" md="6">
               <Card>

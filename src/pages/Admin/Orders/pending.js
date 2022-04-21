@@ -759,7 +759,7 @@ const PendingOrders = props => {
               <Row>
                 {orderItemsFiltered.map((item, id) => (
                   <Col md="3" key={id}>
-                    <Card>
+                    <Card className="shadow border">
                       <CardHeader>
                         <CardTitle className="d-flex justify-content-between align-items-center">
                           <span>

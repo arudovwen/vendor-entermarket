@@ -105,7 +105,7 @@ const SidebarContent = props => {
                 </Link>
               </li>
               <li>
-                <Link to="/ecommerce-products">
+                <Link to="/vendor-products">
                   <i className="bx bx-package"></i>
 
                   <span>{props.t("Products")}</span>
@@ -113,13 +113,11 @@ const SidebarContent = props => {
               </li>
 
               <li>
-                <Link to="/ecommerce-orders">
+                <Link to="/vendor-orders">
                   <i className=" bx bx-task"></i>
                   <span>{props.t("Orders")}</span>
                 </Link>
               </li>
-
-
             </ul>
           ) : (
             <ul className="metismenu list-unstyled" id="side-menu">
@@ -141,7 +139,7 @@ const SidebarContent = props => {
               </li>
               <li>
                 <Link to="/admin/orders/pending">
-                  <i className="bx bx-dice-1"></i>
+                  <i className="bx bx-hourglass"></i>
 
                   <span>{props.t("Pending Orders")}</span>
                 </Link>
@@ -153,10 +151,16 @@ const SidebarContent = props => {
                   <span>{props.t("Assigned Orders")}</span>
                 </Link>
               </li>
-               <li>
-                <Link to="/admin-others">
+              <li>
+                <Link to="/admin/fees">
+                  <i className="bx bx-fridge"></i>
+                  <span>{props.t("Lga Fees")}</span>
+                </Link>
+              </li>
+              <li>
+                <Link to="/admin/others">
                   <i className="bx bx-store"></i>
-                  <span>{props.t("Others")}</span>
+                  <span>{props.t("Categories & Brands")}</span>
                 </Link>
               </li>
             </ul>
