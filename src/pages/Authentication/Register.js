@@ -26,13 +26,15 @@ const Register = props => {
   const [productImages, setproductImages] = React.useState(null)
   const [isuploading, setisuploading] = React.useState(false)
  const [address, setAddress] = useState(null)
+ const [lgas,setlgas] = useState([])
  const apikey = process.env.REACT_APP_APIKEY
-  // React.useEffect(() => {
-  //   if(token){
-  //     history.push('/dashboard')
-  //   }
-
-  // }, [token])
+  React.useEffect(() => {
+  axios.get(`${process.env.REACT_APP_URL}/get-lgas`).then(res=>{
+    if(res.status === 200) {
+      setlgas(res.data)
+    }
+  })
+  }, [])
 
   const { user, registrationError, loading } = useSelector(state => ({
     user: state.Account.user,
@@ -51,6 +53,7 @@ const Register = props => {
       email: values["email"],
       location: address.label,
       image: productImages,
+      lga_id:values["lga_id"],
     }
      dispatch(registerUser(data))
 
@@ -192,13 +195,6 @@ const Register = props => {
                         />
                       </div>
                       <div className="mb-3">
-                        {/* <AvField
-                          name="location"
-                          label="Store location"
-                          type="text"
-                          required
-                          placeholder="Enter location e.g 10, Admiralty way, lekki, Lagos, Nigeria"
-                        /> */}
                         <GooglePlacesAutocomplete
                           required
                           name="location"
@@ -210,6 +206,26 @@ const Register = props => {
                           apiKey={apikey}
                           placeholder="Enter location e.g 10, Admiralty way, lekki, Lagos, Nigeria"
                         />
+                      </div>
+                      <div className="mb-3">
+                        <AvField
+                          name="lga_id"
+                          label="Local Govt Area"
+                          type="select"
+                          className="form-select"
+                          errorMessage="Invalid lga"
+                          validate={{
+                            required: { value: true },
+                          }}
+                          value=""
+                        >
+                          <option value="">Select lga</option>
+                          {lgas.map(item => (
+                            <option key={item.id} value={item.id}>
+                              {item.lga}
+                            </option>
+                          ))}
+                        </AvField>
                       </div>
 
                       <div>
