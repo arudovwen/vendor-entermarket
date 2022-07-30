@@ -10,7 +10,7 @@ import paginationFactory, {
 } from "react-bootstrap-table2-paginator"
 import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit"
 import * as moment from "moment"
-
+import axios from "axios"
 import {
   Button,
   Card,
@@ -28,7 +28,8 @@ import {
   Label,
 } from "reactstrap"
 import { AvForm, AvField } from "availity-reactstrap-validation"
-
+import toastr from "toastr"
+import "toastr/build/toastr.min.css"
 //redux
 import { useSelector, useDispatch } from "react-redux"
 
@@ -53,7 +54,7 @@ const EcommerceOrders = props => {
   const selectRow = {
     mode: "checkbox",
   }
-  const [order, setOrder] = useState({})
+
   const [modal, setModal] = useState(false)
   const [modal1, setModal1] = useState(false)
   const [orderList, setOrderList] = useState([])
@@ -69,6 +70,7 @@ const EcommerceOrders = props => {
 
   const toggleViewModal = () => setModal1(!modal1)
 
+  const [order, setOrder] = useState({})
   const EcommerceOrderColumns = toggleModal => [
     {
       dataField: "order_no",
@@ -132,12 +134,12 @@ const EcommerceOrders = props => {
   }, [dispatch])
 
   useEffect(() => {
-    setOrderList(orders.filter(item => item.status === "completed"))
+    setOrderList(orders.filter(item => item.status === "pending"))
   }, [orders])
 
   useEffect(() => {
     if (!isEmpty(orders) && !!isEdit) {
-      setOrderList(orders.filter(item => item.status === "completed"))
+      setOrderList(orders.filter(item => item.status === "pending"))
       setIsEdit(false)
     }
   }, [orders])
@@ -148,10 +150,6 @@ const EcommerceOrders = props => {
 
   const toLowerCase1 = str => {
     return str.toLowerCase()
-  }
-  function viewOrder(order) {
-    setOrder(order)
-    toggle()
   }
 
   var node = useRef()
@@ -167,6 +165,7 @@ const EcommerceOrders = props => {
     }
   }
 
+
   const handleValidDate = date => {
     const date1 = moment(new Date(date)).format("DD MMM Y")
     return date1
@@ -179,6 +178,24 @@ const EcommerceOrders = props => {
     },
   ]
 
+  function viewOrder(order) {
+    setOrder(order)
+    toggle()
+  }
+
+  function markComplete(id) {
+    let con = window.confirm("Are you sure?")
+    if (con) {
+      axios
+        .get(`${process.env.REACT_APP_URL}/mark-order-complete/${id}`)
+        .then(res => {
+          if (res.status === 200) {
+            toastr.success("Success")
+            dispatch(onGetOrders())
+          }
+        })
+    }
+  }
   return (
     <React.Fragment>
       <div className="page-content">
@@ -195,14 +212,12 @@ const EcommerceOrders = props => {
                     pagination={paginationFactory(pageOptions)}
                     keyField="id"
                     columns={EcommerceOrderColumns(toggle)}
-                    data={orders.filter(item => item.status === "completed")}
+                    data={orders.filter(item => item.status === "pending")}
                   >
                     {({ paginationProps, paginationTableProps }) => (
                       <ToolkitProvider
                         keyField="id"
-                        data={orders.filter(
-                          item => item.status === "completed"
-                        )}
+                        data={orders.filter(item => item.status === "pending")}
                         columns={EcommerceOrderColumns(toggle)}
                         bootstrap4
                         search
@@ -242,7 +257,7 @@ const EcommerceOrders = props => {
                             <Row className="align-items-md-center mt-30">
                               <Col className="pagination pagination-rounded justify-content-end mb-2 inner-custom-pagination">
                                 {orders.filter(
-                                  item => item.status === "completed"
+                                  item => item.status === "pending"
                                 ).length ? (
                                   <PaginationListStandalone
                                     {...paginationProps}
@@ -302,9 +317,7 @@ const EcommerceOrders = props => {
                 order.myorder.shipping_method === "scheduled" ? (
                   <div>
                     <h6>
-                      {" "}
-                      Delivery Date :{" "}
-                      {moment(order.myorder.schedule_time).format("L")}
+                      Delivery Date : {moment(order.myorder.schedule_time).format('L')}
                     </h6>
                   </div>
                 ) : (
@@ -348,8 +361,12 @@ const EcommerceOrders = props => {
                 )}
               </ModalBody>
               <ModalFooter>
-                <Button color="primary" size="sm">
-                  Delivered
+                <Button
+                  color="primary"
+                  size="sm"
+                  onClick={() => markComplete(order.id)}
+                >
+                  Mark as delivered
                 </Button>
               </ModalFooter>
             </Modal>

@@ -327,7 +327,7 @@ const Navbar = props => {
                           show: ecommerce,
                         })}
                       >
-                        <Link to="/vendor-products" className="dropdown-item">
+                        <Link to="/products" className="dropdown-item">
                           {props.t("Products")}
                         </Link>
                         <Link
@@ -336,7 +336,7 @@ const Navbar = props => {
                         >
                           {props.t("Product Detail")}
                         </Link>
-                        <Link to="/vendor-orders" className="dropdown-item">
+                        <Link to="/orders" className="dropdown-item">
                           {props.t("Orders")}
                         </Link>
                         <Link

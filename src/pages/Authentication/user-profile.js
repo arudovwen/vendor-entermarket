@@ -25,6 +25,7 @@ import Breadcrumb from "../../components/Common/Breadcrumb"
 import avatar from "../../assets/images/users/avatar-1.jpg"
 // actions
 import { editProfile, resetProfileFlag } from "../../store/actions"
+import axios from "axios"
 
 const UserProfile = props => {
   const dispatch = useDispatch()
@@ -37,19 +38,21 @@ const UserProfile = props => {
   const [email, setemail] = useState("")
   const [name, setname] = useState("")
   const [idx, setidx] = useState(1)
-  const [image, setimage] = useState('')
-  const [location, setlocation] = useState('')
+  const [image, setimage] = useState("")
+  const [location, setlocation] = useState("")
+  const [status, setstatus] = useState("")
 
   useEffect(() => {
     if (localStorage.getItem("authUser")) {
       const obj = JSON.parse(localStorage.getItem("authUser"))
-     
-        setname(obj.name)
-        setidx(obj.id)
-        setemail(obj.email)
-        setlocation(obj.location)
-        setimage(obj.image)  
-      
+
+      setname(obj.name)
+      setidx(obj.id)
+      setemail(obj.email)
+      setlocation(obj.location)
+      setimage(obj.image)
+      setstatus(obj.status)
+
       setTimeout(() => {
         dispatch(resetProfileFlag())
       }, 3000)
@@ -59,14 +62,30 @@ const UserProfile = props => {
   function handleValidSubmit(event, values) {
     dispatch(editProfile(values))
   }
+  function deactivate(value) {
+    let confirm = window.confirm("Are you sure you want to do this?")
+    const token = localStorage.getItem("user-token")
+
+    if (confirm) {
+      axios
+        .post(
+          `${process.env.REACT_APP_URL}/store/update`,
+          { status: value },
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        )
+        .then(res => {
+          setstatus(value)
+        })
+    }
+  }
 
   return (
     <React.Fragment>
       <div className="page-content">
         <MetaTags>
-          <title>
-            {name?name:'Profile'} | EnterMarket 
-          </title>
+          <title>{name ? name : "Profile"} | EnterMarket</title>
         </MetaTags>
         <Container fluid>
           {/* Render Breadcrumb */}
@@ -80,14 +99,14 @@ const UserProfile = props => {
               <Card>
                 <CardBody>
                   <Media>
-                    <div className="ms-3">
+                    <div className="">
                       <img
                         src={image}
                         alt=""
                         className="avatar-md rounded-circle img-thumbnail"
                       />
                     </div>
-                    <Media body className="align-self-center">
+                    <Media body className="align-self-center ms-4">
                       <div className="text-muted">
                         <h5>{name}</h5>
                         <p className="mb-1">{email}</p>
@@ -124,11 +143,32 @@ const UserProfile = props => {
                   <AvField name="idx" value={idx} type="hidden" />
                 </div>
                 <div className="text-center mt-4">
-                  <Button type="submit" color="danger">
+                  <Button type="submit" color="success">
                     Update Store Name
                   </Button>
                 </div>
               </AvForm>
+
+              <hr className="my-5" />
+              <div className="text-left mt-4">
+                {status ? (
+                  <Button
+                    type="button"
+                    onClick={() => deactivate(false)}
+                    color="danger"
+                  >
+                    Deactivate store
+                  </Button>
+                ) : (
+                  <Button
+                    type="button"
+                    onClick={() => deactivate(true)}
+                    color="success"
+                  >
+                    Activate store
+                  </Button>
+                )}
+              </div>
             </CardBody>
           </Card>
         </Container>

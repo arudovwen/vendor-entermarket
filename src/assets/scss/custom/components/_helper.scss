@@ -65,8 +65,8 @@
 .font-weight-semibold {
   font-weight: $font-weight-semibold;
 }
-.mr-1{
-  margin-right: .5rem;
+.mr-1 {
+  margin-right: 0.5rem;
 }
 // Social
 
@@ -80,12 +80,11 @@
   color: $gray-500;
   text-align: center;
   transition: all 0.4s;
-  &:hover{
+  &:hover {
     color: $gray-600;
     background-color: $gray-200;
   }
 }
-
 
 .w-xs {
   min-width: 80px;
@@ -106,7 +105,7 @@
 
 // media
 
-.media{
+.media {
   display: flex;
   align-items: flex-start;
 }
@@ -118,16 +117,20 @@
 // alert
 
 .alert-dismissible {
-  .btn-close{
+  .btn-close {
     font-size: 10px;
     padding: $alert-padding-y * 1.4 $alert-padding-x;
-    background: transparent escape-svg($btn-close-bg-dark) center / $btn-close-width auto no-repeat;
+    background: transparent escape-svg($btn-close-bg-dark) center /
+      $btn-close-width auto no-repeat;
   }
 }
-.font-weight-bolder{
+.font-weight-bolder {
   font-weight: 800;
 }
 
-.card-box{
-  min-height:600px;
+.card-box {
+  min-height: 600px;
+}
+.cursor-pointer {
+  cursor: pointer;
 }

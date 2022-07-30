@@ -195,6 +195,7 @@ const Register = props => {
                         />
                       </div>
                       <div className="mb-3">
+                        <label>Store Address </label>
                         <GooglePlacesAutocomplete
                           required
                           name="location"

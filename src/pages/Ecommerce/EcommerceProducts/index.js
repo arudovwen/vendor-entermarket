@@ -87,7 +87,7 @@ const EcommerceProducts = props => {
     sales_price: "",
     in_stock: "",
     image: [],
-    weight:""
+    weight: "",
   }
   const [bulkproducts, setbulkproducts] = useState([initialvalue])
   const [modal, setModal] = useState(false)
@@ -147,11 +147,14 @@ const EcommerceProducts = props => {
 
     let newFormValues = [...bulkproducts]
     if (e.target.name == "in_stock" && e.target.value < 0) {
-       newFormValues[index][e.target.name] = 0
-       setbulkproducts(newFormValues)
+      newFormValues[index][e.target.name] = 0
+      setbulkproducts(newFormValues)
       return
     }
-    if (e.target.name == "sales_price" && Number(e.target.value) > Number(newFormValues[index]['price'])) {
+    if (
+      e.target.name == "sales_price" &&
+      Number(e.target.value) > Number(newFormValues[index]["price"])
+    ) {
       newFormValues[index][e.target.name] = Number(
         newFormValues[index]["price"]
       )
@@ -184,6 +187,9 @@ const EcommerceProducts = props => {
         break
       case "in_stock":
         data.in_stock = value
+        break
+      case "weight":
+        data.weight = value
         break
 
       default:
@@ -218,7 +224,9 @@ const EcommerceProducts = props => {
       text: "Category",
       sort: true,
       // eslint-disable-next-line react/display-name
-      formatter: (cellContent, row) => <div>{row.category?row.category.name:'-'}</div>,
+      formatter: (cellContent, row) => (
+        <div>{row.category ? row.category.name : "-"}</div>
+      ),
     },
     {
       dataField: "brand.name",
@@ -240,6 +248,7 @@ const EcommerceProducts = props => {
             data-toggle="tooltip"
             data-placement="top"
             title="Double click to edit"
+            classNmae="cursor-pointer"
           >
             {row.product_name}
           </div>
@@ -257,7 +266,7 @@ const EcommerceProducts = props => {
             data-toggle="tooltip"
             data-placement="top"
             title="Double click to edit"
-            className=" text-truncate text-truncate--1"
+            className=" text-truncate text-truncate--1 cursro-pointer"
             style={{ maxWidth: "160px" }}
           >
             {row.product_desc}
@@ -270,7 +279,6 @@ const EcommerceProducts = props => {
       text: "Weight(Kg)",
       sort: true,
       // eslint-disable-next-line react/display-name
-
     },
     {
       dataField: "created_at",
@@ -282,6 +290,7 @@ const EcommerceProducts = props => {
           data-toggle="tooltip"
           data-placement="top"
           title="Double click to edit"
+          classNmae="cursor-pointer"
         >
           {handleValidDate(row.created_at)}
         </div>
@@ -302,6 +311,7 @@ const EcommerceProducts = props => {
             data-toggle="tooltip"
             data-placement="top"
             title="Double click to edit"
+            classNmae="cursor-pointer"
           >
             {row.price}
           </div>
@@ -320,6 +330,7 @@ const EcommerceProducts = props => {
             data-toggle="tooltip"
             data-placement="top"
             title="Double click to edit"
+            classNmae="cursor-pointer"
           >
             {row.sales_price ? row.sales_price : "-"}
           </div>
@@ -337,6 +348,7 @@ const EcommerceProducts = props => {
             data-toggle="tooltip"
             data-placement="top"
             title="Double click to edit"
+            classNmae="cursor-pointer"
           >
             {row.in_stock}
           </div>
@@ -497,13 +509,13 @@ const EcommerceProducts = props => {
   }
 
   const handleDeleteProduct = product => {
-   let confirm = window.confirm('Are you sure?')
-   if(confirm){
+    let confirm = window.confirm("Are you sure?")
+    if (confirm) {
       if (product.id !== undefined) {
         dispatch(onDeleteProduct(product))
         onPaginationPageChange(1)
       }
-   }
+    }
   }
 
   const handleProductClicks = () => {
@@ -572,7 +584,7 @@ const EcommerceProducts = props => {
     // We would use axios `.all()` method to perform concurrent image upload to cloudinary.
     axios.all(uploads).then(() => {
       // ... do anything after successful upload. You can setState() or save the data
-      if (uploadtype ==="single") {
+      if (uploadtype === "single") {
         setproductimage(imagefiles)
       } else {
         let newimage = [...bulkproducts]
@@ -664,6 +676,16 @@ const EcommerceProducts = props => {
                                 </div>
                               </Col>
                             </Row>
+                            <Row className="">
+                              <Col sm="4">
+                                <div className=" me-2 mb-2 d-flex align-items-center text-sm text-info">
+                                  <i className="fa fa-info-circle mr-1"></i>{" "}
+                                  <p className="mb-0">
+                                    Double click column to edit
+                                  </p>
+                                </div>
+                              </Col>
+                            </Row>
                             <Row>
                               <Col xl="12">
                                 <div className="table-responsive">
@@ -672,7 +694,7 @@ const EcommerceProducts = props => {
                                     responsive
                                     bproducted={false}
                                     striped={false}
-                                    selectRow={selectRow}
+
                                     cellEdit={cellEditFactory({
                                       mode: "dbclick",
                                       blurToSave: true,
@@ -1168,15 +1190,17 @@ const EcommerceProducts = props => {
                                           </Row>
                                           {index > 0 ? (
                                             <div className="mt-2">
-
                                               <span
-                                              className="text-danger text-sm cursor-pointer"
+                                                className="text-danger text-sm cursor-pointer"
                                                 onClick={() =>
                                                   removeFormFields(index)
                                                 }
                                               >
                                                 Remove field
-                                                <i className="fa fa-times-circle mx-1" aria-hidden="true"></i>
+                                                <i
+                                                  className="fa fa-times-circle mx-1"
+                                                  aria-hidden="true"
+                                                ></i>
                                               </span>
                                             </div>
                                           ) : (

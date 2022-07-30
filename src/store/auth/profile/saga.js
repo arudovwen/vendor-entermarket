@@ -16,11 +16,11 @@ const fireBaseBackend = getFirebaseBackend()
 function* editProfile({ payload: { user } }) {
   try {
    const response = yield call(postProfile, {
-        username: user.name,
+        name: user.name,
         idx: user.idx,
       })
       yield put(profileSuccess(response))
-    
+
   } catch (error) {
     yield put(profileError(error))
   }

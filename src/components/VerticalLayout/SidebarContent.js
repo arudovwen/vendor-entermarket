@@ -14,7 +14,7 @@ import { withTranslation } from "react-i18next"
 
 const SidebarContent = props => {
   const ref = useRef()
-  const vendorToken = localStorage.getItem('user-token')
+  const vendorToken = localStorage.getItem("user-token")
   const adminToken = localStorage.getItem("admin-token")
   // Use ComponentDidMount and ComponentDidUpdate method symultaniously
   useEffect(() => {
@@ -93,78 +93,37 @@ const SidebarContent = props => {
     <React.Fragment>
       <SimpleBar className="h-100" ref={ref}>
         <div id="sidebar-menu">
-          {vendorToken ? (
-            <ul className="metismenu list-unstyled" id="side-menu">
-              <li className="menu-title">{props.t("Menu")} </li>
+          <ul className="metismenu list-unstyled" id="side-menu">
+            <li className="menu-title">{props.t("Menu")} </li>
 
-              <li>
-                <Link to="/dashboard">
-                  <i className="bx bx-home-circle"></i>
+            <li>
+              <Link to="/dashboard">
+                <i className="bx bx-home-circle"></i>
 
-                  <span>{props.t("Dashboard")}</span>
-                </Link>
-              </li>
-              <li>
-                <Link to="/vendor-products">
-                  <i className="bx bx-package"></i>
+                <span>{props.t("Dashboard")}</span>
+              </Link>
+            </li>
+            <li>
+              <Link to="/products">
+                <i className="bx bx-package"></i>
 
-                  <span>{props.t("Products")}</span>
-                </Link>
-              </li>
+                <span>{props.t("Products")}</span>
+              </Link>
+            </li>
 
-              <li>
-                <Link to="/vendor-orders">
-                  <i className=" bx bx-task"></i>
-                  <span>{props.t("Orders")}</span>
-                </Link>
-              </li>
-            </ul>
-          ) : (
-            <ul className="metismenu list-unstyled" id="side-menu">
-              <li className="menu-title">{props.t("Menu")} </li>
-
-              <li>
-                <Link to="/admin">
-                  <i className="bx bx-home-circle"></i>
-
-                  <span>{props.t("Dashboard")}</span>
-                </Link>
-              </li>
-              <li>
-                <Link to="/admin/orders">
-                  <i className="bx bx-package"></i>
-
-                  <span>{props.t("Orders")}</span>
-                </Link>
-              </li>
-              <li>
-                <Link to="/admin/orders/pending">
-                  <i className="bx bx-hourglass"></i>
-
-                  <span>{props.t("Pending Orders")}</span>
-                </Link>
-              </li>
-              <li>
-                <Link to="/admin/orders/assigned">
-                  <i className="bx bx-list-check"></i>
-
-                  <span>{props.t("Assigned Orders")}</span>
-                </Link>
-              </li>
-              <li>
-                <Link to="/admin/fees">
-                  <i className="bx bx-fridge"></i>
-                  <span>{props.t("Lga Fees")}</span>
-                </Link>
-              </li>
-              <li>
-                <Link to="/admin/others">
-                  <i className="bx bx-store"></i>
-                  <span>{props.t("Categories & Brands")}</span>
-                </Link>
-              </li>
-            </ul>
-          )}
+            <li>
+              <Link to="/completed-orders">
+                <i className=" bx bx-task"></i>
+                <span>{props.t("Completed Orders")}</span>
+              </Link>
+            </li>
+            <li>
+              <Link to="/pending-orders">
+                <i className=" bx bx-hourglass"></i>
+                <span>{props.t("Pending Orders")}</span>
+              </Link>
+            </li>
+          </ul>
         </div>
       </SimpleBar>
     </React.Fragment>
