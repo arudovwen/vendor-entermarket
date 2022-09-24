@@ -22,7 +22,7 @@ import logo from "assets/images/logo.png"
 const Login = props => {
   const dispatch = useDispatch()
   const token = localStorage.getItem("user-token")
-
+  const [hidePassword, setHidePassword] = React.useState(false)
   React.useEffect(() => {
 
     if (token ) {
@@ -100,15 +100,17 @@ const Login = props => {
                         />
                       </div>
 
-                      <div className="mb-3">
+                      <div className="mb-3 tw-relative">
                         <AvField
                           name="password"
                           label="Password"
                           value=""
-                          type="password"
+                          type={hidePassword?'password':'text'}
                           required
                           placeholder="Enter Password"
+                          className="tw-flex-1 tw-w-full"
                         />
+                       <span onClick={()=> setHidePassword(!hidePassword)} className="tw-absolute tw-right-3 tw-bottom-2"> <i className={hidePassword?'fa fa-eye':'fa fa-eye-slash'} aria-hidden="true"></i></span>
                       </div>
 
                       <div className="form-check">

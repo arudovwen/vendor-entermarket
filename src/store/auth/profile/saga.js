@@ -6,21 +6,14 @@ import { profileSuccess, profileError } from "./actions"
 
 //Include Both Helper File with needed methods
 import { getFirebaseBackend } from "../../../helpers/firebase_helper"
-import {
-  postProfile,
-  postJwtProfile,
-} from "../../../helpers/backend_helper"
+import { postProfile, postJwtProfile } from "../../../helpers/backend_helper"
 
 const fireBaseBackend = getFirebaseBackend()
 
 function* editProfile({ payload: { user } }) {
   try {
-   const response = yield call(postProfile, {
-        name: user.name,
-        idx: user.idx,
-      })
-      yield put(profileSuccess(response))
-
+    const response = yield call(postProfile, user)
+    yield put(profileSuccess(response))
   } catch (error) {
     yield put(profileError(error))
   }

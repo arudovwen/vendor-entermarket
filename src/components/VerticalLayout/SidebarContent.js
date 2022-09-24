@@ -110,19 +110,19 @@ const SidebarContent = props => {
                 <span>{props.t("Products")}</span>
               </Link>
             </li>
-
-            <li>
-              <Link to="/completed-orders">
-                <i className=" bx bx-task"></i>
-                <span>{props.t("Completed Orders")}</span>
-              </Link>
-            </li>
             <li>
               <Link to="/pending-orders">
                 <i className=" bx bx-hourglass"></i>
                 <span>{props.t("Pending Orders")}</span>
               </Link>
             </li>
+            <li>
+              <Link to="/completed-orders">
+                <i className=" bx bx-task"></i>
+                <span>{props.t("Completed Orders")}</span>
+              </Link>
+            </li>
+           
           </ul>
         </div>
       </SimpleBar>

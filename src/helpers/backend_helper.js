@@ -91,7 +91,10 @@ const postForgetPwd = data => post(url.POST_PASSWORD_FORGET, data)
 // Edit profile
 const postJwtProfile = data => post(url.POST_EDIT_JWT_PROFILE, data)
 
-const postProfile = data => post(url.POST_EDIT_PROFILE, data, config)
+const postProfile = data => {
+  console.log("🚀 ~ file: backend_helper.js ~ line 95 ~ postProfile ~ data", data)
+  post(url.POST_EDIT_PROFILE, data, config)
+}
 
 // Register Method
 const postJwtRegister = (url, data) => {

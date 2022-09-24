@@ -93,12 +93,7 @@ function Earning(props) {
                     </div>
                   </div>
 
-                  <div>
-                    <Link to="#" className="btn btn-primary  btn-sm">
-                      View Details{" "}
-                      <i className="mdi mdi-chevron-right ms-1"></i>
-                    </Link>
-                  </div>
+               
 
                   <div className="mt-4">
                     <p className="mb-2">Last month</p>

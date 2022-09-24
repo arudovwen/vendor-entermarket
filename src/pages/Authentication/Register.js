@@ -35,7 +35,7 @@ const Register = props => {
     }
   })
   }, [])
-
+  const [hidePassword, setHidePassword] = React.useState(false)
   const { user, registrationError, loading } = useSelector(state => ({
     user: state.Account.user,
     registrationError: state.Account.registrationError,
@@ -185,14 +185,17 @@ const Register = props => {
                           placeholder="Enter store name"
                         />
                       </div>
-                      <div className="mb-3">
+                      <div className="mb-3 tw-relative">
                         <AvField
                           name="password"
                           label="Password"
-                          type="password"
+                          value=""
+                          type={hidePassword?'password':'text'}
                           required
                           placeholder="Enter Password"
+                          className="tw-flex-1 tw-w-full"
                         />
+                       <span onClick={()=> setHidePassword(!hidePassword)} className="tw-absolute tw-right-3 tw-bottom-2"> <i className={hidePassword?'fa fa-eye':'fa fa-eye-slash'} aria-hidden="true"></i></span>
                       </div>
                       <div className="mb-3">
                         <label>Store Address </label>

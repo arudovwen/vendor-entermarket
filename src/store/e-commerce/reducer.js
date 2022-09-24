@@ -221,6 +221,7 @@ const Ecommerce = (state = INIT_STATE, action) => {
     case UPDATE_PRODUCT_SUCCESS:
       return {
         ...state,
+        status: action.type,
         products: state.products.map(product =>
           product.id.toString() === action.payload.id.toString()
             ? { product, ...action.payload }

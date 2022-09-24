@@ -190,8 +190,9 @@ const EcommerceOrders = props => {
         .get(`${process.env.REACT_APP_URL}/mark-order-complete/${id}`)
         .then(res => {
           if (res.status === 200) {
-            toastr.success("Success")
+            toastr.success("Status updated")
             dispatch(onGetOrders())
+            toggle()
           }
         })
     }
@@ -255,7 +256,7 @@ const EcommerceOrders = props => {
                               </Col>
                             </Row>
                             <Row className="align-items-md-center mt-30">
-                              <Col className="pagination pagination-rounded justify-content-end mb-2 inner-custom-pagination">
+                              <Col sm="12" className="pagination pagination-rounded justify-content-end mb-2 inner-custom-pagination">
                                 {orders.filter(
                                   item => item.status === "pending"
                                 ).length ? (
@@ -263,7 +264,7 @@ const EcommerceOrders = props => {
                                     {...paginationProps}
                                   />
                                 ) : (
-                                  <div className="p-2 text-center">
+                                  <div className="p-2 text-center tw-w-full">
                                     No order available
                                   </div>
                                 )}

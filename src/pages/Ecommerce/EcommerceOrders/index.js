@@ -240,7 +240,7 @@ const EcommerceOrders = props => {
                               </Col>
                             </Row>
                             <Row className="align-items-md-center mt-30">
-                              <Col className="pagination pagination-rounded justify-content-end mb-2 inner-custom-pagination">
+                              <Col sm="12" className="pagination pagination-rounded justify-content-end mb-2 inner-custom-pagination">
                                 {orders.filter(
                                   item => item.status === "completed"
                                 ).length ? (
@@ -248,7 +248,7 @@ const EcommerceOrders = props => {
                                     {...paginationProps}
                                   />
                                 ) : (
-                                  <div className="p-2 text-center">
+                                  <div className="p-2 text-center tw-w-full">
                                     No order available
                                   </div>
                                 )}

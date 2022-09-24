@@ -68,6 +68,12 @@ const EcommerceProducts = props => {
       dispatch(resetstatus())
       toastr.success("Success")
     }
+    if (status === "UPDATE_PRODUCT_SUCCESS") {
+      toggleImage()
+      dispatch(resetstatus())
+      setImageFiles([])
+      toastr.success("Image updated")
+    }
   }, [status])
   const { categories } = useSelector(state => ({
     categories: state.ecommerce.categories,
@@ -101,6 +107,9 @@ const EcommerceProducts = props => {
   const [isuploading, setisuploading] = useState(false)
   const [filterbrands, setfilterbrands] = useState([])
   const [uploadtype, setuploadtype] = useState("single")
+  const [addImage, setAddImage] = useState(false)
+  const [imageFiles, setImageFiles] = useState([])
+
   const handleNewProduct = (e, values) => {
     if (isuploading) {
       toastr.info("Upload still in progres")
@@ -197,6 +206,7 @@ const EcommerceProducts = props => {
     }
     dispatch(onUpdateProduct(data))
   }
+
   //pagination customization
   const pageOptions = {
     sizePerPage: 10,
@@ -206,7 +216,11 @@ const EcommerceProducts = props => {
   const { SearchBar } = Search
 
   const toggleViewModal = () => setModal1(!modal1)
-
+  const [productId, setProductId] = useState(null)
+  function toggleImage(id) {
+    setProductId(id)
+    setAddImage(!addImage)
+  }
   const EcommerceProductColumns = toggleModal => [
     {
       dataField: "id",
@@ -214,9 +228,23 @@ const EcommerceProducts = props => {
       sort: true,
       // eslint-disable-next-line react/display-name
       formatter: (cellContent, row, index) => (
-        <Link to="#" className="text-body fw-bold">
-          {index + 1}
-        </Link>
+        <div className="tw-flex tw-gap-x-4 tw-items-center">
+          {" "}
+          <div className="text-body fw-bold tw-mr-4">{index + 1}</div>
+          <button
+          data-toggle="tooltip"
+          data-placement="top"
+          title="Click to edit"
+            onClick={() => toggleImage(row.id)}
+            type="button"
+            className="tw-border-none"
+          >
+            <img
+              className="tw-w-9 tw-h-9"
+              src={row.image.length ? row.image[0] : ""}
+            />
+          </button>
+        </div>
       ),
     },
     {
@@ -248,7 +276,7 @@ const EcommerceProducts = props => {
             data-toggle="tooltip"
             data-placement="top"
             title="Double click to edit"
-            classNmae="cursor-pointer"
+            className="cursor-pointer"
           >
             {row.product_name}
           </div>
@@ -290,7 +318,7 @@ const EcommerceProducts = props => {
           data-toggle="tooltip"
           data-placement="top"
           title="Double click to edit"
-          classNmae="cursor-pointer"
+          className="cursor-pointer"
         >
           {handleValidDate(row.created_at)}
         </div>
@@ -311,7 +339,7 @@ const EcommerceProducts = props => {
             data-toggle="tooltip"
             data-placement="top"
             title="Double click to edit"
-            classNmae="cursor-pointer"
+            className="cursor-pointer"
           >
             {row.price}
           </div>
@@ -330,7 +358,7 @@ const EcommerceProducts = props => {
             data-toggle="tooltip"
             data-placement="top"
             title="Double click to edit"
-            classNmae="cursor-pointer"
+            className="cursor-pointer"
           >
             {row.sales_price ? row.sales_price : "-"}
           </div>
@@ -348,7 +376,7 @@ const EcommerceProducts = props => {
             data-toggle="tooltip"
             data-placement="top"
             title="Double click to edit"
-            classNmae="cursor-pointer"
+            className="cursor-pointer"
           >
             {row.in_stock}
           </div>
@@ -591,8 +619,13 @@ const EcommerceProducts = props => {
         newimage[index].image = imagefiles
         setbulkproducts(newimage)
       }
+      setImageFiles([...imagefiles])
       setisuploading(false)
     })
+  }
+  function handleImageupdate() {
+    dispatch(onUpdateProduct({ id: productId, image: imageFiles }))
+    
   }
 
   function formatBytes(bytes, decimals = 2) {
@@ -677,11 +710,11 @@ const EcommerceProducts = props => {
                               </Col>
                             </Row>
                             <Row className="">
-                              <Col sm="4">
+                              <Col sm="6">
                                 <div className=" me-2 mb-2 d-flex align-items-center text-sm text-info">
                                   <i className="fa fa-info-circle mr-1"></i>{" "}
                                   <p className="mb-0">
-                                    Double click column to edit
+                                    Double click column to edit / Click image to update
                                   </p>
                                 </div>
                               </Col>
@@ -694,7 +727,6 @@ const EcommerceProducts = props => {
                                     responsive
                                     bproducted={false}
                                     striped={false}
-
                                     cellEdit={cellEditFactory({
                                       mode: "dbclick",
                                       blurToSave: true,
@@ -894,7 +926,7 @@ const EcommerceProducts = props => {
                                       />
 
                                       <div
-                                        className="dropzone-previews mt-3"
+                                        className="dropzone-previews mt-3 tw-grid tw-grid-cols-4 tw-gap-4"
                                         id="file-previews"
                                       >
                                         {selectedFiles.map((f, i) => {
@@ -1149,7 +1181,7 @@ const EcommerceProducts = props => {
 
                                               {item.image ? (
                                                 <div
-                                                  className="dropzone-previews mt-3"
+                                                  className="dropzone-previews mt-3 tw-grid tw-grid-cols-4 tw-gap-4"
                                                   id="file-previews"
                                                 >
                                                   <Card className=" mt-1 mb-0 shadow-none border dz-processing dz-image-preview dz-success dz-complete">
@@ -1229,6 +1261,81 @@ const EcommerceProducts = props => {
                                         </Col>
                                       </Row>
                                     </Form>
+                                  </ModalBody>
+                                </Modal>
+                                <Modal
+                                  size="lg"
+                                  isOpen={addImage}
+                                  toggle={toggleImage}
+                                >
+                                  <ModalHeader toggle={toggleImage} tag="h4">
+                                    Update Product image
+                                  </ModalHeader>
+                                  <ModalBody>
+                                    <AvForm onValidSubmit={handleImageupdate}>
+                                      <Label className="mb-3">image</Label>
+
+                                      <Input
+                                        type="file"
+                                        className="form-control"
+                                        id="inputGroupFile01"
+                                        multiple
+                                        accept=".jpg,.jpeg,.png,.gif"
+                                        onChange={handleUploadimage}
+                                      />
+
+                                      <div
+                                        className="dropzone-previews mt-3  tw-grid tw-grid-cols-4 tw-gap-4"
+                                        id="file-previews"
+                                      >
+                                        {selectedFiles.map((f, i) => {
+                                          return (
+                                            <Card
+                                              className="mt-1 mb-0 shadow-none border dz-processing dz-image-preview dz-success dz-complete"
+                                              key={i + "-file"}
+                                            >
+                                              <div className="p-2 tw-flex tw-gap-x-6 tw-items-center tw-justify-between">
+                                                <div className="">
+                                                  <img
+                                                    data-dz-thumbnail=""
+                                                    height="80"
+                                                    className="avatar-sm rounded bg-light"
+                                                    alt={f.name}
+                                                    src={f.preview}
+                                                  />
+                                                </div>
+                                                <div className="text-right">
+                                                  {isuploading ? (
+                                                    <i
+                                                      className="fa fa-spinner fa-spin text-primary m-2"
+                                                      aria-hidden="true"
+                                                    ></i>
+                                                  ) : (
+                                                    <p className="mb-0">
+                                                      <strong>
+                                                        {f.formattedSize}
+                                                      </strong>
+                                                    </p>
+                                                  )}
+                                                </div>
+                                              </div>
+                                            </Card>
+                                          )
+                                        })}
+                                      </div>
+                                      <Row>
+                                        <Col>
+                                          <div className="text-end">
+                                            <button
+                                              type="submit"
+                                              className="btn btn-success save-user"
+                                            >
+                                              Save
+                                            </button>
+                                          </div>
+                                        </Col>
+                                      </Row>
+                                    </AvForm>
                                   </ModalBody>
                                 </Modal>
                               </Col>
