@@ -185,6 +185,7 @@ const Register = props => {
                           placeholder="Enter store name"
                         />
                       </div>
+                      
                       <div className="mb-3 tw-relative">
                         <AvField
                           name="password"
