@@ -783,11 +783,25 @@ const EcommerceProducts = props => {
                             </Row>
                             <Row className="">
                               <Col sm="6">
-                                <div className=" me-2 mb-2 d-flex align-items-center text-sm text-info">
+                                <div className=" me-2 mb-1 d-flex align-items-center tw-text-xs text-info">
                                   <i className="fa fa-info-circle mr-1"></i>{" "}
                                   <p className="mb-0">
-                                    Double click column to edit / Click image to
+                                    Double click column to edit
+                                 </p>
+                                </div>
+                                <div className=" me-2 mb-1 d-flex align-items-center tw-text-xs text-info">
+                                  <i className="fa fa-info-circle mr-1"></i>{" "}
+                                  
+                                  <p className="mb-0">
+                                   Click image to
                                     update
+                                  </p>
+                                </div>
+                                <div className=" me-2 mb-2 d-flex align-items-center tw-text-xs text-info">
+                                  <i className="fa fa-info-circle mr-1"></i>{" "}
+                                  <p className="mb-0">
+                                     Click on category or brand to edit
+                                  
                                   </p>
                                 </div>
                               </Col>
