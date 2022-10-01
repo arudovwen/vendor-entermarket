@@ -37,7 +37,6 @@ import { useSelector, useDispatch } from "react-redux"
 import Breadcrumbs from "components/Common/Breadcrumb"
 import { currency } from "../../../helpers/currency"
 import {
-
   getOrders as onGetOrders,
   addNewOrder as onAddNewOrder,
   updateOrder as onUpdateOrder,
@@ -165,7 +164,6 @@ const EcommerceOrders = props => {
     }
   }
 
-
   const handleValidDate = date => {
     const date1 = moment(new Date(date)).format("DD MMM Y")
     return date1
@@ -197,14 +195,28 @@ const EcommerceOrders = props => {
         })
     }
   }
+  function markFailed(id) {
+    let con = window.confirm("Are you sure?")
+    if (con) {
+      axios
+        .get(`${process.env.REACT_APP_URL}/mark-order-failed/${id}`)
+        .then(res => {
+          if (res.status === 200) {
+            toastr.success("Status updated")
+            dispatch(onGetOrders())
+            toggle()
+          }
+        })
+    }
+  }
   return (
     <React.Fragment>
       <div className="page-content">
         <MetaTags>
-          <title>Orders | EnterMarket -</title>
+          <title>Pending Orders | EnterMarket -</title>
         </MetaTags>
         <Container fluid>
-          <Breadcrumbs title="Ecommerce" breadcrumbItem="Orders" />
+          <Breadcrumbs title="Dashboard" breadcrumbItem="Pending Orders" />
           <Row>
             <Col xs="12">
               <Card>
@@ -256,7 +268,10 @@ const EcommerceOrders = props => {
                               </Col>
                             </Row>
                             <Row className="align-items-md-center mt-30">
-                              <Col sm="12" className="pagination pagination-rounded justify-content-end mb-2 inner-custom-pagination">
+                              <Col
+                                sm="12"
+                                className="pagination pagination-rounded justify-content-end mb-2 inner-custom-pagination"
+                              >
                                 {orders.filter(
                                   item => item.status === "pending"
                                 ).length ? (
@@ -286,49 +301,52 @@ const EcommerceOrders = props => {
               </ModalHeader>
               <ModalBody>
                 {order.orderinfo ? (
-                  <h6>
-                    Customer name :{" "}
-                    <span className="text-capitalize">
-                      {order.orderinfo.firstName} {order.orderinfo.lastName}
+                  <div className="tw-grid tw-grid-cols-4 tw-gap-4 mb-2">
+                    <span> Customer name:</span>
+                    <span className="text-capitalize tw-font-medium tw-col-span-2">
+                      {order.orderinfo.firstName}
                     </span>
-                  </h6>
+                  </div>
                 ) : (
                   ""
                 )}
-                <h6>
-                  Email :{" "}
-                  <span className="">
+                <div className="tw-grid tw-grid-cols-4 tw-gap-4 mb-2">
+                <span> Email :{" "}</span>
+                <span className="text-capitalize tw-font-medium">
                     {order.orderinfo ? order.orderinfo.email : ""}
                   </span>
-                </h6>
-                <h6>
+                </div>
+                <div className="tw-grid tw-grid-cols-4 tw-gap-4 mb-2">
                   Phone :{" "}
-                  <span className="text-capitalize">
+                  <span className="text-capitalize tw-font-medium tw-col-span-2">
                     {order.orderinfo ? order.orderinfo.phoneNumber : ""}
                   </span>
-                </h6>
-                <h6>
+                </div>
+                <div className="tw-grid tw-grid-cols-4 tw-gap-4 mb-2">
                   Address :{" "}
-                  <span className="text-capitalize">
+                  <span className="text-capitalize tw-font-medium tw-col-span-2">
                     {order.orderinfo ? order.orderinfo.shipping_address : ""}
                   </span>
-                </h6>
+                </div>
 
                 {order.myorder &&
                 order.myorder.shipping_method === "scheduled" ? (
                   <div>
-                    <h6>
-                      Delivery Date : {moment(order.myorder.schedule_time).format('L')}
-                    </h6>
+                   <div className="tw-grid tw-grid-cols-4 tw-gap-4 mb-2">
+                      Delivery Date :{" "}
+                      <span className="text-capitalize tw-font-medium">
+                      {moment(order.myorder.schedule_time).format("L")}
+                      </span>
+                    </div>
                   </div>
                 ) : (
                   ""
                 )}
                 <div>
-                  <h6>Instructions</h6>
+                  <div>Instructions</div>
                   <p>
-                    <span>
-                      {order.orderinfo ? order.orderinfo.extra_instruction : ""}
+                  <span className="text-capitalize tw-font-medium">
+                      {order.orderinfo ? order.orderinfo.extra_instruction : "N/a"}
                     </span>
                   </p>
                 </div>
@@ -346,13 +364,13 @@ const EcommerceOrders = props => {
                     <tbody>
                       {order.orderhistories.map((item, id) => (
                         <tr key={id}>
-                          <td className="text-capitalize">
+                          <td className="text-capitalize tw-text-sm">
                             {item.product_name}
                           </td>
-                          <td>{item.quantity}</td>
-                          <td className="text-capitalize">{item.store_name}</td>
-                          <td>{currency.format(item.price)} </td>
-                          <td>{item.weight}kg</td>
+                          <td  className="text-capitalize tw-text-sm">{item.quantity}</td>
+                          <td className="text-capitalize tw-text-sm">{item.store_name}</td>
+                          <td  className="text-capitalize tw-text-sm">{currency.format(item.price)} </td>
+                          <td  className="text-capitalize tw-text-sm">{item.weight || '-'}</td>
                         </tr>
                       ))}
                     </tbody>
@@ -362,6 +380,14 @@ const EcommerceOrders = props => {
                 )}
               </ModalBody>
               <ModalFooter>
+              <Button
+                  color="danger"
+                  size="sm"
+                  onClick={() => markFailed(order.id)}
+                  className="tw-mr-4"
+                >
+                  Mark as failed
+                </Button>
                 <Button
                   color="primary"
                   size="sm"

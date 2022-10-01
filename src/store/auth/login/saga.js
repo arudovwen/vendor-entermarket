@@ -66,10 +66,10 @@ function* adminloginUser({ payload: { user, history } }) {
 
 function* adminlogoutUser({ payload: { history } }) {
   try {
-    localStorage.removeItem("authAdmin")
-    localStorage.removeItem("admin-token")
+    localStorage.clear()
+    
 
-    history.push("/admin/login")
+    history.push("/login")
   } catch (error) {
     yield put(apiError(error))
   }

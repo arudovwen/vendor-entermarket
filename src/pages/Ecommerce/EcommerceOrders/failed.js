@@ -10,7 +10,7 @@ import paginationFactory, {
 } from "react-bootstrap-table2-paginator"
 import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit"
 import * as moment from "moment"
-
+import axios from "axios"
 import {
   Button,
   Card,
@@ -28,7 +28,8 @@ import {
   Label,
 } from "reactstrap"
 import { AvForm, AvField } from "availity-reactstrap-validation"
-
+import toastr from "toastr"
+import "toastr/build/toastr.min.css"
 //redux
 import { useSelector, useDispatch } from "react-redux"
 
@@ -36,7 +37,6 @@ import { useSelector, useDispatch } from "react-redux"
 import Breadcrumbs from "components/Common/Breadcrumb"
 import { currency } from "../../../helpers/currency"
 import {
-
   getOrders as onGetOrders,
   addNewOrder as onAddNewOrder,
   updateOrder as onUpdateOrder,
@@ -53,7 +53,7 @@ const EcommerceOrders = props => {
   const selectRow = {
     mode: "checkbox",
   }
-  const [order, setOrder] = useState({})
+
   const [modal, setModal] = useState(false)
   const [modal1, setModal1] = useState(false)
   const [orderList, setOrderList] = useState([])
@@ -69,6 +69,7 @@ const EcommerceOrders = props => {
 
   const toggleViewModal = () => setModal1(!modal1)
 
+  const [order, setOrder] = useState({})
   const EcommerceOrderColumns = toggleModal => [
     {
       dataField: "order_no",
@@ -132,12 +133,12 @@ const EcommerceOrders = props => {
   }, [dispatch])
 
   useEffect(() => {
-    setOrderList(orders.filter(item => item.status === "delivered"))
+    setOrderList(orders.filter(item => item.status === "failed"))
   }, [orders])
 
   useEffect(() => {
     if (!isEmpty(orders) && !!isEdit) {
-      setOrderList(orders.filter(item => item.status === "delivered"))
+      setOrderList(orders.filter(item => item.status === "failed"))
       setIsEdit(false)
     }
   }, [orders])
@@ -148,10 +149,6 @@ const EcommerceOrders = props => {
 
   const toLowerCase1 = str => {
     return str.toLowerCase()
-  }
-  function viewOrder(order) {
-    setOrder(order)
-    toggle()
   }
 
   var node = useRef()
@@ -179,14 +176,47 @@ const EcommerceOrders = props => {
     },
   ]
 
+  function viewOrder(order) {
+    setOrder(order)
+    toggle()
+  }
+
+  function markComplete(id) {
+    let con = window.confirm("Are you sure?")
+    if (con) {
+      axios
+        .get(`${process.env.REACT_APP_URL}/mark-order-complete/${id}`)
+        .then(res => {
+          if (res.status === 200) {
+            toastr.success("Status updated")
+            dispatch(onGetOrders())
+            toggle()
+          }
+        })
+    }
+  }
+  function markFailed(id) {
+    let con = window.confirm("Are you sure?")
+    if (con) {
+      axios
+        .get(`${process.env.REACT_APP_URL}/mark-order-failed/${id}`)
+        .then(res => {
+          if (res.status === 200) {
+            toastr.success("Status updated")
+            dispatch(onGetOrders())
+            toggle()
+          }
+        })
+    }
+  }
   return (
     <React.Fragment>
       <div className="page-content">
         <MetaTags>
-          <title>Completed Orders | EnterMarket -</title>
+          <title>Failed Orders | EnterMarket -</title>
         </MetaTags>
         <Container fluid>
-          <Breadcrumbs title="Dashboard" breadcrumbItem="Completed Orders" />
+          <Breadcrumbs title="Dashboard" breadcrumbItem="Failed Orders" />
           <Row>
             <Col xs="12">
               <Card>
@@ -195,14 +225,12 @@ const EcommerceOrders = props => {
                     pagination={paginationFactory(pageOptions)}
                     keyField="id"
                     columns={EcommerceOrderColumns(toggle)}
-                    data={orders.filter(item => item.status === "delivered")}
+                    data={orders.filter(item => item.status === "failed")}
                   >
                     {({ paginationProps, paginationTableProps }) => (
                       <ToolkitProvider
                         keyField="id"
-                        data={orders.filter(
-                          item => item.status === "delivered"
-                        )}
+                        data={orders.filter(item => item.status === "failed")}
                         columns={EcommerceOrderColumns(toggle)}
                         bootstrap4
                         search
@@ -240,9 +268,12 @@ const EcommerceOrders = props => {
                               </Col>
                             </Row>
                             <Row className="align-items-md-center mt-30">
-                              <Col sm="12" className="pagination pagination-rounded justify-content-end mb-2 inner-custom-pagination">
+                              <Col
+                                sm="12"
+                                className="pagination pagination-rounded justify-content-end mb-2 inner-custom-pagination"
+                              >
                                 {orders.filter(
-                                  item => item.status === "completed"
+                                  item => item.status === "failed"
                                 ).length ? (
                                   <PaginationListStandalone
                                     {...paginationProps}
@@ -349,9 +380,15 @@ const EcommerceOrders = props => {
                 )}
               </ModalBody>
               <ModalFooter>
-                <Button color="primary" size="sm">
-                  Delivered
+              <Button
+                  color="danger"
+                  size="sm"
+                 
+                  className="tw-mr-4"
+                >
+                  Failed
                 </Button>
+              
               </ModalFooter>
             </Modal>
           )}

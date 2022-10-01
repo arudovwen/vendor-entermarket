@@ -8,6 +8,7 @@ import UserProfile from "../pages/Authentication/user-profile"
 import EcommerceProducts from "../pages/Ecommerce/EcommerceProducts/index"
 import EcommerceOrders from "../pages/Ecommerce/EcommerceOrders/index"
 import EcommercePendingOrders from "../pages/Ecommerce/EcommerceOrders/pending"
+import EcommerceFailedOrders from "../pages/Ecommerce/EcommerceOrders/failed"
 
 
 // Authentication related pages
@@ -32,6 +33,7 @@ const authProtectedRoutes = [
   { path: "/products", component: EcommerceProducts },
   { path: "/completed-orders", component: EcommerceOrders },
   { path: "/pending-orders", component: EcommercePendingOrders },
+  { path: "/failed-orders", component: EcommerceFailedOrders },
 
   // this route should be at the end of all other routes
   // eslint-disable-next-line react/display-name

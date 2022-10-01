@@ -13,7 +13,6 @@ import paginationFactory, {
 import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit"
 import * as moment from "moment"
 import axios from "axios"
-
 import {
   Button,
   Card,
@@ -65,14 +64,18 @@ const EcommerceProducts = props => {
   useEffect(() => {
     if (status === "ADD_PRODUCT_SUCCESS") {
       setModal(false)
+
       dispatch(resetstatus())
       toastr.success("Success")
     }
     if (status === "UPDATE_PRODUCT_SUCCESS") {
-      toggleImage()
+      setAddImage(false)
       dispatch(resetstatus())
+
+      toastr.success("Product  updated")
+
       setImageFiles([])
-      toastr.success("Image updated")
+      toggleCategory()
     }
   }, [status])
   const { categories } = useSelector(state => ({
@@ -98,6 +101,10 @@ const EcommerceProducts = props => {
   const [bulkproducts, setbulkproducts] = useState([initialvalue])
   const [modal, setModal] = useState(false)
   const [modal1, setModal1] = useState(false)
+  const [categoryModal, setCategoryModal] = useState(false)
+  const [categoryId, setCategoryId] = useState(null)
+  const [brandId, setBrandId] = useState(null)
+  const [id, setId] = useState(null)
   const [productList, setProductList] = useState([])
   const [isEdit, setIsEdit] = useState(false)
   const [categoriesList, setcategoriesList] = useState([])
@@ -109,7 +116,7 @@ const EcommerceProducts = props => {
   const [uploadtype, setuploadtype] = useState("single")
   const [addImage, setAddImage] = useState(false)
   const [imageFiles, setImageFiles] = useState([])
-
+  const [fileUpload, setFileUpload] = useState(false)
   const handleNewProduct = (e, values) => {
     if (isuploading) {
       toastr.info("Upload still in progres")
@@ -232,9 +239,9 @@ const EcommerceProducts = props => {
           {" "}
           <div className="text-body fw-bold tw-mr-4">{index + 1}</div>
           <button
-          data-toggle="tooltip"
-          data-placement="top"
-          title="Click to edit"
+            data-toggle="tooltip"
+            data-placement="top"
+            title="Click to edit"
             onClick={() => toggleImage(row.id)}
             type="button"
             className="tw-border-none"
@@ -248,24 +255,6 @@ const EcommerceProducts = props => {
       ),
     },
     {
-      dataField: "category.name",
-      text: "Category",
-      sort: true,
-      // eslint-disable-next-line react/display-name
-      formatter: (cellContent, row) => (
-        <div>{row.category ? row.category.name : "-"}</div>
-      ),
-    },
-    {
-      dataField: "brand.name",
-      text: "Brand",
-      sort: true,
-      // eslint-disable-next-line react/display-name
-      formatter: (cellContent, row) => (
-        <div>{row.brand ? row.brand.name : "-"}</div>
-      ),
-    },
-    {
       dataField: "product_name",
       text: "Name",
       sort: true,
@@ -276,7 +265,8 @@ const EcommerceProducts = props => {
             data-toggle="tooltip"
             data-placement="top"
             title="Double click to edit"
-            className="cursor-pointer"
+            className=" text-truncate text-truncate--1 cursor-pointer"
+            style={{ maxWidth: "160px" }}
           >
             {row.product_name}
           </div>
@@ -294,7 +284,7 @@ const EcommerceProducts = props => {
             data-toggle="tooltip"
             data-placement="top"
             title="Double click to edit"
-            className=" text-truncate text-truncate--1 cursro-pointer"
+            className=" text-truncate text-truncate--1 cursor-pointer"
             style={{ maxWidth: "160px" }}
           >
             {row.product_desc}
@@ -303,29 +293,49 @@ const EcommerceProducts = props => {
       ),
     },
     {
-      dataField: "weight",
-      text: "Weight(Kg)",
-      sort: true,
-      // eslint-disable-next-line react/display-name
-    },
-    {
-      dataField: "created_at",
-      text: "Created at",
+      dataField: "category.name",
+      text: "Category",
       sort: true,
       // eslint-disable-next-line react/display-name
       formatter: (cellContent, row) => (
         <div
           data-toggle="tooltip"
           data-placement="top"
-          title="Double click to edit"
-          className="cursor-pointer"
+          title="click to edit"
+          onClick={() => toggleCategory(row)}
         >
-          {handleValidDate(row.created_at)}
+          {row.category ? row.category.name : "-"}
         </div>
       ),
       editable: () => {
         return false
       },
+    },
+    {
+      dataField: "brand.name",
+      text: "Brand",
+      sort: true,
+      // eslint-disable-next-line react/display-name
+      formatter: (cellContent, row) => (
+        <div
+          data-toggle="tooltip"
+          data-placement="top"
+          title="click to edit"
+          onClick={() => toggleCategory(row)}
+        >
+          {row.brand ? row.brand.name : "-"}
+        </div>
+      ),
+      editable: () => {
+        return false
+      },
+    },
+
+    {
+      dataField: "weight",
+      text: "Weight(Kg)",
+      sort: true,
+      // eslint-disable-next-line react/display-name
     },
 
     {
@@ -383,6 +393,26 @@ const EcommerceProducts = props => {
         </>
       ),
     },
+    {
+      dataField: "created_at",
+      text: "Created at",
+      sort: true,
+      // eslint-disable-next-line react/display-name
+      formatter: (cellContent, row) => (
+        <div
+          data-toggle="tooltip"
+          data-placement="top"
+          title="Double click to edit"
+          className="cursor-pointer"
+        >
+          {handleValidDate(row.created_at)}
+        </div>
+      ),
+      editable: () => {
+        return false
+      },
+    },
+
     {
       dataField: "active",
       text: "Active",
@@ -494,6 +524,15 @@ const EcommerceProducts = props => {
   const toggle = () => {
     setuploadtype("single")
     setModal(!modal)
+  }
+
+  const toggleCategory = (item = null) => {
+    if (item) {
+      setId(item.id)
+      setCategoryId(item.category_id)
+      setBrandId(item.brand_id)
+    }
+    setCategoryModal(!categoryModal)
   }
   const toggle1 = () => {
     setuploadtype("bulk")
@@ -623,9 +662,35 @@ const EcommerceProducts = props => {
       setisuploading(false)
     })
   }
+  function handleUpload(e, index) {
+    setFileUpload("uploading")
+    var file = e.target.files[0]
+    const token = localStorage.getItem("user-token")
+    // our formdata
+    const formData = new FormData()
+    formData.append("file", file)
+    axios
+      .post(`${process.env.REACT_APP_URL}/bulkupload`, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(res => {
+        if (res.status === 200) {
+          setFileUpload("uploaded")
+          setTimeout(() => {
+            setFileUpload(false)
+          }, 3000)
+          toastr.success("Product upload successful")
+        }
+      })
+      .catch(err => {
+        toastr.error(err.response.data.message)
+        setFileUpload(false)
+      })
+  }
   function handleImageupdate() {
     dispatch(onUpdateProduct({ id: productId, image: imageFiles }))
-    
   }
 
   function formatBytes(bytes, decimals = 2) {
@@ -647,7 +712,14 @@ const EcommerceProducts = props => {
     newFormValues.splice(i, 1)
     setbulkproducts(newFormValues)
   }
-
+  function handleUpdateCategory(e, values) {
+    let data = {
+      id: id,
+      category_id: values["catgegory_id"],
+      brand_id: values["brand_id"],
+    }
+    dispatch(onUpdateProduct(data))
+  }
   return (
     <React.Fragment>
       <div className="page-content">
@@ -687,15 +759,15 @@ const EcommerceProducts = props => {
                               </Col>
                               <Col sm="8">
                                 <div className="text-sm-end">
-                                  {/* <Button
+                                  <Button
                                     type="button"
                                     color="success"
                                     className="btn-rounded  mb-2 me-2"
                                     onClick={handleProductClicks}
                                   >
                                     <i className="mdi mdi-plus me-1" />
-                                    Add Product
-                                  </Button> */}
+                                    Upload Product
+                                  </Button>
 
                                   <Button
                                     type="button"
@@ -714,7 +786,8 @@ const EcommerceProducts = props => {
                                 <div className=" me-2 mb-2 d-flex align-items-center text-sm text-info">
                                   <i className="fa fa-info-circle mr-1"></i>{" "}
                                   <p className="mb-0">
-                                    Double click column to edit / Click image to update
+                                    Double click column to edit / Click image to
+                                    update
                                   </p>
                                 </div>
                               </Col>
@@ -757,223 +830,52 @@ const EcommerceProducts = props => {
                                 </div>
                                 <Modal size="lg" isOpen={modal} toggle={toggle}>
                                   <ModalHeader toggle={toggle} tag="h4">
-                                    {!!isEdit ? "Edit Product" : "Add Product"}
+                                    {!!isEdit
+                                      ? "Edit Product"
+                                      : "Upload Product"}
                                   </ModalHeader>
                                   <ModalBody>
-                                    <AvForm onValidSubmit={handleNewProduct}>
-                                      <Row>
-                                        <Col className="col-4">
-                                          {" "}
-                                          <div className="mb-3">
-                                            <AvField
-                                              name="product_name"
-                                              label=" Name"
-                                              type="text"
-                                              errorMessage="Invalid product name"
-                                              validate={{
-                                                required: { value: true },
-                                              }}
-                                              value=""
-                                            />
-                                          </div>
-                                        </Col>
-                                        <Col className="col-4">
-                                          <div className="mb-3">
-                                            <AvField
-                                              name="category_id"
-                                              label=" Category"
-                                              type="select"
-                                              className="form-select"
-                                              errorMessage="Invalid Category"
-                                              validate={{
-                                                required: { value: true },
-                                              }}
-                                              value=""
-                                              onChange={e =>
-                                                handleBrand(e.target.value)
-                                              }
-                                            >
-                                              <option disabled value="">
-                                                Select category
-                                              </option>
-                                              {categoriesList.map(item => (
-                                                <option
-                                                  key={item.id}
-                                                  value={item.id}
-                                                >
-                                                  {item.name}
-                                                </option>
-                                              ))}
-                                            </AvField>
-                                          </div>
-                                        </Col>
-                                        <Col className="col-4">
-                                          {" "}
-                                          <div className="mb-3">
-                                            <AvField
-                                              name="brand_id"
-                                              label=" Brand"
-                                              type="select"
-                                              className="form-select"
-                                              errorMessage="Invalid brand"
-                                              value=""
-                                            >
-                                              <option disabled value="">
-                                                Select brand
-                                              </option>
-                                              {filterbrands.map(item => (
-                                                <option
-                                                  key={item.id}
-                                                  value={item.id}
-                                                >
-                                                  {item.name}
-                                                </option>
-                                              ))}
-                                            </AvField>
-                                          </div>
-                                        </Col>
-                                      </Row>
-                                      <Row>
-                                        <Col className="col-md-3">
-                                          {" "}
-                                          <div className="mb-3">
-                                            <AvField
-                                              name="in_stock"
-                                              label="Stock"
-                                              type="number"
-                                              min="0"
-                                              errorMessage="Invalid Total"
-                                              validate={{
-                                                required: { value: true },
-                                              }}
-                                              value=""
-                                            />
-                                          </div>
-                                        </Col>
-                                        <Col className="col-md-3">
-                                          {" "}
-                                          <div className="mb-3">
-                                            <AvField
-                                              name="price"
-                                              label="Price"
-                                              type="number"
-                                              min="0"
-                                              errorMessage="Invalid Total"
-                                              validate={{
-                                                required: { value: true },
-                                              }}
-                                              value=""
-                                            />
-                                          </div>
-                                        </Col>
-                                        <Col className="col-md-3">
-                                          {" "}
-                                          <div className="mb-3">
-                                            <AvField
-                                              name="sales_price"
-                                              label="Sales Price"
-                                              type="number"
-                                              min="0"
-                                              errorMessage="Invalid sales price"
-                                              value=""
-                                            />
-                                          </div>
-                                        </Col>
-                                        <Col className="col-md-3">
-                                          {" "}
-                                          <div className="mb-3">
-                                            <AvField
-                                              name="weight"
-                                              label="Weight(kg)"
-                                              type="number"
-                                              min="0"
-                                              errorMessage="Invalid weight"
-                                              validate={{
-                                                required: { value: true },
-                                              }}
-                                              value=""
-                                            />
-                                          </div>
-                                        </Col>
-                                      </Row>
-
-                                      <Row>
-                                        <Col className="col-12 ">
-                                          <div className="mb-3">
-                                            <AvField
-                                              name="product_desc"
-                                              label=" Description"
-                                              type="textarea"
-                                              errorMessage="Invalid Product Description"
-                                              validate={{
-                                                required: { value: true },
-                                              }}
-                                              value=""
-                                            />
-                                          </div>
-                                        </Col>
-                                      </Row>
-
-                                      <Label className="mb-3">image</Label>
+                                    <AvForm onValidSubmit={handleUpload}>
+                                      <Label className="mb-3">
+                                        Upload Excel file
+                                      </Label>
 
                                       <Input
                                         type="file"
                                         className="form-control"
                                         id="inputGroupFile01"
                                         multiple
-                                        accept=".jpg,.jpeg,.png,.gif"
-                                        onChange={handleUploadimage}
+                                        accept=".xlsx,.csv"
+                                        onChange={handleUpload}
                                       />
-
-                                      <div
-                                        className="dropzone-previews mt-3 tw-grid tw-grid-cols-4 tw-gap-4"
-                                        id="file-previews"
-                                      >
-                                        {selectedFiles.map((f, i) => {
-                                          return (
-                                            <Card
-                                              className="mt-1 mb-0 shadow-none border dz-processing dz-image-preview dz-success dz-complete"
-                                              key={i + "-file"}
-                                            >
-                                              <div className="p-2">
-                                                <Row className="align-items-center">
-                                                  <Col className="col-auto">
-                                                    <img
-                                                      data-dz-thumbnail=""
-                                                      height="80"
-                                                      className="avatar-sm rounded bg-light"
-                                                      alt={f.name}
-                                                      src={f.preview}
-                                                    />
-                                                  </Col>
-                                                  <Col>
-                                                    {isuploading ? (
-                                                      <i
-                                                        className="fa fa-spinner fa-spin text-primary m-2"
-                                                        aria-hidden="true"
-                                                      ></i>
-                                                    ) : (
-                                                      <p className="mb-0">
-                                                        <strong>
-                                                          {f.formattedSize}
-                                                        </strong>
-                                                      </p>
-                                                    )}
-                                                  </Col>
-                                                </Row>
-                                              </div>
-                                            </Card>
-                                          )
-                                        })}
+                                      <div className="text-center p-3">
+                                        {fileUpload === "uploading" ? (
+                                          <span className="tw-font-medium">
+                                            Uploading...{" "}
+                                            <i className="fa fa-spinner fa-spin"></i>
+                                          </span>
+                                        ) : (
+                                          ""
+                                        )}
+                                        {fileUpload === "uploaded" ? (
+                                          <span className="tw-font-medium tw-text-green-600">
+                                            Products upload successful{" "}
+                                            <i className="fa fa-check fa-spin"></i>
+                                          </span>
+                                        ) : (
+                                          ""
+                                        )}
                                       </div>
+
                                       <Row>
                                         <Col>
                                           <div className="text-end">
                                             <button
-                                              type="submit"
+                                              type="button"
+                                              onClick={() => toggle()}
                                               className="btn btn-success save-user"
                                             >
-                                              Save
+                                              Close
                                             </button>
                                           </div>
                                         </Col>
@@ -1323,6 +1225,87 @@ const EcommerceProducts = props => {
                                           )
                                         })}
                                       </div>
+                                      <Row>
+                                        <Col>
+                                          <div className="text-end">
+                                            <button
+                                              type="submit"
+                                              className="btn btn-success save-user"
+                                            >
+                                              Save
+                                            </button>
+                                          </div>
+                                        </Col>
+                                      </Row>
+                                    </AvForm>
+                                  </ModalBody>
+                                </Modal>
+                                <Modal
+                                  size="sm"
+                                  isOpen={categoryModal}
+                                  toggle={toggleCategory}
+                                >
+                                  <ModalHeader toggle={toggleCategory} tag="h5">
+                                    Edit Category/Brand
+                                  </ModalHeader>
+                                  <ModalBody>
+                                    <AvForm
+                                      onValidSubmit={handleUpdateCategory}
+                                    >
+                                      <Row form>
+                                        <Col className="col-12">
+                                          <div className="mb-3">
+                                            <AvField
+                                              name="category_id"
+                                              label="Category"
+                                              type="select"
+                                              className="form-select"
+                                              errorMessage="Invalid Category"
+                                              validate={{
+                                                required: { value: true },
+                                              }}
+                                              value={categoryId}
+                                            >
+                                              <option value="">
+                                                Select category
+                                              </option>
+                                              {categories.map(item => (
+                                                <option
+                                                  key={item.id}
+                                                  value={item.id}
+                                                >
+                                                  {item.name}
+                                                </option>
+                                              ))}
+                                            </AvField>
+                                          </div>
+                                          <div className="mb-3">
+                                            <AvField
+                                              name="brand_id"
+                                              label="Category"
+                                              type="select"
+                                              className="form-select"
+                                              errorMessage="Invalid brand"
+                                              validate={{
+                                                required: { value: true },
+                                              }}
+                                              value={brandId}
+                                            >
+                                              <option value="">
+                                                Select brand
+                                              </option>
+                                              {brands.map(item => (
+                                                <option
+                                                  key={item.id}
+                                                  value={item.id}
+                                                >
+                                                  {item.name}
+                                                </option>
+                                              ))}
+                                            </AvField>
+                                          </div>
+                                        </Col>
+                                      </Row>
                                       <Row>
                                         <Col>
                                           <div className="text-end">
