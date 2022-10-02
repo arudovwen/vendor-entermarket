@@ -682,7 +682,9 @@ const EcommerceProducts = props => {
           setFileUpload("uploaded")
           setTimeout(() => {
             setFileUpload(false)
-          }, 3000)
+            toggle1()
+          }, 3500)
+          dispatch(onGetProducts(store.id))
           toastr.success("Product upload successful")
         }
       })
@@ -876,7 +878,7 @@ const EcommerceProducts = props => {
                                         {fileUpload === "uploaded" ? (
                                           <span className="tw-font-medium tw-text-green-600">
                                             Products upload successful{" "}
-                                            <i className="fa fa-check fa-spin"></i>
+                                            <i className="fa fa-check"></i>
                                           </span>
                                         ) : (
                                           ""

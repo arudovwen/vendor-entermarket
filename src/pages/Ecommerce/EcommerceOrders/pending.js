@@ -51,7 +51,7 @@ const EcommerceOrders = props => {
   const { orders } = useSelector(state => ({
     orders: state.ecommerce.orders,
   }))
-
+ 
   const selectRow = {
     mode: "checkbox",
   }
@@ -134,33 +134,31 @@ const EcommerceOrders = props => {
   ]
 
   useEffect(() => {
-    dispatch(onGetOrders())
+    dispatch(onGetOrders('pending'))
   }, [dispatch])
 
   useEffect(() => {
-    setOrderList(orders.filter(item => item.status === "pending"))
+    setOrderList(orders)
   }, [orders])
 
   useEffect(() => {
     if (!isEmpty(orders) && !!isEdit) {
-      setOrderList(orders.filter(item => item.status === "pending"))
+      setOrderList(orders)
       setIsEdit(false)
     }
   }, [orders])
   useEffect(() => {
     if (start && end) {
       setOrderList(
-        orders
-          .filter(item => item.status === "pending")
-          .filter(item => {
-            return (
-              moment(item.created_at).isAfter(moment(start)) &&
-              moment(item.created_at).isBefore(moment(end))
-            )
-          })
+        orders.filter(item => {
+          return (
+            moment(item.created_at).isAfter(moment(start)) &&
+            moment(item.created_at).isBefore(moment(end))
+          )
+        })
       )
     } else {
-      setOrderList(orders.filter(item => item.status === "pending"))
+      setOrderList(orders)
     }
   }, [start, end])
 
@@ -210,7 +208,7 @@ const EcommerceOrders = props => {
         .then(res => {
           if (res.status === 200) {
             toastr.success("Status updated")
-            dispatch(onGetOrders())
+            dispatch(onGetOrders('pending'))
             toggle()
           }
         })
@@ -224,7 +222,7 @@ const EcommerceOrders = props => {
         .then(res => {
           if (res.status === 200) {
             toastr.success("Status updated")
-            dispatch(onGetOrders())
+            dispatch(onGetOrders('pending'))
             toggle()
           }
         })

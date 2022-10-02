@@ -87,8 +87,7 @@ import {
   updateCategoryFail,
   updateCategorySuccess,
   deleteCategoryFail,
-  deleteCategorySuccess
-
+  deleteCategorySuccess,
 } from "./actions"
 
 //Include Both Helper File with needed methods
@@ -120,7 +119,7 @@ import {
   deleteBrand as onDeleteBrandApi,
   addNewCategory as onAddNewCategoryApi,
   updateCategory as onUpdateCategoryApi,
-  deleteCategory as onDeleteCategoryApi
+  deleteCategory as onDeleteCategoryApi,
 } from "helpers/backend_helper"
 
 function* fetchBrands() {
@@ -240,10 +239,9 @@ function* fetchProductDetail({ productId }) {
   }
 }
 
-function* fetchOrders() {
+function* fetchOrders({ status }) {
   try {
-    const response = yield call(getOrders)
-
+    const response = yield call(getOrders, status)
     yield put(getOrdersSuccess(response))
   } catch (error) {
     yield put(getOrdersFail(error))

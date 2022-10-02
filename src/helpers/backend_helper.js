@@ -84,7 +84,6 @@ const postRegisterAdmin = data => {
 const postLogin = data => post(url.POST_LOGIN, data)
 const postLoginAdmin = data => post(url.ADMIN_POST_LOGIN, data)
 
-
 // postForgetPwd
 const postForgetPwd = data => post(url.POST_PASSWORD_FORGET, data)
 
@@ -92,7 +91,7 @@ const postForgetPwd = data => post(url.POST_PASSWORD_FORGET, data)
 const postJwtProfile = data => post(url.POST_EDIT_JWT_PROFILE, data)
 
 const postProfile = data => {
-  console.log("🚀 ~ file: backend_helper.js ~ line 95 ~ postProfile ~ data", data)
+  
   post(url.POST_EDIT_PROFILE, data, config)
 }
 
@@ -210,7 +209,7 @@ export const getMessages = (roomId = "") =>
 export const addMessage = message => post(url.ADD_MESSAGE, message)
 
 // get orders
-export const getOrders = () => get(url.GET_ORDERS, config)
+export const getOrders = status => get(`${url.GET_ORDERS}/${status}`, config)
 
 // add order
 export const addNewOrder = order => post(url.ADD_NEW_ORDER, order)

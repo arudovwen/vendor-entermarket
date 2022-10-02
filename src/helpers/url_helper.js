@@ -68,7 +68,7 @@ export const GET_MESSAGES = "/messages"
 export const ADD_MESSAGE = "/add/messages"
 
 //ORDERS
-export const GET_ORDERS = "/storeorders"
+export const GET_ORDERS = "/store/get/order"
 export const ADD_NEW_ORDER = "/add/order"
 export const UPDATE_ORDER = "/update/order"
 export const DELETE_ORDER = "/delete/order"

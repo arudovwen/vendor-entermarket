@@ -278,8 +278,9 @@ export const getProductDetailFail = error => ({
   payload: error,
 })
 
-export const getOrders = () => ({
+export const getOrders = status => ({
   type: GET_ORDERS,
+   status
 })
 
 export const getOrdersSuccess = orders => ({

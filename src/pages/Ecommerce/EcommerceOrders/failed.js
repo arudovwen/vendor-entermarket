@@ -133,33 +133,31 @@ const EcommerceOrders = props => {
   ]
 
   useEffect(() => {
-    dispatch(onGetOrders())
+    dispatch(onGetOrders("failed"))
   }, [dispatch])
 
   useEffect(() => {
-    setOrderList(orders.filter(item => item.status === "failed"))
+    setOrderList(orders)
   }, [orders])
 
   useEffect(() => {
     if (!isEmpty(orders) && !!isEdit) {
-      setOrderList(orders.filter(item => item.status === "failed"))
+      setOrderList(orders)
       setIsEdit(false)
     }
   }, [orders])
   useEffect(() => {
     if (start && end) {
       setOrderList(
-        orders
-          .filter(item => item.status === "failed")
-          .filter(item => {
-            return (
-              moment(item.created_at).isAfter(moment(start)) &&
-              moment(item.created_at).isBefore(moment(end))
-            )
-          })
+        orders.filter(item => {
+          return (
+            moment(item.created_at).isAfter(moment(start)) &&
+            moment(item.created_at).isBefore(moment(end))
+          )
+        })
       )
     } else {
-      setOrderList(orders.filter(item => item.status === "failed"))
+      setOrderList(orders)
     }
   }, [start, end])
   var valid = function (current) {
@@ -211,7 +209,7 @@ const EcommerceOrders = props => {
         .then(res => {
           if (res.status === 200) {
             toastr.success("Status updated")
-            dispatch(onGetOrders())
+            dispatch(onGetOrders("failed"))
             toggle()
           }
         })
@@ -225,7 +223,7 @@ const EcommerceOrders = props => {
         .then(res => {
           if (res.status === 200) {
             toastr.success("Status updated")
-            dispatch(onGetOrders())
+            dispatch(onGetOrders("failed"))
             toggle()
           }
         })
@@ -330,9 +328,8 @@ const EcommerceOrders = props => {
                                 sm="12"
                                 className="pagination pagination-rounded justify-content-end mb-2 inner-custom-pagination"
                               >
-                                {orders.filter(
-                                  item => item.status === "failed"
-                                ).length ? (
+                                {orders.filter(item => item.status === "failed")
+                                  .length ? (
                                   <PaginationListStandalone
                                     {...paginationProps}
                                   />
@@ -369,8 +366,8 @@ const EcommerceOrders = props => {
                   ""
                 )}
                 <div className="tw-grid tw-grid-cols-4 tw-gap-4 mb-2">
-                <span> Email :{" "}</span>
-                <span className="text-capitalize tw-font-medium">
+                  <span> Email : </span>
+                  <span className="text-capitalize tw-font-medium">
                     {order.orderinfo ? order.orderinfo.email : ""}
                   </span>
                 </div>
@@ -390,10 +387,10 @@ const EcommerceOrders = props => {
                 {order.myorder &&
                 order.myorder.shipping_method === "scheduled" ? (
                   <div>
-                   <div className="tw-grid tw-grid-cols-4 tw-gap-4 mb-2">
+                    <div className="tw-grid tw-grid-cols-4 tw-gap-4 mb-2">
                       Delivery Date :{" "}
                       <span className="text-capitalize tw-font-medium">
-                      {moment(order.myorder.schedule_time).format("L")}
+                        {moment(order.myorder.schedule_time).format("L")}
                       </span>
                     </div>
                   </div>
@@ -403,8 +400,10 @@ const EcommerceOrders = props => {
                 <div>
                   <div>Instructions</div>
                   <p>
-                  <span className="text-capitalize tw-font-medium">
-                      {order.orderinfo ? order.orderinfo.extra_instruction : "N/a"}
+                    <span className="text-capitalize tw-font-medium">
+                      {order.orderinfo
+                        ? order.orderinfo.extra_instruction
+                        : "N/a"}
                     </span>
                   </p>
                 </div>
@@ -425,10 +424,18 @@ const EcommerceOrders = props => {
                           <td className="text-capitalize tw-text-sm">
                             {item.product_name}
                           </td>
-                          <td  className="text-capitalize tw-text-sm">{item.quantity}</td>
-                          <td className="text-capitalize tw-text-sm">{item.store_name}</td>
-                          <td  className="text-capitalize tw-text-sm">{currency.format(item.price)} </td>
-                          <td  className="text-capitalize tw-text-sm">{item.weight || '-'}</td>
+                          <td className="text-capitalize tw-text-sm">
+                            {item.quantity}
+                          </td>
+                          <td className="text-capitalize tw-text-sm">
+                            {item.store_name}
+                          </td>
+                          <td className="text-capitalize tw-text-sm">
+                            {currency.format(item.price)}{" "}
+                          </td>
+                          <td className="text-capitalize tw-text-sm">
+                            {item.weight || "-"}
+                          </td>
                         </tr>
                       ))}
                     </tbody>
@@ -438,15 +445,9 @@ const EcommerceOrders = props => {
                 )}
               </ModalBody>
               <ModalFooter>
-              <Button
-                  color="danger"
-                  size="sm"
-                 
-                  className="tw-mr-4"
-                >
+                <Button color="danger" size="sm" className="tw-mr-4">
                   Failed
                 </Button>
-              
               </ModalFooter>
             </Modal>
           )}

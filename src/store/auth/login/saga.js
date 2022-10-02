@@ -29,7 +29,7 @@ function* loginUser({ payload: { user, history } }) {
 
 
   } catch (error) {
-    console.log("error", error.response.data.message)
+  
     yield put(apiError(error.response.data.message))
   }
 }
@@ -59,7 +59,7 @@ function* adminloginUser({ payload: { user, history } }) {
 
    
   } catch (error) {
-    console.log("error", error.response.data.message)
+   
     yield put(apiError(error.response.data.message))
   }
 }
