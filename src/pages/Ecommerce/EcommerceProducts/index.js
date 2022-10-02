@@ -679,10 +679,11 @@ const EcommerceProducts = props => {
       })
       .then(res => {
         if (res.status === 200) {
+          const store = JSON.parse(localStorage.getItem("authUser"))
           setFileUpload("uploaded")
           setTimeout(() => {
             setFileUpload(false)
-            toggle1()
+            toggle()
           }, 3500)
           dispatch(onGetProducts(store.id))
           toastr.success("Product upload successful")
