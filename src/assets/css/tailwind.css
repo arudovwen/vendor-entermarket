@@ -175,6 +175,18 @@
   height: 2.25rem
 }
 
+.tw-h-\[\] {
+  height: 
+}
+
+.tw-h-\[53px\] {
+  height: 53px
+}
+
+.tw-h-\[36px\] {
+  height: 36px
+}
+
 .tw-w-full {
   width: 100%
 }
@@ -215,6 +227,10 @@
   gap: 1rem
 }
 
+.tw-gap-3 {
+  gap: 0.75rem
+}
+
 .tw-gap-x-4 {
   -webkit-column-gap: 1rem;
           column-gap: 1rem
@@ -225,12 +241,70 @@
           column-gap: 1.5rem
 }
 
+.tw-gap-x-8 {
+  -webkit-column-gap: 2rem;
+          column-gap: 2rem
+}
+
+.tw-rounded-lg {
+  border-radius: 0.5rem
+}
+
+.tw-rounded-full {
+  border-radius: 9999px
+}
+
+.tw-border {
+  border-width: 1px
+}
+
+.\!tw-border {
+  border-width: 1px !important
+}
+
 .tw-border-none {
   border-style: none
 }
 
+.\!tw-border-none {
+  border-style: none !important
+}
+
+.tw-border-gray-200 {
+  --tw-border-opacity: 1;
+  border-color: rgb(229 231 235 / var(--tw-border-opacity))
+}
+
+.\!tw-border-gray-200 {
+  --tw-border-opacity: 1 !important;
+  border-color: rgb(229 231 235 / var(--tw-border-opacity)) !important
+}
+
+.tw-bg-transparent {
+  background-color: transparent
+}
+
 .tw-p-5 {
   padding: 1.25rem
+}
+
+.tw-p-3 {
+  padding: 0.75rem
+}
+
+.tw-px-3 {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem
+}
+
+.tw-py-2 {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem
+}
+
+.tw-py-1 {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem
 }
 
 .tw-text-base {

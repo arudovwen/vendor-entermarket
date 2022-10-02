@@ -67,10 +67,12 @@ const EcommerceProducts = props => {
 
       dispatch(resetstatus())
       toastr.success("Success")
+
     }
     if (status === "UPDATE_PRODUCT_SUCCESS") {
       setAddImage(false)
       dispatch(resetstatus())
+      dispatch(onGetProducts(store.id))
 
       toastr.success("Product  updated")
 

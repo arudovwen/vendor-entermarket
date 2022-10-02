@@ -10,7 +10,8 @@ import paginationFactory, {
 } from "react-bootstrap-table2-paginator"
 import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit"
 import * as moment from "moment"
-
+import Datetime from "react-datetime"
+import "react-datetime/css/react-datetime.css"
 import {
   Button,
   Card,
@@ -58,6 +59,8 @@ const EcommerceOrders = props => {
   const [modal1, setModal1] = useState(false)
   const [orderList, setOrderList] = useState([])
   const [isEdit, setIsEdit] = useState(false)
+  const [start, setStart] = useState(null)
+  const [end, setEnd] = useState(null)
 
   //pagination customization
   const pageOptions = {
@@ -141,7 +144,25 @@ const EcommerceOrders = props => {
       setIsEdit(false)
     }
   }, [orders])
-
+  useEffect(() => {
+    if (start && end) {
+      setOrderList(
+        orders
+          .filter(item => item.status === "delivered")
+          .filter(item => {
+            return (
+              moment(item.created_at).isAfter(moment(start)) &&
+              moment(item.created_at).isBefore(moment(end))
+            )
+          })
+      )
+    } else {
+      setOrderList(orders.filter(item => item.status === "delivered"))
+    }
+  }, [start, end])
+  var valid = function (current) {
+    return current.isAfter(start)
+  }
   const toggle = () => {
     setModal(!modal)
   }
@@ -195,14 +216,12 @@ const EcommerceOrders = props => {
                     pagination={paginationFactory(pageOptions)}
                     keyField="id"
                     columns={EcommerceOrderColumns(toggle)}
-                    data={orders.filter(item => item.status === "delivered")}
+                    data={orderList}
                   >
                     {({ paginationProps, paginationTableProps }) => (
                       <ToolkitProvider
                         keyField="id"
-                        data={orders.filter(
-                          item => item.status === "delivered"
-                        )}
+                        data={orderList}
                         columns={EcommerceOrderColumns(toggle)}
                         bootstrap4
                         search
@@ -210,12 +229,48 @@ const EcommerceOrders = props => {
                         {toolkitProps => (
                           <React.Fragment>
                             <Row className="mb-2">
-                              <Col sm="4">
+                              <Col sm="3">
                                 <div className="search-box me-2 mb-2 d-inline-block">
                                   <div className="position-relative">
                                     <SearchBar {...toolkitProps.searchProps} />
                                     <i className="bx bx-search-alt search-icon" />
                                   </div>
+                                </div>
+                              </Col>
+                              <Col sm="6">
+                                <div className="me-2 mb-2 d-flex tw-items-center tw-gap-3">
+                                  <div className="position-relative tw-flex tw-gap-x-6">
+                                    <Datetime
+                                      inputProps={{ placeholder: "Start date" }}
+                                      timeFormat={false}
+                                      value={start}
+                                      closeOnSelect={true}
+                                      onChange={val => {
+                                        setStart(val)
+                                      }}
+                                      className="tw-border tw-py-1 tw-border-gray-200 tw-rounded-full"
+                                    />
+                                    <Datetime
+                                      inputProps={{ placeholder: "End date" }}
+                                      timeFormat={false}
+                                      value={end || null}
+                                      onChange={val => {
+                                        setEnd(val)
+                                      }}
+                                      closeOnSelect={true}
+                                      isValidDate={valid}
+                                      className="tw-border tw-py-1 tw-border-gray-200 tw-rounded-full"
+                                    />
+                                  </div>
+                                  <button
+                                    onClick={() => {
+                                      setEnd(null)
+                                      setStart(null)
+                                    }}
+                                    className="tw-border-none tw-bg-transparent tw-text-sm"
+                                  >
+                                    Reset table
+                                  </button>
                                 </div>
                               </Col>
                             </Row>
